@@ -5,7 +5,7 @@ import CustomAudioPlayer from "./ui/audio-player-custom-controls";
 export default function Home() {
   return (
     <div>
-        <AudioPlayer />
+        {/* <AudioPlayer /> */}
         <CustomAudioPlayer />
     </div>
   );
