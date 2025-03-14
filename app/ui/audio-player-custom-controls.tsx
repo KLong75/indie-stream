@@ -301,7 +301,7 @@ export default function CustomAudioPlayer() {
           src={songs[currentSongIndex].cover}
           width={200}
           height={200}
-          alt={songs[currentSongIndex].title}
+          alt={`${songs[currentSongIndex].album} album cover`}
         />
       </div>
       <audio
