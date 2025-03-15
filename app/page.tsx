@@ -9,7 +9,9 @@ export default function Home() {
       {/* <AudioPlayer /> */}
       {/* <LocalAudioPlayer /> */}
       <CustomAudioPlayer />
-      <UploadButtonContainer />
+      <UploadButtonContainer
+        file_route="audioUploader" 
+      />
     </div>
   );
 }

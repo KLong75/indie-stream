@@ -67,7 +67,8 @@ export default function AudioPlayer() {
       <audio 
         ref={audioRef} 
         controls 
-        src={songs[currentSongIndex]}
+        // src={songs[currentSongIndex]}
+        src="https://4ykxjgur5y.ufs.sh/f/9Dk0lBirZ3pQHHMHDqkDqFsTZb24YWOQ8GtirIXajUhNneS1"
         className="border-red-500 border-2 rounded-md bg-black"
       >
         Your browser does not support the audio element.
