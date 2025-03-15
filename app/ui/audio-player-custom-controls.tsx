@@ -155,26 +155,25 @@
 import Image from "next/image";
 
 import { useState, useRef, useEffect } from "react";
-import { PiPlayPauseBold } from "react-icons/pi";
+// import { PiPlayPauseBold } from "react-icons/pi";
 import { RxTrackPrevious } from "react-icons/rx";
 import { RxTrackNext } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";
 import { RxPause } from "react-icons/rx";
 import { RxShuffle } from "react-icons/rx";
 import { RxArrowRight } from "react-icons/rx";
-import { RxDoubleArrowRight } from "react-icons/rx";
-import { RxDoubleArrowLeft } from "react-icons/rx";
-import { TbPlaylistAdd } from "react-icons/tb";
-import { RiPlayListAddLine } from "react-icons/ri";
-import { RiPlayListFill } from "react-icons/ri";
-import { RiPlayListLine } from "react-icons/ri";
+// import { RxDoubleArrowRight } from "react-icons/rx";
+// import { RxDoubleArrowLeft } from "react-icons/rx";
+// import { TbPlaylistAdd } from "react-icons/tb";
+// import { RiPlayListAddLine } from "react-icons/ri";
+// import { RiPlayListFill } from "react-icons/ri";
+// import { RiPlayListLine } from "react-icons/ri";
 import { MdOutlineForward10 } from "react-icons/md";
 import { MdOutlineReplay10 } from "react-icons/md";
-import { RiForward10Fill } from "react-icons/ri";
-import { RiReplay10Fill } from "react-icons/ri";
-import { RxMixerHorizontal } from "react-icons/rx";
-
-import { RxMixerVertical } from "react-icons/rx";
+// import { RiForward10Fill } from "react-icons/ri";
+// import { RiReplay10Fill } from "react-icons/ri";
+// import { RxMixerHorizontal } from "react-icons/rx";
+// import { RxMixerVertical } from "react-icons/rx";
 import { songs } from "../lib/songs";
 
 export default function CustomAudioPlayer() {
