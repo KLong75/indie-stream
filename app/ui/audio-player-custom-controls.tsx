@@ -257,7 +257,7 @@ export default function CustomAudioPlayer() {
     return () => {
       audioElement.removeEventListener("timeupdate", updateProgress);
     };
-  }, [isPlaying]);
+  }, []);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -267,7 +267,7 @@ export default function CustomAudioPlayer() {
         audioElement.play();
       }
     }
-  }, [currentSongIndex]);
+  }, [currentSongIndex, isPlaying]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
