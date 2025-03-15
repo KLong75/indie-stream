@@ -48,7 +48,11 @@ import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
 
-const auth = (_req: Request) => ({ id: "fakeId" }); // Fake auth function
+// const auth = (_req: Request) => ({ id: "fakeId" }); // Fake auth function
+const auth = (req: Request) => {
+  console.log("Request URL:", req.url);
+  return { id: "fakeId" };
+};
 
 export const ourFileRouter = {
   // Existing image route
