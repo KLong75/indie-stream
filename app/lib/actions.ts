@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import AuthError from 'next-auth';
 import bcrypt from 'bcrypt';
-import { UUID } from 'crypto';
+// import { UUID } from 'crypto';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
