@@ -174,7 +174,7 @@ import { MdOutlineReplay10 } from "react-icons/md";
 // import { RiReplay10Fill } from "react-icons/ri";
 // import { RxMixerHorizontal } from "react-icons/rx";
 // import { RxMixerVertical } from "react-icons/rx";
-import { songs } from "../lib/songs";
+import { songs } from "../lib/_songs_";
 
 export default function CustomAudioPlayer() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
