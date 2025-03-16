@@ -12,6 +12,9 @@ export default function Home() {
       <UploadButtonContainer
         file_route="audioUploader" 
       />
+      <UploadButtonContainer
+        file_route="imageUploader" 
+      />
     </div>
   );
 }
