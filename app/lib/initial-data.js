@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 // import postgres from 'postgres';
 
 // if (!process.env.POSTGRES_URL) {
@@ -14,11 +14,17 @@ const users = [
     last_name: "Vek",
     email: "gnolvek@gmail.com",
     password: "password",
-    profile_picture_src: "https://4ykxjgur5y.ufs.sh/f/9Dk0lBirZ3pQwyJRcw4WdtjSYmvNlMhyoqKQ4JXL5OkDbrnH",
-    favorite_songs: [],
-    favorite_releases: [],
-    favorite_artists: [],
-    playlists: [],
+    profile_picture_src:
+      "https://4ykxjgur5y.ufs.sh/f/9Dk0lBirZ3pQwyJRcw4WdtjSYmvNlMhyoqKQ4JXL5OkDbrnH",
+    favorite_songs: [
+      "Last Night",
+      "Starting Over",
+      "Dragon Attack",
+      "Fake Plastic Trees",
+    ],
+    favorite_releases: ["Starting Over", "Your Likeness"],
+    favorite_artists: ["The Long Emergency", "Vain Mainstream"],
+    playlists: ["Favorites"],
   },
 ];
 
@@ -81,7 +87,9 @@ const releases = [
     genre: "Indie",
     year: 2022,
     cover_img_file_key: "9Dk0lBirZ3pQSIcXrJBMB4K6AUTNlojusYXnrydvCJegpaIG",
-    songs: ["Dragon Attack", "Fake Plastic Trees"].map((title) => songMap[title]),
+    songs: ["Dragon Attack", "Fake Plastic Trees"].map(
+      (title) => songMap[title]
+    ),
     type: "album",
   },
 ];
@@ -103,7 +111,9 @@ const artists = [
     name: "Vain Mainstream",
     bio: "",
     picture: "",
-    songs: ["Dragon Attack", "Fake Plastic Trees"].map((title) => songMap[title]),
+    songs: ["Dragon Attack", "Fake Plastic Trees"].map(
+      (title) => songMap[title]
+    ),
     releases: ["Your Likeness"].map((title) => releaseMap[title]),
     members: ["Vain Mainstream"],
   },
@@ -126,8 +136,24 @@ const playlists = [
     id: uuidv4(),
     title: "Favorites",
     description: "My favorite songs",
-    songs: [],
+    songs: [
+      "Last Night",
+      "Starting Over",
+      "Dragon Attack",
+      "Fake Plastic Trees",
+    ].map((title) => songMap[title]),
   },
 ];
+
+users.forEach((user) => {
+  user.favorite_songs = user.favorite_songs.map((title) => songMap[title]);
+  user.favorite_releases = user.favorite_releases.map(
+    (title) => releaseMap[title]
+  );
+  user.favorite_artists = user.favorite_artists.map((name) => artistMap[name]);
+  user.playlists = user.playlists.map(
+    (title) => playlists.find((p) => p.title === title).id
+  );
+});
 
 export { users, artists, songs, releases, playlists };
