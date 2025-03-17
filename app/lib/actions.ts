@@ -56,8 +56,12 @@ export async function createUserAction(formData: FormData) {
   const result = await signIn("credentials", {
     email: parsed.email,
     password: parsed.password,
+    redirect: false,
   });
+
   console.log("sign in - result:", result);
+  
+  return parsed.id;
 }
 
 export async function authenticate(

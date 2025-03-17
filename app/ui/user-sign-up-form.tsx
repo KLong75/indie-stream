@@ -1,19 +1,22 @@
 "use client";
 // import { useState } from 'react';
 import { createUserAction } from "../lib/actions";
+import { useRouter } from "next/navigation";
 
 export default function UserSignUpForm() {
-  const callbackUrl = "/";
+  const router = useRouter();
+  // const callbackUrl = "/";
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    await createUserAction(formData);
-   
+    const newUserId = await createUserAction(formData);
+    router.push(`/listeners/${newUserId}`);
+    console.log('newUser:', newUserId);
   }
 
   return (
     <form onSubmit={handleSubmit}>
-       <input type="hidden" name="redirectTo" value={callbackUrl} />
+      {/* <input type="hidden" name="redirectTo" value={callbackUrl} /> */}
       <input type="email" name="email" placeholder="Email" autoComplete="email" />
       <input type="password" name="password" placeholder="Password" 
       autoComplete="new-password"
