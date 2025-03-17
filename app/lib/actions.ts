@@ -1,15 +1,15 @@
-'use server';
+"use server";
 
-import { z } from 'zod';
-import postgres from 'postgres';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { signIn } from '@/auth';
-import AuthError from 'next-auth';
-import bcrypt from 'bcrypt';
-// import { UUID } from 'crypto';
+import { z } from "zod";
+import postgres from "postgres";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
+import AuthError from "next-auth";
+import bcrypt from "bcrypt";
+import { sign } from "crypto";
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 const userSignUpFormSchema = z.object({
   id: z.string(),
@@ -40,11 +40,6 @@ export async function createUserAction(formData: FormData) {
   // Hash the password (recommended before storing)
   const hashedPassword = await bcrypt.hash(parsed.password, 10);
 
-  // Insert user into DB
-  // await sql`
-  //   INSERT INTO users (email, password, user_name)
-  //   VALUES (${parsed.email}, ${hashedPassword}, ${parsed.userName})
-  // `;
   await sql`
     CREATE TABLE IF NOT EXISTS users (
       id UUID PRIMARY KEY,
@@ -58,25 +53,26 @@ export async function createUserAction(formData: FormData) {
     VALUES (${parsed.id}, ${parsed.email}, ${hashedPassword}, ${parsed.user_name})
   `;
 
-  // Optionally revalidate or redirect
-  revalidatePath("/login");
-  // revalidatePath("/");
-  redirect("/"); // or wherever you want
+  const result = await signIn("credentials", {
+    email: parsed.email,
+    password: parsed.password,
+  });
+  console.log("sign in - result:", result);
 }
 
 export async function authenticate(
   prevState: string | undefined,
-  formData: FormData,
+  formData: FormData
 ) {
   try {
-    await signIn('credentials', formData);
+    await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
+        case "CredentialsSignin":
+          return "Invalid credentials.";
         default:
-          return 'Something went wrong.';
+          return "Something went wrong.";
       }
     }
     throw error;

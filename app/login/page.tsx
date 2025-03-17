@@ -1,10 +1,18 @@
+import UserLoginForm from "../ui/user-login-form";
 import UserSignUpForm from "../ui/user-sign-up-form";
 
 export default function LoginPage() {
   return (
     <div>
-      <h1>Sign Up</h1>
-      <UserSignUpForm />
+      <div className="my-6">
+        <h2>Sign Up</h2>
+        <UserSignUpForm />
+      </div>
+
+      <div className="my-6">
+        <h2>Log In</h2>
+        <UserLoginForm />
+      </div>
     </div>
   );
 }
