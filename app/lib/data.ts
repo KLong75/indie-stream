@@ -177,3 +177,15 @@ export async function getUserFavoriteArtists(userId: string): Promise<Artist[]> 
 }
 
 
+// export async function getArtistById(arg: string | Artist): Promise<Artist | null> {
+//   // If called with a string, use it directly; if called with an Artist, pull out arg.id
+//   const id = typeof arg === "string" ? arg : arg.id;
+
+//   try {
+//     const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}`;
+//     return artistData[0] || null;
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("An error occurred while fetching artist data");
+//   }
+// }

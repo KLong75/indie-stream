@@ -4,10 +4,10 @@ export type User = {
   email: string;
   password: string;
   profile_picture: string;
-  favorite_songs: Song[];
-  favorite_releases: Release[];
-  favorite_artists: Artist[];
-  playlists: Playlist[];
+  favorite_songs: [string];
+  favorite_releases: [string];
+  favorite_artists: [string];
+  playlists: [string];
 };
 
 export type Artist = {
