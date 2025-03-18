@@ -19,26 +19,57 @@ const userSignUpFormSchema = z.object({
   user_name: z.string().min(2),
 });
 
-export async function createUserAction(formData: FormData) {
+export type State = {
+  errors?: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+
+const CreateUser = userSignUpFormSchema.omit({ passwordConfirmation: true });
+
+export async function createUser(prevState: State, formData: FormData) {
   // Convert FormData to an object for parsing
-  const data = {
+  // const data = {
+  //   email: formData.get("email"),
+  //   password: formData.get("password"),
+  //   passwordConfirmation: formData.get("passwordConfirmation"),
+  //   user_name: formData.get("userName"),
+  //   id: crypto.randomUUID(),
+  // };
+
+  const validatedFields = CreateUser.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
-    passwordConfirmation: formData.get("passwordConfirmation"),
     user_name: formData.get("userName"),
     id: crypto.randomUUID(),
-  };
+  })
 
-  // Validate input
-  const parsed = userSignUpFormSchema.parse(data);
-
-  // Check passwords match
-  if (parsed.password !== parsed.passwordConfirmation) {
-    throw new Error("Passwords do not match.");
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Invalid input. Login failed.",
+    }
   }
 
+  const { email, password, user_name, id } = validatedFields.data;
+
   // Hash the password (recommended before storing)
-  const hashedPassword = await bcrypt.hash(parsed.password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+
+  // // Validate input
+  // const parsed = userSignUpFormSchema.parse(data);
+
+  // // Check passwords match
+  // if (parsed.password !== parsed.passwordConfirmation) {
+  //   throw new Error("Passwords do not match.");
+  // }
+
+  // // Hash the password (recommended before storing)
+  // const hashedPassword = await bcrypt.hash(parsed.password, 10);
 
   await sql`
     CREATE TABLE IF NOT EXISTS users (
@@ -50,18 +81,18 @@ export async function createUserAction(formData: FormData) {
   `;
   await sql`
     INSERT INTO users (id, email, password, user_name)
-    VALUES (${parsed.id}, ${parsed.email}, ${hashedPassword}, ${parsed.user_name})
+    VALUES (${id}, ${email}, ${hashedPassword}, ${user_name})
   `;
 
   const result = await signIn("credentials", {
-    email: parsed.email,
-    password: parsed.password,
+    email: email,
+    password: password,
     redirect: false,
   });
 
   console.log("sign in - result:", result);
-  
-  return parsed.id;
+
+  return id;
 }
 
 export async function authenticate(

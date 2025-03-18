@@ -39,14 +39,34 @@
 //   );
 // }
 
+
+
+
+
+
+// export const dynamic = "force-dynamic";
+
+// import { getUserById } from "@/app/lib/data";
+
+// export default async function Page({ params }: { params: { id: string } }) {
+//   const user = await getUserById(params.id);
+//   if (!user) {
+//     return <div>User not found</div>;
+//   }
+//   return <h1>{user.user_name}</h1>;
+// }
+
+
+
+
+
 export const dynamic = "force-dynamic";
 
 import { getUserById } from "@/app/lib/data";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  // const user = await getUserById(params.id);
-  const userId = params.id;
-  const user = await getUserById(userId);
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const user = await getUserById(params.id);
   if (!user) {
     return <div>User not found</div>;
   }

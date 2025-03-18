@@ -1,6 +1,6 @@
 "use client";
 // import { useState } from 'react';
-import { createUserAction } from "../lib/actions";
+import { createUser } from "../lib/actions";
 import { useRouter } from "next/navigation";
 
 export default function UserSignUpForm() {
@@ -9,7 +9,7 @@ export default function UserSignUpForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newUserId = await createUserAction(formData);
+    const newUserId = await createUser({}, formData);
     router.push(`/listeners/${newUserId}`);
     console.log('newUser:', newUserId);
   }
