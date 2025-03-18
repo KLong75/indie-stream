@@ -43,7 +43,7 @@ export const dynamic = "force-dynamic";
 import { getUserById } from "@/app/lib/data";
 
 // 1. Explicitly define the shape of your route props:
-interface PageProps {
+interface UserPageProps {
   params: {
     id: string;
   };
@@ -51,7 +51,7 @@ interface PageProps {
 }
 
 // 2. Use that type for your page function:
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: UserPageProps) {
   const user = await getUserById(params.id);
   if (!user) {
     return <div>User not found</div>;
