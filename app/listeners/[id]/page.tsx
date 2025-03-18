@@ -8,7 +8,7 @@ import {
   getPlaylistById,
 } from "@/app/lib/data";
 
-export default async function Page(props: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const user = await getUserById(id);
   if (!user) {
