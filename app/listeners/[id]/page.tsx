@@ -44,7 +44,9 @@ export const dynamic = "force-dynamic";
 import { getUserById } from "@/app/lib/data";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const user = await getUserById(params.id);
+  // const user = await getUserById(params.id);
+  const userId = params.id;
+  const user = await getUserById(userId);
   if (!user) {
     return <div>User not found</div>;
   }
