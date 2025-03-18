@@ -15,8 +15,8 @@ export type Artist = {
   name: string;
   bio: string;
   picture: string;
-  songs: Song[];
-  releases: Release[];
+  songs: [string];
+  releases: [string];
   members: [string];
 };
 
@@ -38,12 +38,12 @@ export type Release = {
   genre: string;
   year: number;
   cover_img_file_key: string;
-  songs: Song[];
+  songs: [string];
   type: "album" | "single" | "ep";
 };
 
 export type Playlist = {
   id: string;
   title: string;
-  songs: Song[];
+  songs: [string];
 };

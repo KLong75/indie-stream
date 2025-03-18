@@ -67,19 +67,87 @@
 
 
 
+// this one works kinda
+// "use client";
+
+// import { useFormStatus } from 'react-dom';
+// import { useActionState } from "react";
+// import { authenticate } from "@/app/lib/actions";
+
+
+// export default function UserLoginForm() {
+//   const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+
+//   return (
+//     <form action={dispatch}>
+//       <input
+//         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+//         id="email"
+//         type="email"
+//         name="email"
+//         placeholder="Enter your email address"
+//         required
+//         autoComplete="email"
+//       />
+//       <input
+//         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+//         id="password"
+//         type="password"
+//         name="password"
+//         placeholder="Enter password"
+//         required
+//         minLength={6}
+//         autoComplete="current-password"
+//       />
+//       <LoginButton/> 
+//       <div>
+//         {errorMessage && <p>{errorMessage}</p>}
+//       </div>
+//     </form>
+//   );
+// }
+
+// function LoginButton() {
+//   const { pending } = useFormStatus();
+//   return (
+//     <button disabled={pending} className="bg-blue-500 p-2 rounded-md" type="submit">
+//       Log In
+//     </button>
+//   );
+// }
 
 "use client";
 
-import { useFormStatus } from 'react-dom';
-import { useActionState } from "react";
+// import { useActionState } from "react";
 import { authenticate } from "@/app/lib/actions";
-
+import { useRouter } from "next/navigation";
+// import { useSearchParams } from 'next/navigation';
 
 export default function UserLoginForm() {
-  const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+  const router = useRouter();
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const user = await authenticate(undefined, formData);
+    if (user) {
+      router.push(`/listeners/${user}`);
+    } else {
+      console.error('Authentication failed: user is undefined');
+    }
+  }
+  // const searchParams = useSearchParams();
+  // console.log('searchParams:', searchParams);
+  // const callBackUrl = searchParams.get('redirectTo') || '/listeners/hello/world';
+  // const [errorMessage, formAction, isPending] = useActionState(
+  //   authenticate,
+  //   undefined,
+  // );
+  // const [errorMessage] = useActionState(authenticate, undefined);
 
   return (
-    <form action={dispatch}>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
       <input
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         id="email"
@@ -89,6 +157,7 @@ export default function UserLoginForm() {
         required
         autoComplete="email"
       />
+      <label htmlFor="password">Password</label>
       <input
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         id="password"
@@ -99,19 +168,11 @@ export default function UserLoginForm() {
         minLength={6}
         autoComplete="current-password"
       />
-      <LoginButton/> 
-      <div>
-        {errorMessage && <p>{errorMessage}</p>}
-      </div>
+      {/* <input type="hidden" name="redirectTo" value={callBackUrl} /> */}
+      <button >Log In</button> 
+      {/* <div>
+        {errorMessage && <p>Error message: {errorMessage}</p>}
+      </div> */}
     </form>
-  );
-}
-
-function LoginButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button disabled={pending} className="bg-blue-500 p-2 rounded-md" type="submit">
-      Log In
-    </button>
   );
 }

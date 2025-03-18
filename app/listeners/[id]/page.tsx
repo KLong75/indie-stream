@@ -8,22 +8,17 @@ import {
   getPlaylistById,
 } from "@/app/lib/data";
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
-  const user = await getUserById(params.id);
+export default async function Page(props: { params: { id: string } }) {
+  const { id } = await props.params;
+  const user = await getUserById(id);
   if (!user) {
     return <div>User not found</div>;
   }
 
-  console.log("user:", user);
-
   const favoriteArtistsIds = user.favorite_artists || [];
-  console.log("favoriteArtistsIds:", favoriteArtistsIds);
-
   const favoriteArtists = await Promise.all(
     favoriteArtistsIds.map((id) => getArtistById(id))
   );
-  console.log("favoriteArtists:", favoriteArtists);
 
   const favoriteSongs = await Promise.all(
     (user.favorite_songs || []).map((id) => getSongById(id))

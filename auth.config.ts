@@ -9,19 +9,28 @@ export const authConfig = {
     // while this file is also used in non-Node.js environments
   ],
   callbacks: {
-    authorized({ auth, request: {  } }) {
+    authorized({ auth, request: { nextUrl } }) {
+      console.log('**********run - nextUrl:', nextUrl);
+      console.log('**********run - auth:', auth);
       const isLoggedIn = !!auth?.user;
-      // const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      // if (isOnDashboard) {
-      //   if (isLoggedIn) return true;
-      //   return false; // Redirect unauthenticated users to login page
-      // } else if (isLoggedIn) {
-      //   return Response.redirect(new URL('/dashboard', nextUrl));
-      // }
-      if (isLoggedIn) 
-        
-      Response.redirect("/");
-      console.log('authorized', { isLoggedIn });
+      console.log('isLoggedIn:', isLoggedIn); 
+      const isOnTheirListenerPage = nextUrl.pathname.startsWith('/listeners');
+      if (isOnTheirListenerPage) {
+        if (isLoggedIn) {
+          console.log('User is logged in and on their listener page');
+          return true;
+        }
+        console.log('User is not logged in and on their listener page');
+        return false; // Redirect unauthenticated users to login page
+      } else if (isLoggedIn) {
+        if (auth?.user) {
+          console.log('auth.user:', auth.user); 
+          return Response.redirect(
+            new URL(`/listeners/${auth.user.id}`, nextUrl)  // <-- use user.id here
+          );
+        }
+      }
+      console.log('User is not on their listener page or not logged in');
       return true;
     },
   },
