@@ -1,4 +1,5 @@
-// import Image from "next/image";
+// import from next
+import Link from "next/link";
 // import AudioPlayer from "./ui/audio-player";
 import CustomAudioPlayer from "./ui/audio-player-custom-controls";
 // import LocalAudioPlayer from "./ui/local-audio-player";
@@ -20,12 +21,10 @@ export default function Home() {
     // </div>
     <div>
       <h1>Indie Stream</h1>
-
-      <>
-        <CustomAudioPlayer />
-        <UploadButtonContainer file_route="audioUploader" />
-        <UploadButtonContainer file_route="imageUploader" />
-      </>
+      <Link href="/login">Login</Link>
+      {/* <CustomAudioPlayer /> */}
+      <UploadButtonContainer file_route="audioUploader" />
+      <UploadButtonContainer file_route="imageUploader" />
     </div>
   );
 }

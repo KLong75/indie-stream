@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-
+// get data
 import {
   getUserById,
   getArtistById,
@@ -7,6 +7,8 @@ import {
   getReleaseById,
   getPlaylistById,
 } from "@/app/lib/data";
+// import components
+import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls"; 
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -78,6 +80,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
       )}
+      <CustomAudioPlayer />
     </>
   );
 }
