@@ -1,16 +1,16 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
-import { getUserById } from "@/app/lib/data";
+// import { getUserById } from "@/app/lib/data";
 
-export default async function Page({ params} : { params: { id: string } }) {
-  const user = await getUserById(params.id);
-  if (!user) {
-    return <div>User not found</div>;
-  }
+// export default async function Page({ params} : { params: { id: string } }) {
+//   const user = await getUserById(params.id);
+//   if (!user) {
+//     return <div>User not found</div>;
+//   }
 
-  return (
-    <div>
-      <h1>{user.user_name}</h1>
+//   return (
+//     <div>
+//       <h1>{user.user_name}</h1>
       
       {/* <ul>
         {user.favorite_artists.map((artist) => (
@@ -33,6 +33,29 @@ export default async function Page({ params} : { params: { id: string } }) {
           <li key={playlist.id}>{playlist.title}</li>
         ))}
       </ul> */}
-    </div>
-  );
+//     </div>
+//   );
+// }
+
+
+export const dynamic = "force-dynamic";
+
+import { getUserById } from "@/app/lib/data";
+
+// 1. Explicitly define the shape of your route props:
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+// 2. Use that type for your page function:
+export default async function Page({ params }: PageProps) {
+  const user = await getUserById(params.id);
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
+  return <h1>{user.user_name}</h1>;
 }
