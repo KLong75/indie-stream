@@ -153,6 +153,13 @@
 
 // import from next
 import Image from "next/image";
+// import definitions
+import { Song, Release, Artist } from "../lib/definitions";
+// import data
+import {
+  getReleaseById,
+  getArtistById,
+} from "../lib/data";
 
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";
@@ -174,15 +181,35 @@ import { MdOutlineReplay10 } from "react-icons/md";
 // import { RiReplay10Fill } from "react-icons/ri";
 // import { RxMixerHorizontal } from "react-icons/rx";
 // import { RxMixerVertical } from "react-icons/rx";
-import { songs } from "../lib/_songs_";
+// import { songs } from "../lib/_songs_";
 
-export default function CustomAudioPlayer() {
+export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [shuffle, setShuffle] = useState(false);
+
+  const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{ name: string } | null>(null);
+  const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] = useState<Release | null>(null);
+  
+
+  useEffect(() => {
+    async function fetchReleaseAndArtist() {
+      const currentSong = songs[currentSongIndex];
+      const response = await fetch(`/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`);
+      const data = await response.json();
+      console.log("!!!!!!!!!!!!!!!!!!!!data", data);
+      setReleaseCurrentlyPlaying(data.release);
+      setArtistCurrentlyPlaying(data.artist);
+      
+    }
+
+    fetchReleaseAndArtist();
+  }, [currentSongIndex]);
+  // const releaseCurrentlyPlaying = getReleaseById(songs[currentSongIndex].release);
+  // console.log("releaseCurrentlyPlaying", releaseCurrentlyPlaying);
 
   function handleShuffle() {
     const audioElement = audioRef.current;
@@ -292,30 +319,30 @@ export default function CustomAudioPlayer() {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
-
   return (
     <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide">
       <div className="flex justify-center items-center w-full h-auto p-6">
         <Image
-          src={songs[currentSongIndex].cover}
+          src={`https://4ykxjgur5y.ufs.sh/f/${releaseCurrentlyPlaying ? releaseCurrentlyPlaying.cover_img_file_key : "default"}`}
           width={200}
           height={200}
-          alt={`${songs[currentSongIndex].album} album cover`}
+          alt=""
         />
       </div>
       <audio
         ref={audioRef}
-        src={songs[currentSongIndex].src}
+        src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
         controls={false}
       />
       <div className="flex justify-center text-center text-sm">
         {songs[currentSongIndex].title}
       </div>
       <div className="flex justify-center text-center text-xs my-1">
-        {songs[currentSongIndex].artist}
+        {/* {songs[currentSongIndex].artist} */}
+        {artistCurrentlyPlaying ? artistCurrentlyPlaying.name : "Unknown Artist"}
       </div>
       <div className="flex justify-center text-center text-xs my-1">
-        {songs[currentSongIndex].album}
+        {releaseCurrentlyPlaying ? releaseCurrentlyPlaying.title : "Unknown Album"} 
       </div>
      
       <div className="mx-4">

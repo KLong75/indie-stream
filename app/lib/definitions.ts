@@ -23,8 +23,8 @@ export type Artist = {
 export type Song = {
   id: string;
   title: string;
-  artist: Artist;
-  release: Release;
+  artist: string;
+  release: string;
   genre: string;
   year: number;
   // duration: number;

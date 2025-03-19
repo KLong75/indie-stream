@@ -7,6 +7,8 @@ import {
   getReleaseById,
   getPlaylistById,
 } from "@/app/lib/data";
+// import definitions
+import { Song } from "@/app/lib/definitions";
 // import components
 import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls"; 
 
@@ -80,7 +82,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
       )}
-      <CustomAudioPlayer />
+      <CustomAudioPlayer 
+        songs={favoriteSongs.filter((song): song is Song => song !== null)}
+      />
     </>
   );
 }
