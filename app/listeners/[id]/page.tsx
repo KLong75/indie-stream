@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+
 // get data
 import {
   getUserById,
