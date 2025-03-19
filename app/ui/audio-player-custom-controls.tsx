@@ -154,12 +154,7 @@
 // import from next
 import Image from "next/image";
 // import definitions
-import { Song, Release, Artist } from "../lib/definitions";
-// import data
-import {
-  getReleaseById,
-  getArtistById,
-} from "../lib/data";
+import { Song, Release } from "../lib/definitions";
 
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";
@@ -191,30 +186,32 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
   const [duration, setDuration] = useState(0);
   const [shuffle, setShuffle] = useState(false);
 
-  const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{ name: string } | null>(null);
-  const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] = useState<Release | null>(null);
-  
+  const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{
+    name: string;
+  } | null>(null);
+  const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
+    useState<Release | null>(null);
 
   useEffect(() => {
     async function fetchReleaseAndArtist() {
       const currentSong = songs[currentSongIndex];
-      const response = await fetch(`/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`);
+      const response = await fetch(
+        `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
+      );
       const data = await response.json();
       console.log("!!!!!!!!!!!!!!!!!!!!data", data);
       setReleaseCurrentlyPlaying(data.release);
       setArtistCurrentlyPlaying(data.artist);
-      
     }
-
     fetchReleaseAndArtist();
-  }, [currentSongIndex]);
+  }, [currentSongIndex, songs]);
   // const releaseCurrentlyPlaying = getReleaseById(songs[currentSongIndex].release);
   // console.log("releaseCurrentlyPlaying", releaseCurrentlyPlaying);
 
   function handleShuffle() {
     const audioElement = audioRef.current;
     if (!audioElement) return;
-  
+
     // Toggle shuffle, but only pick a new random index if we are going from OFF -> ON
     setShuffle((wasShuffle) => {
       const newShuffle = !wasShuffle;
@@ -227,7 +224,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
       }
       return newShuffle;
     });
-  
+
     audioElement.play();
     setIsPlaying(true);
   }
@@ -271,7 +268,6 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     audioElement.currentTime -= 10;
   };
 
- 
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
@@ -323,7 +319,11 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide">
       <div className="flex justify-center items-center w-full h-auto p-6">
         <Image
-          src={`https://4ykxjgur5y.ufs.sh/f/${releaseCurrentlyPlaying ? releaseCurrentlyPlaying.cover_img_file_key : "default"}`}
+          src={`https://4ykxjgur5y.ufs.sh/f/${
+            releaseCurrentlyPlaying
+              ? releaseCurrentlyPlaying.cover_img_file_key
+              : "default"
+          }`}
           width={200}
           height={200}
           alt=""
@@ -339,12 +339,16 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
       </div>
       <div className="flex justify-center text-center text-xs my-1">
         {/* {songs[currentSongIndex].artist} */}
-        {artistCurrentlyPlaying ? artistCurrentlyPlaying.name : "Unknown Artist"}
+        {artistCurrentlyPlaying
+          ? artistCurrentlyPlaying.name
+          : "Unknown Artist"}
       </div>
       <div className="flex justify-center text-center text-xs my-1">
-        {releaseCurrentlyPlaying ? releaseCurrentlyPlaying.title : "Unknown Album"} 
+        {releaseCurrentlyPlaying
+          ? releaseCurrentlyPlaying.title
+          : "Unknown Album"}
       </div>
-     
+
       <div className="mx-4">
         <input
           className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
@@ -367,7 +371,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
         <button
           className="bg-blue-600 px-2 py-1 rounded-full"
           onClick={handleShuffle}>
-           {shuffle ? <RxArrowRight /> : <RxShuffle />}
+          {shuffle ? <RxArrowRight /> : <RxShuffle />}
         </button>
         <button
           className="bg-blue-600 px-2 py-1 rounded-full"
