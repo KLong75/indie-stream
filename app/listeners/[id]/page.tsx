@@ -7,11 +7,15 @@ import {
   getSongById,
   getReleaseById,
   getPlaylistById,
+  getAllSongs,
+  getAllArtists,
+  getAllReleases
 } from "@/app/lib/data";
 // import definitions
-import { Song } from "@/app/lib/definitions";
+import { Song, Playlist } from "@/app/lib/definitions";
 // import components
-import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls"; 
+// import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls"; 
+import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -20,14 +24,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return <div>User not found</div>;
   }
 
-  const favoriteArtistsIds = user.favorite_artists || [];
+  const allSongs = await getAllSongs();
+  console.log('allSongs', allSongs);
+  
   const favoriteArtists = await Promise.all(
-    favoriteArtistsIds.map((id) => getArtistById(id))
+    (user.favorite_artists || []).map((id) => getArtistById(id))
   );
 
   const favoriteSongs = await Promise.all(
     (user.favorite_songs || []).map((id) => getSongById(id))
   );
+  console.log('favoriteSongs', favoriteSongs);
 
   const favoriteReleases = await Promise.all(
     (user.favorite_releases || []).map((id) => getReleaseById(id))
@@ -36,10 +43,14 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
   );
+  console.log('playlists', playlists);
 
   return (
     <>
       <h2 className="p-4">{user.user_name}</h2>
+      <div className="p-4">
+        <h3>All Songs</h3>
+      </div>
       {user.favorite_artists && (
         <div className="p-4">
           <h3>Favorite Artists</h3>
@@ -83,8 +94,13 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
       )}
-      <CustomAudioPlayer 
+      {/* <CustomAudioPlayer 
         songs={favoriteSongs.filter((song): song is Song => song !== null)}
+      /> */}
+      <AudioPlayerWrapper
+        initialSongs={favoriteSongs.filter((song): song is Song => song !== null)}
+        allSongs={allSongs}
+        playlists={playlists.filter((playlist): playlist is Playlist => playlist !== null)}
       />
     </>
   );

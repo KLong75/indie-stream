@@ -68,7 +68,7 @@ export async function getUsers(): Promise<User[]> {
   }
 }
 
-export async function getArtists(): Promise<Artist[]> {
+export async function getAllArtists(): Promise<Artist[]> {
   try {
     return await sql<Artist[]>`SELECT * FROM artists`;
   } catch (error) {
@@ -77,7 +77,7 @@ export async function getArtists(): Promise<Artist[]> {
   }
 }
 
-export async function getSongs(): Promise<Song[]> {
+export async function getAllSongs(): Promise<Song[]> {
   try {
     return await sql<Song[]>`SELECT * FROM songs`;
   } catch (error) {
@@ -86,7 +86,7 @@ export async function getSongs(): Promise<Song[]> {
   }
 }
 
-export async function getReleases(): Promise<Release[]> {
+export async function getAllReleases(): Promise<Release[]> {
   try {
     return await sql<Release[]>`SELECT * FROM releases`;
   } catch (error) {
@@ -95,7 +95,7 @@ export async function getReleases(): Promise<Release[]> {
   }
 }
 
-export async function getPlaylists(): Promise<Playlist[]> {
+export async function getAllPlaylists(): Promise<Playlist[]> {
   try {
     return await sql<Playlist[]>`SELECT * FROM playlists`;
   } catch (error) {
