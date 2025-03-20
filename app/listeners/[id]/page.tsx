@@ -105,6 +105,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <AudioPlayerWrapper
         initialSongs={favoriteSongs.filter((song): song is Song => song !== null)}
         allSongs={allSongs}
+        favoriteSongs={favoriteSongs.filter((song): song is Song => song !== null)}
         playlists={playlists.filter((playlist): playlist is Playlist => playlist !== null)}
       />
     </>
