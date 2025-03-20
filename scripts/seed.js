@@ -319,16 +319,17 @@ async function seedPlaylists() {
     CREATE TABLE IF NOT EXISTS playlists (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       title TEXT NOT NULL,
-      songs UUID[]
+      songs UUID[],
+      public BOOLEAN DEFAULT FALSE
     )
   `;
   const insertedPlaylists = await Promise.all(
     playlists.map(async (playlist) => {
       const insertedPlaylist = await sql`
         INSERT INTO playlists
-          (id, title, songs)
+          (id, title, songs, public)
         VALUES
-          (${playlist.id}, ${playlist.title}, ${playlist.songs})
+          (${playlist.id}, ${playlist.title}, ${playlist.songs}, ${playlist.public})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;

@@ -173,7 +173,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           }`}
           width={200}
           height={200}
-          alt=""
+          alt={`${releaseCurrentlyPlaying?.title} cover image`}
         />
       </div>
       <audio

@@ -46,4 +46,5 @@ export type Playlist = {
   id: string;
   title: string;
   songs: [string];
+  public: boolean;
 };

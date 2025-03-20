@@ -8,13 +8,13 @@ import {
   getReleaseById,
   getPlaylistById,
   getAllSongs,
+  getAllPublicPlaylists,
   getAllArtists,
   getAllReleases
 } from "@/app/lib/data";
 // import definitions
 import { Song, Playlist } from "@/app/lib/definitions";
 // import components
-// import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls"; 
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
@@ -30,6 +30,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const favoriteArtists = await Promise.all(
     (user.favorite_artists || []).map((id) => getArtistById(id))
   );
+  console.log('favoriteArtists', favoriteArtists);
 
   const favoriteSongs = await Promise.all(
     (user.favorite_songs || []).map((id) => getSongById(id))
@@ -39,11 +40,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const favoriteReleases = await Promise.all(
     (user.favorite_releases || []).map((id) => getReleaseById(id))
   );
+  console.log('favoriteReleases', favoriteReleases);
 
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
   );
   console.log('playlists', playlists);
+
+  const publicPlaylists = await getAllPublicPlaylists();
+  console.log('publicPlaylists', publicPlaylists);
 
   return (
     <>

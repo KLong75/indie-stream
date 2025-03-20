@@ -104,6 +104,15 @@ export async function getAllPlaylists(): Promise<Playlist[]> {
   }
 }
 
+export async function getAllPublicPlaylists(): Promise<Playlist[]> {
+  try {
+    return await sql<Playlist[]>`SELECT * FROM playlists WHERE public = true`;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('An error occurred while fetching public playlist data');
+  }
+}
+
 export async function getArtistSongs(artistId: string): Promise<Song[]> {
   try {
     return await sql<Song[]>`SELECT * FROM songs WHERE artist_id = ${artistId}`;

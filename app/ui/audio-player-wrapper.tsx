@@ -28,6 +28,8 @@ export default function AudioPlayerWrapper({
   return (
     <>
     <button onClick={handleAllSongsClick}>All Songs</button>
+    
+
       <CustomAudioPlayer songs={currentSongs} />
     </>
   );

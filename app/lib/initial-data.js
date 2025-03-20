@@ -24,7 +24,7 @@ const users = [
     ],
     favorite_releases: ["Starting Over", "Your Likeness"],
     favorite_artists: ["The Long Emergency", "Vain Mainstream"],
-    playlists: ["Favorites"],
+    playlists: ["Super Cool Playlist", "Bestest Playlist Ever"],
   },
 ];
 
@@ -134,7 +134,7 @@ releases.forEach((release) => {
 const playlists = [
   {
     id: uuidv4(),
-    title: "Favorites",
+    title: "Super Cool Playlist",
     description: "My favorite songs",
     songs: [
       "Last Night",
@@ -142,6 +142,14 @@ const playlists = [
       "Dragon Attack",
       "Fake Plastic Trees",
     ].map((title) => songMap[title]),
+    public: true,
+  },
+  {
+    id: uuidv4(),
+    title: "Bestest Playlist Ever",
+    description: "My favorite songs",
+    songs: ["Last Night", "Starting Over"].map((title) => songMap[title]),
+    public: false,
   },
 ];
 
