@@ -136,14 +136,6 @@ export default function UserLoginForm() {
       console.error('Authentication failed: user is undefined');
     }
   }
-  // const searchParams = useSearchParams();
-  // console.log('searchParams:', searchParams);
-  // const callBackUrl = searchParams.get('redirectTo') || '/listeners/hello/world';
-  // const [errorMessage, formAction, isPending] = useActionState(
-  //   authenticate,
-  //   undefined,
-  // );
-  // const [errorMessage] = useActionState(authenticate, undefined);
 
   return (
     <form onSubmit={handleSubmit}>

@@ -4,7 +4,7 @@ import { z } from "zod";
 import postgres from "postgres";
 // import { revalidatePath } from "next/cache";
 // import { redirect } from "next/navigation";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import AuthError from "next-auth";
 import bcrypt from "bcrypt";
 // import { sign } from "crypto";
@@ -204,4 +204,8 @@ export async function authenticate(
     console.log("CATCH BLOCK - ###Throwing error###");
     throw error;
   }
+}
+
+export async function signOutUser() {
+  await signOut();
 }
