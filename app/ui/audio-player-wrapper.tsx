@@ -10,22 +10,22 @@ import { format } from "path";
 import { set } from "zod";
 
 export default function AudioPlayerWrapper({
-  initialSongs,
+  // initialSongs,
   allSongs,
   favoriteSongs,
   playlists,
   publicPlaylists,
   formattedPlaylists,
 }: {
-  initialSongs: Song[];
+  // initialSongs: Song[];
   allSongs: Song[];
   favoriteSongs: Song[];
   playlists: { id: string; title: string; songs: string[] }[];
   publicPlaylists: { id: string; title: string; songs: string[] }[];
   formattedPlaylists: { [key: string]: Song[] };
 }) {
-  const [currentSongs, setCurrentSongs] = useState<Song[]>(initialSongs);
-  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(null);
+  const [currentSongs, setCurrentSongs] = useState<Song[]>(favoriteSongs);
+  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Favorite Songs");
   // const formatPlaylist = ({ playlist }: { playlist: { id: string; title: string; songs: string[] } }) => {
   //   const songIds = playlist.songs;
   //   console.log('songIds', songIds);
@@ -50,8 +50,8 @@ export default function AudioPlayerWrapper({
 
   return (
     <>
-      <button onClick={handleAllSongsClick}>All Songs</button>
-      <button onClick={handleFavoriteSongsClick}>Favorite Songs</button>
+      <button onClick={handleAllSongsClick} className="p-4">All Songs</button>
+      <button onClick={handleFavoriteSongsClick} className="p-4">Favorite Songs</button>
       {Object.keys(formattedPlaylists).map((playlistKey) => (
         <button
           key={playlistKey}
@@ -62,11 +62,13 @@ export default function AudioPlayerWrapper({
               )
             );
             setCurrentPlaylist(playlistKey);
-          }}>
+          }}
+          className="p-4"
+        >
           {playlistKey}
         </button>
       ))}
-      <span>Current Playlist: {currentPlaylist}</span>
+      <span className="p-4">Current Playlist: {currentPlaylist}</span>
       <CustomAudioPlayer songs={currentSongs} />
     </>
   );

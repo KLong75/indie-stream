@@ -1,17 +1,31 @@
+// import from next
+import Link from "next/link";
+import Image from "next/image";
 // get data
-import {
-  getUserById,
-  getArtistById,
-  getSongById,
-  getReleaseById,
-  getAllSongs,
-  getAllArtists,
-  getAllReleases,
-} from "@/app/lib/data";
+import { getArtistById, getAllArtists } from "@/app/lib/data";
+import { get } from "http";
 // import definitions
-import { Artist, Playlist, Release, Song } from "@/app/lib/definitions";
+// import { Artist } from "@/app/lib/definitions";
 
+export default async function Page() {
+  const artists = await getAllArtists();
+ // console.log("artists", artists);
 
-export default function ArtistsPage() {
-  return <div>Artists Page</div>;
+  artists.forEach((artist) => {
+    getArtistById(artist.id);
+   // console.log("artist", artist);
+  });
+
+  return (
+    <div>
+      <h1 className="p-4">Artists</h1>
+      <ul className="p-4">
+        {artists.map((artist) => (
+          <li key={artist.id} className="p-4 cursor-pointer">
+            <Link href={`/artists/${artist.id}`}>{artist.name}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

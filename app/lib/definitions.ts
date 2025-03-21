@@ -11,13 +11,15 @@ export type User = {
 };
 
 export type Artist = {
-  id: string;
-  name: string;
   bio: string;
+  city: string;
+  id: string;
+  members: [string];
+  name: string;
   picture: string;
   songs: [string];
   releases: [string];
-  members: [string];
+  state: string;
 };
 
 export type Song = {

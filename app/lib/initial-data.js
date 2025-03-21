@@ -100,22 +100,26 @@ const artists = [
   {
     id: uuidv4(),
     name: "The Long Emergency",
-    bio: "",
-    picture: "",
+    bio: "The Long Emergency is a rock band in St. Louis Missouri.",
+    picture: "9Dk0lBirZ3pQWKlW2xLQTzM6aijoeSqROlyfZuwGNI4Y0kp8",
     songs: ["Last Night", "Starting Over"].map((title) => songMap[title]),
     releases: ["Starting Over"].map((title) => releaseMap[title]),
     members: ["Kevin Long"],
+    city: "St. Louis",
+    state: "MO",
   },
   {
     id: uuidv4(),
     name: "Vain Mainstream",
-    bio: "",
-    picture: "",
+    bio: "Vain mainstream is a rock artist in Minneapolis Minnesota.",
+    picture: "9Dk0lBirZ3pQSIcXrJBMB4K6AUTNlojusYXnrydvCJegpaIG",
     songs: ["Dragon Attack", "Fake Plastic Trees"].map(
       (title) => songMap[title]
     ),
     releases: ["Your Likeness"].map((title) => releaseMap[title]),
     members: ["Vain Mainstream"],
+    city: "Minneapolis",
+    state: "MN",
   },
 ];
 

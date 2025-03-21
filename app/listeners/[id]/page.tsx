@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
-
+// import from next
+import Link from "next/link";
 // get data
 import {
   getUserById,
@@ -54,14 +55,16 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const formattedPlaylists: { [key: string]: Song[] } = {};
 
-await Promise.all(
-  playlists
-    .filter((pl) => pl !== null)
-    .map(async (playlist) => {
-      // Assign the array directly
-      formattedPlaylists[playlist!.title] = await formatPlaylist({ playlist: playlist! });
-    })
-);
+  await Promise.all(
+    playlists
+      .filter((pl) => pl !== null)
+      .map(async (playlist) => {
+        // Assign the array directly
+        formattedPlaylists[playlist!.title] = await formatPlaylist({
+          playlist: playlist!,
+        });
+      })
+  );
 
   console.log("formattedPlaylists", formattedPlaylists);
 
@@ -76,7 +79,9 @@ await Promise.all(
           <h3>Favorite Artists</h3>
           <ul>
             {favoriteArtists.map((artist, index) => (
-              <li key={index}>{artist?.name}</li>
+              <li key={index}>
+                <Link href={`/artists/${artist?.id}`}>{artist?.name}</Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -114,13 +119,7 @@ await Promise.all(
           </ul>
         </div>
       )}
-      {/* <CustomAudioPlayer 
-        songs={favoriteSongs.filter((song): song is Song => song !== null)}
-      /> */}
       <AudioPlayerWrapper
-        initialSongs={favoriteSongs.filter(
-          (song): song is Song => song !== null
-        )}
         allSongs={allSongs}
         favoriteSongs={favoriteSongs.filter(
           (song): song is Song => song !== null

@@ -18,6 +18,29 @@ async function getUser(email: string): Promise<User | undefined> {
   }
 }
 
+// export const { auth, signIn, signOut } = NextAuth({
+//   ...authConfig,
+//   providers: [
+//     Credentials({
+//       async authorize(credentials) {
+//         // Validate email/password
+//         const parsed = z
+//           .object({ email: z.string().email(), password: z.string().min(6) })
+//           .safeParse(credentials);
+
+//         if (!parsed.success) return null;
+//         const { email, password } = parsed.data;
+//         const user = await getUser(email);
+//         if (!user) return null;
+
+//         const passwordsMatch = await bcrypt.compare(password, user.password);
+//         return passwordsMatch ? {...user, id: user.id} : null;
+//       },
+//     }),
+//   ],
+// });
+
+
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
@@ -29,22 +52,16 @@ export const { auth, signIn, signOut } = NextAuth({
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          console.log("email:", email);
-          console.log("password", password);
+
           const user = await getUser(email);
-          console.log("sign in user:", user);
+          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ user:', user);
           if (!user) return null;
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
-          if (passwordsMatch) {
-            console.log("passwords match. user signed in:", user);
-            return user;
-          } else {
-            console.log("Invalid password. Does not match");
-            return null;
-          }
+          if (passwordsMatch) return {...user, id: user.id};
         }
-        console.log("Invalid credentials");
+
+        console.log('Invalid credentials');
         return null;
       },
     }),

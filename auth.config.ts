@@ -9,18 +9,29 @@ export const authConfig = {
     // while this file is also used in non-Node.js environments
   ],
   callbacks: {
+    jwt({ token, user }) {
+      if (user) { // User is available during sign-in
+        token.id = user.id
+      }
+      return token
+    },
+    session({ session, token }) {
+      session.user.id = token.id as string
+      return session
+    },
+  
     authorized({ auth, request: { nextUrl } }) {
-      console.log('**********run - nextUrl:', nextUrl);
-      console.log('**********run - auth:', auth);
+      // console.log('**********run - nextUrl:', nextUrl);
+      // console.log('**********run - auth:', auth);
       const isLoggedIn = !!auth?.user;
-      console.log('isLoggedIn:', isLoggedIn); 
+      // console.log('isLoggedIn:', isLoggedIn); 
       const isOnTheirListenerPage = nextUrl.pathname.startsWith('/listeners');
       if (isOnTheirListenerPage) {
         if (isLoggedIn) {
-          console.log('User is logged in and on their listener page');
+          // console.log('User is logged in and on their listener page');
           return true;
         }
-        console.log('User is not logged in and on their listener page');
+        // console.log('User is not logged in and on their listener page');
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
         if (auth?.user) {

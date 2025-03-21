@@ -185,7 +185,7 @@ export async function authenticate(
     const email = formData.get("email") as string;
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user[0].id;
-    // console.log("authorized user:", user);
+    console.log("authorized user:", user);
     // console.log("result", result);
     // console.log("result.user", result.user);
     // return result.user?.id; // Return the user ID
