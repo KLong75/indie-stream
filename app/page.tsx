@@ -7,20 +7,8 @@ import UploadButtonContainer from "./ui/upload-button-container";
 
 export default function Home() {
   return (
-    // <div>
-    //   <h1>Indie Stream</h1>
-    //   {/* <AudioPlayer /> */}
-    //   {/* <LocalAudioPlayer /> */}
-    //   <CustomAudioPlayer />
-    //   <UploadButtonContainer
-    //     file_route="audioUploader"
-    //   />
-    //   <UploadButtonContainer
-    //     file_route="imageUploader"
-    //   />
-    // </div>
     <div>
-      <h1>Indie Stream</h1>
+      <h1>Home</h1>
       <Link href="/login">Login</Link>
       {/* <CustomAudioPlayer /> */}
       <UploadButtonContainer file_route="audioUploader" />

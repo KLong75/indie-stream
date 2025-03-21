@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-// import from auth-context
+// import from next-auth
 
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
