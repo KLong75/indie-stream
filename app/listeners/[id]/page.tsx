@@ -10,12 +10,14 @@ import {
   getAllSongs,
   getAllPublicPlaylists,
   getAllArtists,
-  getAllReleases
+  getAllReleases,
 } from "@/app/lib/data";
 // import definitions
 import { Song, Playlist } from "@/app/lib/definitions";
 // import components
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
+// import from utils
+import { formatPlaylist } from "@/app/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -25,30 +27,43 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   }
 
   const allSongs = await getAllSongs();
-  console.log('allSongs', allSongs);
-  
+  console.log("allSongs", allSongs);
+
   const favoriteArtists = await Promise.all(
     (user.favorite_artists || []).map((id) => getArtistById(id))
   );
-  console.log('favoriteArtists', favoriteArtists);
+  console.log("favoriteArtists", favoriteArtists);
 
   const favoriteSongs = await Promise.all(
     (user.favorite_songs || []).map((id) => getSongById(id))
   );
-  console.log('favoriteSongs', favoriteSongs);
+  console.log("favoriteSongs", favoriteSongs);
 
   const favoriteReleases = await Promise.all(
     (user.favorite_releases || []).map((id) => getReleaseById(id))
   );
-  console.log('favoriteReleases', favoriteReleases);
+  console.log("favoriteReleases", favoriteReleases);
 
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
   );
-  console.log('playlists', playlists);
+  console.log("playlists", playlists);
 
   const publicPlaylists = await getAllPublicPlaylists();
-  console.log('publicPlaylists', publicPlaylists);
+  console.log("publicPlaylists", publicPlaylists);
+
+  const formattedPlaylists: { [key: string]: Song[] } = {};
+
+await Promise.all(
+  playlists
+    .filter((pl) => pl !== null)
+    .map(async (playlist) => {
+      // Assign the array directly
+      formattedPlaylists[playlist!.title] = await formatPlaylist({ playlist: playlist! });
+    })
+);
+
+  console.log("formattedPlaylists", formattedPlaylists);
 
   return (
     <>
@@ -103,10 +118,18 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         songs={favoriteSongs.filter((song): song is Song => song !== null)}
       /> */}
       <AudioPlayerWrapper
-        initialSongs={favoriteSongs.filter((song): song is Song => song !== null)}
+        initialSongs={favoriteSongs.filter(
+          (song): song is Song => song !== null
+        )}
         allSongs={allSongs}
-        favoriteSongs={favoriteSongs.filter((song): song is Song => song !== null)}
-        playlists={playlists.filter((playlist): playlist is Playlist => playlist !== null)}
+        favoriteSongs={favoriteSongs.filter(
+          (song): song is Song => song !== null
+        )}
+        playlists={playlists.filter(
+          (playlist): playlist is Playlist => playlist !== null
+        )}
+        publicPlaylists={publicPlaylists}
+        formattedPlaylists={formattedPlaylists}
       />
     </>
   );
