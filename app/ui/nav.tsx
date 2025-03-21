@@ -6,6 +6,8 @@ import { auth } from "@/auth";
 export default async function Nav() {
   const session = await auth();
   console.log("session:", session);
+  const userId = session?.user?.id;
+
   return (
     <nav className="p-2">
       <ul>
@@ -16,7 +18,7 @@ export default async function Nav() {
           <Link href="/artists">Artists</Link>
         </li>
         {session ? <li className="p-2">
-          <Link href="/listeners">Listeners</Link>
+          <Link href={`/listeners/${userId}`}>Listeners</Link>
         </li>: null}
       </ul>
     </nav>
