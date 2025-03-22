@@ -1,9 +1,8 @@
 // import from next
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 // get data
 import { getArtistById, getAllArtists } from "@/app/lib/data";
-import { get } from "http";
 // import definitions
 // import { Artist } from "@/app/lib/definitions";
 

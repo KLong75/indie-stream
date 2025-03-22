@@ -1,9 +1,9 @@
 //import data
 import {
   getArtistById,
-  getSongById,
-  getReleaseById,
-  getPlaylistById,
+  // getSongById,
+  // getReleaseById,
+  // getPlaylistById,
 } from "@/app/lib/data";
 
 //import definitions

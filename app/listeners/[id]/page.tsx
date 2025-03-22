@@ -10,8 +10,8 @@ import {
   getPlaylistById,
   getAllSongs,
   getAllPublicPlaylists,
-  getAllArtists,
-  getAllReleases,
+  // getAllArtists,
+  // getAllReleases,
 } from "@/app/lib/data";
 // import definitions
 import { Song, Playlist } from "@/app/lib/definitions";
