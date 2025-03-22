@@ -7,7 +7,7 @@ import {
 } from "@/app/lib/data";
 
 //import definitions
-import { Artist, Song, Release, Playlist } from "@/app/lib/definitions";
+// import { Artist, Song, Release, Playlist } from "@/app/lib/definitions";
 
 //import components
 import Image from 'next/image';

@@ -14,7 +14,7 @@ import {
   // getAllReleases,
 } from "@/app/lib/data";
 // import definitions
-import { Song, Playlist } from "@/app/lib/definitions";
+import { Song } from "@/app/lib/definitions";
 // import components
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
 // import from utils
