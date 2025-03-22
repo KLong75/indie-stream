@@ -66,6 +66,19 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       })
   );
 
+  const formattedPublicPlaylists: { [key: string]: Song[] } = {};
+
+  await Promise.all(
+    publicPlaylists
+      .filter((pl) => pl !== null)
+      .map(async (playlist) => {
+        // Assign the array directly
+        formattedPublicPlaylists[playlist!.title] = await formatPlaylist({
+          playlist: playlist!,
+        });
+      })
+  );
+
   console.log("formattedPlaylists", formattedPlaylists);
 
   return (
@@ -129,6 +142,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         )}
         publicPlaylists={publicPlaylists}
         formattedPlaylists={formattedPlaylists}
+        formattedPublicPlaylists={formattedPublicPlaylists}
       />
     </>
   );

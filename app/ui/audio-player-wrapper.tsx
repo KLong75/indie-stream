@@ -16,6 +16,7 @@ export default function AudioPlayerWrapper({
   playlists,
   publicPlaylists,
   formattedPlaylists,
+  formattedPublicPlaylists
 }: {
   // initialSongs: Song[];
   allSongs: Song[];
@@ -23,6 +24,7 @@ export default function AudioPlayerWrapper({
   playlists: { id: string; title: string; songs: string[] }[];
   publicPlaylists: { id: string; title: string; songs: string[] }[];
   formattedPlaylists: { [key: string]: Song[] };
+  formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
   const [currentSongs, setCurrentSongs] = useState<Song[]>(favoriteSongs);
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Favorite Songs");
@@ -58,6 +60,22 @@ export default function AudioPlayerWrapper({
           onClick={() => {
             setCurrentSongs(
               formattedPlaylists[playlistKey].filter(
+                (song): song is Song => !!song && !!song.file_key
+              )
+            );
+            setCurrentPlaylist(playlistKey);
+          }}
+          className="p-4"
+        >
+          {playlistKey}
+        </button>
+      ))}
+      {Object.keys(formattedPublicPlaylists).map((playlistKey) => (
+        <button
+          key={playlistKey}
+          onClick={() => {
+            setCurrentSongs(
+              formattedPublicPlaylists[playlistKey].filter(
                 (song): song is Song => !!song && !!song.file_key
               )
             );
