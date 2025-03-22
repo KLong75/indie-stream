@@ -137,10 +137,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         favoriteSongs={favoriteSongs.filter(
           (song): song is Song => song !== null
         )}
-        playlists={playlists.filter(
-          (playlist): playlist is Playlist => playlist !== null
-        )}
-        publicPlaylists={publicPlaylists}
+        // playlists={playlists.filter(
+        //   (playlist): playlist is Playlist => playlist !== null
+        // )}
+        // publicPlaylists={publicPlaylists}
         formattedPlaylists={formattedPlaylists}
         formattedPublicPlaylists={formattedPublicPlaylists}
       />
