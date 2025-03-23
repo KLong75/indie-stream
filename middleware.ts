@@ -6,13 +6,13 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const url = req.nextUrl.clone();
 
-  if (!token) {
+  // if (!token) {
     // Redirect to login if not authenticated
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
+    // url.pathname = '/login';
+    // return NextResponse.redirect(url);
+  // }
 
-  const userId = token.sub;
+  const userId = token?.sub;
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith('/listeners') && userId && !pathname.includes(userId)) {
