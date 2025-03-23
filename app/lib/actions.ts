@@ -45,20 +45,19 @@ export async function createUser(prevState: State, formData: FormData) {
     password: formData.get("password"),
     user_name: formData.get("userName"),
     id: crypto.randomUUID(),
-  })
+  });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Invalid input. Login failed.",
-    }
+    };
   }
 
   const { email, password, user_name, id } = validatedFields.data;
 
   // Hash the password (recommended before storing)
   const hashedPassword = await bcrypt.hash(password, 10);
-
 
   // // Validate input
   // const parsed = userSignUpFormSchema.parse(data);
@@ -118,8 +117,6 @@ export async function createUser(prevState: State, formData: FormData) {
 //   console.log("###Authenticated successfully.###");
 // }
 
-
-
 // export async function authenticate(
 //   prevState: string | undefined,
 //   formData: FormData
@@ -156,8 +153,7 @@ export async function createUser(prevState: State, formData: FormData) {
 //     throw error;
 //   }
 // }
-
-
+// comment
 
 export async function authenticate(
   prevState: string | undefined,
@@ -165,7 +161,7 @@ export async function authenticate(
 ) {
   console.log("###Authenticating...###");
   try {
-    console.log('formData:', formData);
+    console.log("formData:", formData);
     // await signIn('credentials', formData);
     // console.log('email', formData.get("email"));
     // console.log('password', formData.get("password"));
@@ -184,8 +180,9 @@ export async function authenticate(
 
     const email = formData.get("email") as string;
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user[0].id;
     console.log("authorized user:", user);
+    return user[0].id;
+
     // console.log("result", result);
     // console.log("result.user", result.user);
     // return result.user?.id; // Return the user ID
