@@ -22,40 +22,44 @@ export async function getUserById(id: string): Promise<User | null> {
 
 export async function getArtistById(id: string): Promise<Artist | null> {
   try {
-    const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}`;
+    // const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}`;
+    const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}::uuid`;
     return artistData[0] || null;
   } catch (error) {
-    const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}::uuid`;
+    console.error("Database Error:", error);
     throw new Error('An error occurred while fetching artist data');
   }
 }
 
 export async function getSongById(id: string): Promise<Song | null> {
   try {
-    const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}`;
+    // const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}`;
+    const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}::uuid`;
     return songData[0] || null;
   } catch (error) {
-    const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}::uuid`;
+    console.error('Database Error:', error);
     throw new Error('An error occurred while fetching song data');
   }
 }
 
 export async function getReleaseById(id: string): Promise<Release | null> {
   try {
-    const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}`;
+    // const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}`;
+    const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}::uuid`;
     return releaseData[0] || null;
   } catch (error) {
-    const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}::uuid`;
+    console.log('Database Error:', error);
     throw new Error('An error occurred while fetching release data');
   }
 }
 
 export async function getPlaylistById(id: string): Promise<Playlist | null> {
   try {
-    const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}`;
+    // const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}`;
+    const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}::uuid`;
     return playlistData[0] || null;
   } catch (error) {
-    const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}::uuid`;
+    console.error('Database Error:', error);
     throw new Error('An error occurred while fetching playlist data');
   }
 }
