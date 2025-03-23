@@ -3,23 +3,17 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(req: NextRequest) {
-  
-  const url = req.nextUrl.clone();
-  const { pathname } = url;
-
-  if (pathname.startsWith("/login")) {
-    return NextResponse.next();
-  }
-
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    // Redirect to login if not authenticated
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
+  const url = req.nextUrl.clone();
+
+  // if (!token) {
+  //   // Redirect to login if not authenticated
+  //   url.pathname = '/login';
+  //   return NextResponse.redirect(url);
+  // }
 
   const userId = token?.sub;
-  // const { pathname } = req.nextUrl;
+  const { pathname } = req.nextUrl;
 
   if (pathname.startsWith('/listeners') && userId && !pathname.includes(userId)) {
     // Redirect to the user's own page if they try to access someone else's page
