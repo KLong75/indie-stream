@@ -21,9 +21,9 @@ async function seedUsers() {
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
       profile_picture TEXT,
-      favorite_songs UUID[],
-      favorite_releases UUID[],
-      favorite_artists UUID[],
+      saved_songs UUID[],
+      saved_releases UUID[],
+      saved_artists UUID[],
       playlists UUID[]
     )
   `;
@@ -32,9 +32,9 @@ async function seedUsers() {
       const passwordHash = await bcrypt.hash(user.password, 12);
       const insertedUser = await sql`
         INSERT INTO users
-          (id, user_name, email, password, profile_picture, favorite_songs, favorite_releases, favorite_artists, playlists)
+          (id, user_name, email, password, profile_picture, saved_songs, saved_releases, saved_artists, playlists)
         VALUES
-          (${user.id}, ${user.user_name}, ${user.email}, ${passwordHash}, ${user.profile_picture_src}, ${user.favorite_songs}, ${user.favorite_releases}, ${user.favorite_artists}, ${user.playlists})
+          (${user.id}, ${user.user_name}, ${user.email}, ${passwordHash}, ${user.profile_picture_src}, ${user.saved_songs}, ${user.saved_releases}, ${user.saved_artists}, ${user.playlists})
           ON CONFLICT (email) DO NOTHING
         RETURNING *
       `;

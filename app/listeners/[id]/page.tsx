@@ -30,20 +30,20 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const allSongs = await getAllSongs();
   console.log("allSongs", allSongs);
 
-  const favoriteArtists = await Promise.all(
-    (user.favorite_artists || []).map((id) => getArtistById(id))
+  const savedArtists = await Promise.all(
+    (user.saved_artists || []).map((id) => getArtistById(id))
   );
-  console.log("favoriteArtists", favoriteArtists);
+  console.log("savedArtists", savedArtists);
 
-  const favoriteSongs = await Promise.all(
-    (user.favorite_songs || []).map((id) => getSongById(id))
+  const savedSongs = await Promise.all(
+    (user.saved_songs || []).map((id) => getSongById(id))
   );
-  console.log("favoriteSongs", favoriteSongs);
+  console.log("savedSongs", savedSongs);
 
-  const favoriteReleases = await Promise.all(
-    (user.favorite_releases || []).map((id) => getReleaseById(id))
+  const savedReleases = await Promise.all(
+    (user.saved_releases || []).map((id) => getReleaseById(id))
   );
-  console.log("favoriteReleases", favoriteReleases);
+  console.log("savedReleases", savedReleases);
 
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
@@ -87,11 +87,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <div className="p-4">
         <h3>All Songs</h3>
       </div>
-      {user.favorite_artists && (
+      {user.saved_artists && (
         <div className="p-4">
-          <h3>Favorite Artists</h3>
+          <h3>Saved Artists</h3>
           <ul>
-            {favoriteArtists.map((artist, index) => (
+            {savedArtists.map((artist, index) => (
               <li key={index}>
                 <Link href={`/artists/${artist?.id}`}>{artist?.name}</Link>
               </li>
@@ -100,22 +100,22 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
       )}
 
-      {user.favorite_songs && (
+      {user.saved_songs && (
         <div className="p-4">
-          <h3>Favorite Songs</h3>
+          <h3>Saved Songs</h3>
           <ul>
-            {favoriteSongs.map((song, index) => (
+            {savedSongs.map((song, index) => (
               <li key={index}>{song?.title}</li>
             ))}
           </ul>
         </div>
       )}
 
-      {user.favorite_releases && (
+      {user.saved_releases && (
         <div className="p-4">
-          <h3>Favorite Releases</h3>
+          <h3>Saved Releases</h3>
           <ul>
-            {favoriteReleases.map((release, index) => (
+            {savedReleases.map((release, index) => (
               <li key={index}>{release?.title}</li>
             ))}
           </ul>
@@ -134,7 +134,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       )}
       <AudioPlayerWrapper
         allSongs={allSongs}
-        favoriteSongs={favoriteSongs.filter(
+        savedSongs={savedSongs.filter(
           (song): song is Song => song !== null
         )}
         // playlists={playlists.filter(

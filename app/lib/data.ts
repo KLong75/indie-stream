@@ -11,11 +11,12 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function getUserById(id: string): Promise<User | null> {
   try {
-    const userData = await sql<User[]>`SELECT * FROM users WHERE id = ${id}`;
+    // Use ${sql(id)} to keep the query plan consistent
+    const userData = await sql<User[]>`SELECT * FROM users WHERE id = ${id}::uuid`;
     return userData[0] || null;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('An error occurred while fetching user data');
+    console.error("Database Error:", error);
+    throw new Error("An error occurred while fetching user data");
   }
 }
 
@@ -24,7 +25,7 @@ export async function getArtistById(id: string): Promise<Artist | null> {
     const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}`;
     return artistData[0] || null;
   } catch (error) {
-    console.error('Database Error:', error);
+    const artistData = await sql<Artist[]>`SELECT * FROM artists WHERE id = ${id}::uuid`;
     throw new Error('An error occurred while fetching artist data');
   }
 }
@@ -34,7 +35,7 @@ export async function getSongById(id: string): Promise<Song | null> {
     const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}`;
     return songData[0] || null;
   } catch (error) {
-    console.error('Database Error:', error);
+    const songData = await sql<Song[]>`SELECT * FROM songs WHERE id = ${id}::uuid`;
     throw new Error('An error occurred while fetching song data');
   }
 }
@@ -44,7 +45,7 @@ export async function getReleaseById(id: string): Promise<Release | null> {
     const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}`;
     return releaseData[0] || null;
   } catch (error) {
-    console.error('Database Error:', error);
+    const releaseData = await sql<Release[]>`SELECT * FROM releases WHERE id = ${id}::uuid`;
     throw new Error('An error occurred while fetching release data');
   }
 }
@@ -54,7 +55,7 @@ export async function getPlaylistById(id: string): Promise<Playlist | null> {
     const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}`;
     return playlistData[0] || null;
   } catch (error) {
-    console.error('Database Error:', error);
+    const playlistData = await sql<Playlist[]>`SELECT * FROM playlists WHERE id = ${id}::uuid`;
     throw new Error('An error occurred while fetching playlist data');
   }
 }
@@ -158,30 +159,30 @@ export async function getArtistReleases(artistId: string): Promise<Release[]> {
   }
 }
 
-export async function getUserFavoriteSongs(userId: string): Promise<Song[]> {
+export async function getUserSavedSongs(userId: string): Promise<Song[]> {
   try {
-    return await sql<Song[]>`SELECT * FROM favorite_songs WHERE user_id = ${userId}`;
+    return await sql<Song[]>`SELECT * FROM saved_songs WHERE user_id = ${userId}`;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('An error occurred while fetching user favorite songs');
+    throw new Error('An error occurred while fetching user saved songs');
   }
 }
 
-export async function getUserFavoriteReleases(userId: string): Promise<Release[]> {
+export async function getUserSavedReleases(userId: string): Promise<Release[]> {
   try {
-    return await sql<Release[]>`SELECT * FROM favorite_releases WHERE user_id = ${userId}`;
+    return await sql<Release[]>`SELECT * FROM saved_releases WHERE user_id = ${userId}`;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('An error occurred while fetching user favorite releases');
+    throw new Error('An error occurred while fetching user saved releases');
   }
 }
 
-export async function getUserFavoriteArtists(userId: string): Promise<Artist[]> {
+export async function getUserSavedArtists(userId: string): Promise<Artist[]> {
   try {
-    return await sql<Artist[]>`SELECT * FROM favorite_artists WHERE user_id = ${userId}`;
+    return await sql<Artist[]>`SELECT * FROM saved_artists WHERE user_id = ${userId}`;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('An error occurred while fetching user favorite artists');
+    throw new Error('An error occurred while fetching user saved artists');
   }
 }
 

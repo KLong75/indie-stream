@@ -117,17 +117,17 @@ import { RxCrossCircled } from "react-icons/rx";
 
 export default function AudioPlayerWrapper({
   allSongs,
-  favoriteSongs,
+  savedSongs,
   formattedPlaylists,
   formattedPublicPlaylists,
 }: {
   allSongs: Song[];
-  favoriteSongs: Song[];
+  savedSongs: Song[];
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
-  const [currentSongs, setCurrentSongs] = useState<Song[]>(favoriteSongs);
-  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Favorite Songs");
+  const [currentSongs, setCurrentSongs] = useState<Song[]>(savedSongs);
+  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
   const [playlistsDropdownVisible, setPlaylistsDropdownVisible] = useState<boolean>(false);
   const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] = useState<boolean>(false);
 
@@ -138,11 +138,11 @@ export default function AudioPlayerWrapper({
     setCurrentPlaylist("All Songs");
   };
 
-  const handleFavoriteSongsClick = () => {
+  const handleSavedSongsClick = () => {
     setCurrentSongs(
-      favoriteSongs.filter((song): song is Song => !!song && !!song.file_key)
+      savedSongs.filter((song): song is Song => !!song && !!song.file_key)
     );
-    setCurrentPlaylist("Favorite Songs");
+    setCurrentPlaylist("Saved Songs");
   };
 
   const togglePlaylistsDropdown = () => {
@@ -167,7 +167,7 @@ export default function AudioPlayerWrapper({
   return (
     <>
       <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">All Songs</button>
-      <button onClick={handleFavoriteSongsClick} className="p-4 cursor-pointer">Favorite Songs</button>
+      <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">Saved Songs</button>
       <div className="relative inline-block text-left">
         <button onClick={togglePlaylistsDropdown} className="p-4 cursor-pointer">
           Your Playlists

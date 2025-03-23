@@ -4,9 +4,9 @@ export type User = {
   email: string;
   password: string;
   profile_picture: string;
-  favorite_songs: [string];
-  favorite_releases: [string];
-  favorite_artists: [string];
+  saved_songs: [string];
+  saved_releases: [string];
+  saved_artists: [string];
   playlists: [string];
 };
 

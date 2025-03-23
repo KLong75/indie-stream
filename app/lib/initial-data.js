@@ -16,14 +16,14 @@ const users = [
     password: "password",
     profile_picture_src:
       "https://4ykxjgur5y.ufs.sh/f/9Dk0lBirZ3pQwyJRcw4WdtjSYmvNlMhyoqKQ4JXL5OkDbrnH",
-    favorite_songs: [
+    saved_songs: [
       "Last Night",
       "Starting Over",
       "Dragon Attack",
       "Fake Plastic Trees",
     ],
-    favorite_releases: ["Starting Over", "Your Likeness"],
-    favorite_artists: ["The Long Emergency", "Vain Mainstream"],
+    saved_releases: ["Starting Over", "Your Likeness"],
+    saved_artists: ["The Long Emergency", "Vain Mainstream"],
     playlists: ["Super Cool Playlist", "Bestest Playlist Ever"],
   },
 ];
@@ -151,18 +151,18 @@ const playlists = [
   {
     id: uuidv4(),
     title: "Bestest Playlist Ever",
-    description: "My favorite songs",
+    description: "The best songs ever",
     songs: ["Last Night", "Starting Over"].map((title) => songMap[title]),
     public: false,
   },
 ];
 
 users.forEach((user) => {
-  user.favorite_songs = user.favorite_songs.map((title) => songMap[title]);
-  user.favorite_releases = user.favorite_releases.map(
+  user.saved_songs = user.saved_songs.map((title) => songMap[title]);
+  user.saved_releases = user.saved_releases.map(
     (title) => releaseMap[title]
   );
-  user.favorite_artists = user.favorite_artists.map((name) => artistMap[name]);
+  user.saved_artists = user.saved_artists.map((name) => artistMap[name]);
   user.playlists = user.playlists.map(
     (title) => playlists.find((p) => p.title === title).id
   );
