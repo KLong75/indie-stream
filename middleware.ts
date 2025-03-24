@@ -10,7 +10,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log("MIDDLEWARE token:", token);
+  console.log("MIDDLEWARE token.sub:", token?.sub);
   const userId = token?.sub;
+  console.log("MIDDLEWARE userId:", userId);
   const url = req.nextUrl.clone();
 
   if (!token) {
