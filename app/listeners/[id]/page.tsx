@@ -28,30 +28,30 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   }
 
   const allSongs = await getAllSongs();
-  console.log("allSongs", allSongs);
+  // console.log("allSongs", allSongs);
 
   const savedArtists = await Promise.all(
     (user.saved_artists || []).map((id) => getArtistById(id))
   );
-  console.log("savedArtists", savedArtists);
+  // console.log("savedArtists", savedArtists);
 
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))
   );
-  console.log("savedSongs", savedSongs);
+  // console.log("savedSongs", savedSongs);
 
   const savedReleases = await Promise.all(
     (user.saved_releases || []).map((id) => getReleaseById(id))
   );
-  console.log("savedReleases", savedReleases);
+  // console.log("savedReleases", savedReleases);
 
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
   );
-  console.log("playlists", playlists);
+  // console.log("playlists", playlists);
 
   const publicPlaylists = await getAllPublicPlaylists();
-  console.log("publicPlaylists", publicPlaylists);
+  // console.log("publicPlaylists", publicPlaylists);
 
   const formattedPlaylists: { [key: string]: Song[] } = {};
 
@@ -79,7 +79,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       })
   );
 
-  console.log("formattedPlaylists", formattedPlaylists);
+  // console.log("formattedPlaylists", formattedPlaylists);
 
   return (
     <>

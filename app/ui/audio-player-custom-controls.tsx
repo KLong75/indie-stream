@@ -48,7 +48,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
         `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
       );
       const data = await response.json();
-      console.log("!!!!!!!!!!!!!!!!!!!!data", data);
+      // console.log("!!!!!!!!!!!!!!!!!!!!data", data);
       setReleaseCurrentlyPlaying(data.release);
       setArtistCurrentlyPlaying(data.artist);
     }
