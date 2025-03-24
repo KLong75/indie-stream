@@ -10,7 +10,7 @@ export default function UserSignUpForm() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newUserId = await createUser({}, formData);
-    router.push(`/listeners/${newUserId}`);
+    router.push(`/listeners/${newUserId}?postLogin=true`);
     console.log('newUser:', newUserId);
   }
 

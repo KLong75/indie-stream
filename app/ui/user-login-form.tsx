@@ -131,7 +131,7 @@ export default function UserLoginForm() {
     const formData = new FormData(event.currentTarget);
     const user = await authenticate(undefined, formData);
     if (user) {
-      router.push(`/listeners/${user}`);
+      router.push(`/listeners/${user}?postLogin=true`);
     } else {
       console.error('Authentication failed: user is undefined');
     }

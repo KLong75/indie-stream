@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req: NextRequest) {
   const { searchParams, pathname } = req.nextUrl;
-
+  console.log("MIDDLEWARE searchParams:", searchParams.toString());
   // If we're finishing login (postLogin), skip check
   if (searchParams.get("postLogin")) {
     return NextResponse.next();
