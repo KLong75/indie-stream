@@ -10,6 +10,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const userId = token?.sub;
   const url = req.nextUrl.clone();
 
   if (!token) {
@@ -17,9 +18,6 @@ export async function middleware(req: NextRequest) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
-
-  const userId = token?.sub;
-  // const { pathname } = req.nextUrl;
 
   if (
     pathname.startsWith("/listeners") &&
