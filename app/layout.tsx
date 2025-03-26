@@ -9,6 +9,7 @@ import { ourFileRouter } from "../app/api/uploadthing/core";
 import "./globals.css";
 //import components
 import Header from "./ui/header";
+import Footer from "./ui/footer";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -35,16 +36,13 @@ export default function RootLayout({
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
         <Header />
-        {children}
+        <main>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
