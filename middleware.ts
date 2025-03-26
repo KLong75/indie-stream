@@ -3,12 +3,13 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 export async function middleware(req: NextRequest) {
-  const { searchParams, pathname } = req.nextUrl;
+  // const { searchParams, pathname } = req.nextUrl;
+  const { pathname } = req.nextUrl;
   // console.log("MIDDLEWARE searchParams:", searchParams.toString());
   // If we're finishing login (postLogin), skip check
-  if (searchParams.get("postLogin")) {
-    return NextResponse.next();
-  }
+  // if (searchParams.get("postLogin")) {
+  //   return NextResponse.next();
+  // }
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   console.log("MIDDLEWARE token:", token);
   console.log("MIDDLEWARE token.sub:", token?.sub);
