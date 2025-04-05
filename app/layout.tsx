@@ -38,11 +38,11 @@ export default function RootLayout({
         <NextSSRPlugin
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
-        <Header />
-        <main>
+        {/* <Header /> */}
+        {/* <main> */}
           {children}
-        </main>
-        <Footer />
+        {/* </main> */}
+        {/* <Footer /> */}
       </body>
     </html>
   );
