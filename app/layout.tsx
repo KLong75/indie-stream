@@ -3,13 +3,10 @@ import type { Metadata } from "next";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";
-
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
 import "./globals.css";
-//import components
-import Header from "./ui/header";
-import Footer from "./ui/footer";
+
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -35,12 +32,10 @@ export default function RootLayout({
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextSSRPlugin
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         {/* <Header /> */}
         {/* <main> */}
-          {children}
+        {children}
         {/* </main> */}
         {/* <Footer /> */}
       </body>
