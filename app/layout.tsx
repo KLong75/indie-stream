@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";
+
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         {/* <Header /> */}
         {/* <main> */}
+
         {children}
         {/* </main> */}
         {/* <Footer /> */}

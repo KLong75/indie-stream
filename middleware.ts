@@ -10,6 +10,7 @@ export async function middleware(req: NextRequest) {
   // if (searchParams.get("postLogin")) {
   //   return NextResponse.next();
   // }
+   
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   console.log("MIDDLEWARE token:", token);
   console.log("MIDDLEWARE token.sub:", token?.sub);
