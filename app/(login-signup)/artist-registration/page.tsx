@@ -1,11 +1,11 @@
-import UserSignUpForm from "../../ui/user-sign-up-form";
+import ArtistRegistrationForm from "@/app/ui/artist-registration-form";
 
 export default function ArtistRegistrationPage() {
   return (
-    <div>
-      <div className="my-6">
-        <h2>Sign Up</h2>
-        <UserSignUpForm />
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="w-80">
+        <h2 className="my-4 text-center">Artist Registration</h2>
+        <ArtistRegistrationForm />
       </div>
     </div>
   );

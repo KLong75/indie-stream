@@ -3,7 +3,7 @@
 import { createUser } from "../lib/actions";
 import { useRouter } from "next/navigation";
 
-export default function ArtistRegistrationForm() {
+export default function ListenerSignUpForm() {
   const router = useRouter();
   // const callbackUrl = "/";
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -48,7 +48,7 @@ export default function ArtistRegistrationForm() {
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 my-2"
       />
       <button className="rounded-md bg-blue-600 p-2 mt-6" type="submit">
-        Register
+        Sign Up
       </button>
     </form>
   );

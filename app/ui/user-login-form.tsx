@@ -142,7 +142,7 @@ export default function UserLoginForm() {
     <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
       <input
-        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 my-2"
         id="email"
         type="email"
         name="email"
@@ -152,7 +152,7 @@ export default function UserLoginForm() {
       />
       <label htmlFor="password">Password</label>
       <input
-        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 my-2"
         id="password"
         type="password"
         name="password"
@@ -162,7 +162,7 @@ export default function UserLoginForm() {
         autoComplete="current-password"
       />
       {/* <input type="hidden" name="redirectTo" value={callBackUrl} /> */}
-      <button >Log In</button> 
+      <button className="mt-6 rounded-md bg-blue-600 p-2">Log In</button> 
       {/* <div>
         {errorMessage && <p>Error message: {errorMessage}</p>}
       </div> */}

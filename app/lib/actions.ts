@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
-const userSignUpFormSchema = z.object({
+const ListenerSignUpFormSchema = z.object({
   id: z.string(),
   email: z.string().email(),
   password: z.string().min(6),
@@ -28,7 +28,9 @@ export type State = {
   message?: string | null;
 };
 
-const CreateUser = userSignUpFormSchema.omit({ passwordConfirmation: true });
+const CreateUser = ListenerSignUpFormSchema.omit({
+  passwordConfirmation: true,
+});
 
 export async function createUser(prevState: State, formData: FormData) {
   // Convert FormData to an object for parsing
@@ -60,7 +62,7 @@ export async function createUser(prevState: State, formData: FormData) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // // Validate input
-  // const parsed = userSignUpFormSchema.parse(data);
+  // const parsed = ListenerSignUpFormSchema.parse(data);
 
   // // Check passwords match
   // if (parsed.password !== parsed.passwordConfirmation) {

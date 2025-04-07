@@ -127,7 +127,9 @@ export default function AudioPlayerWrapper({
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
-  const [currentSongs, setCurrentSongs] = useState<Song[]>(savedSongs);
+  const [currentSongs, setCurrentSongs] = useState<Song[]>(
+    savedSongs.length > 0 ? savedSongs : allSongs
+  );
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
   const [playlistsDropdownVisible, setPlaylistsDropdownVisible] = useState<boolean>(false);
   const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] = useState<boolean>(false);
