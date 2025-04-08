@@ -6,6 +6,8 @@ import Link from "next/link";
 import Nav from "./nav";
 import SignOutButton from "./sign-out-button";
 import MobileMenu from "./mobile-menu";
+// import nav items
+import { navItems } from "@/app/lib/nav-items";
 
 export default async function Header() {
   const session = await auth();
@@ -18,7 +20,10 @@ export default async function Header() {
         <Nav />
         </div>
         {session ? <SignOutButton /> : null}
-        <MobileMenu session={session} />
+        <MobileMenu
+          session={session}
+          navItems={navItems}
+        />
       </div>
     </header>
   );
