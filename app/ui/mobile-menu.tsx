@@ -72,7 +72,9 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
   return (
     <>
       <button onClick={() => setOpen(!open)}>
-        <RxHamburgerMenu />
+        <RxHamburgerMenu 
+          size={24}
+        />
       </button>
       {open && (
         <nav className="flex">

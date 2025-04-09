@@ -17,13 +17,19 @@ export default async function Header() {
       <Link href="/"><h1 className="text-white text-2xl">Indie Stream</h1></Link>
       <div className="flex items-center space-x-4">
         <div className="hidden md:flex">
-        <Nav />
+        <Nav 
+          navItems={navItems}
+        />
         </div>
         {session ? <SignOutButton /> : null}
+        <div
+          className="md:hidden"
+        >
         <MobileMenu
           session={session}
           navItems={navItems}
         />
+        </div>
       </div>
     </header>
   );
