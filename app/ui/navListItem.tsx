@@ -18,14 +18,14 @@ export default function NavListItem({
       {htmlElement === "button" ? (
         <button
           onClick={onClick}
-          className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+          className="flex items-center space-x-2 "
         >
           <span>{label}</span>
         </button>
       ) : (
         <Link
           href={href}
-          className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+          className="flex items-center space-x-2 "
         >
           <span>{label}</span>
         </Link>
