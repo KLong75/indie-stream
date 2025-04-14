@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 // import Link from "next/link";
 import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { RxCross1 } from "react-icons/rx";
+// import { RxCross1 } from "react-icons/rx";
 // import { signOut } from "next-auth/react";
 import { signOutUser } from "../lib/actions";
 // import components
@@ -32,7 +32,7 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ session, navItems }: MobileMenuProps) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const userId = session?.user?.id;
 
   const handleSignOut = () => {
