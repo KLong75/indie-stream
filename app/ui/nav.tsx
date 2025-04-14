@@ -1,24 +1,36 @@
-// import from next
-import Link from "next/link";
-// import auth
-import { auth } from "@/auth";
+"use client";
 
-export default async function Nav({navItems}: {navItems: { name: string; href: string }[]}) {
-  const session = await auth();
-  console.log("session:", session);
+import NavListItem from "./navListItem";
+import { signOutUser } from "../lib/actions";
+export default function Nav({
+  navItems,
+  session,
+}: {
+  navItems: {
+    label: string;
+    href: string;
+    htmlElement: string;
+  }[];
+  session: any;
+}) {
   const userId = session?.user?.id;
 
+  const handleSignOut = () => {
+    signOutUser();
+  };
+
   return (
-    <nav className="flex">
-      <ul className="flex flex-row">
+    <nav>
+      <ul className="flex space-x-4">
         {navItems.map((item) => (
-          <li key={item.name} className="p-2">
-            <Link href={item.href}>{item.name}</Link>
-          </li>
+          <NavListItem
+            key={item.label}
+            label={item.label}
+            href={item.label === "Your Music" ? `/listeners/${userId}` : item.href} // Replace placeholder with userId
+            htmlElement={item.htmlElement}
+            onClick={item.label === "Sign Out" ? handleSignOut : undefined} // Handle "Sign Out" action
+          />
         ))}
-        {session ? <li className="p-2">
-          <Link href={`/listeners/${userId}`}>Your Music</Link>
-        </li>: null}
       </ul>
     </nav>
   );

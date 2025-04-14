@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
 
   if (!token) {
     // Redirect to login if not authenticated
-    url.pathname = "/login";
+    url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
