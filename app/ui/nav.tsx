@@ -2,6 +2,7 @@
 
 import NavListItem from "./navListItem";
 import { signOutUser } from "../lib/actions";
+import { Session } from "next-auth";
 export default function Nav({
   navItems,
   session,
@@ -11,7 +12,7 @@ export default function Nav({
     href: string;
     htmlElement: string;
   }[];
-  session: any;
+  session: Session | null;
 }) {
   const userId = session?.user?.id;
 

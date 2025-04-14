@@ -6,7 +6,7 @@ import { ourFileRouter } from "../app/api/uploadthing/core";
 // import theme provider
 import { ThemeProvider } from "@/components/theme-provider";
 // import components
-import { ModeToggle } from "./ui/mode-toggle";
+// import { ModeToggle } from "./ui/mode-toggle";
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
 import "./globals.css";
