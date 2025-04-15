@@ -96,6 +96,74 @@ export async function createUser(prevState: State, formData: FormData) {
   return id;
 }
 
+
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  console.log("###Authenticating...###");
+  try {
+    console.log("formData:", formData);
+    // await signIn('credentials', formData);
+    // console.log('email', formData.get("email"));
+    // console.log('password', formData.get("password"));
+    // console.log("TRY BLOCK - ###Signing in...###");
+    const result = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false, // Prevent automatic redirects
+    });
+
+    if (result?.error) {
+      console.log("CATCH BLOCK - ###Error occurred###", result.error);
+      return `Error: ${result.error}`;
+    }
+    console.log("###Authenticated successfully.###");
+
+    const email = formData.get("email") as string;
+    const user = await sql`SELECT * FROM users WHERE email=${email}`;
+    console.log("authorized user:", user);
+    return user[0].id;
+
+    // console.log("result", result);
+    // console.log("result.user", result.user);
+    // return result.user?.id; // Return the user ID
+  } catch (error) {
+    console.log("CATCH BLOCK - ###Error occurred###", error);
+    if (error instanceof AuthError) {
+      switch (error) {
+        case "CredentialsSignin":
+          console.log("CATCH BLOCK - ###Invalid credentials###", error);
+          return "Invalid credentials.";
+        default:
+          console.log("CATCH BLOCK - ###Something went wrong###", error);
+          return "Something went wrong.";
+      }
+    }
+    console.log("CATCH BLOCK - ###Throwing error###");
+    throw error;
+  }
+}
+
+export async function signOutUser() {
+  await signOut({ redirectTo: "/" });
+}
+
+// save artist
+// save song
+// save release
+// save playlist
+
+
+
+
+
+
+
+
+
+
 // export async function authenticate(
 //   prevState: string | undefined,
 //   formData: FormData
@@ -156,55 +224,3 @@ export async function createUser(prevState: State, formData: FormData) {
 //   }
 // }
 // comment
-
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  console.log("###Authenticating...###");
-  try {
-    console.log("formData:", formData);
-    // await signIn('credentials', formData);
-    // console.log('email', formData.get("email"));
-    // console.log('password', formData.get("password"));
-    // console.log("TRY BLOCK - ###Signing in...###");
-    const result = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false, // Prevent automatic redirects
-    });
-
-    if (result?.error) {
-      console.log("CATCH BLOCK - ###Error occurred###", result.error);
-      return `Error: ${result.error}`;
-    }
-    console.log("###Authenticated successfully.###");
-
-    const email = formData.get("email") as string;
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    console.log("authorized user:", user);
-    return user[0].id;
-
-    // console.log("result", result);
-    // console.log("result.user", result.user);
-    // return result.user?.id; // Return the user ID
-  } catch (error) {
-    console.log("CATCH BLOCK - ###Error occurred###", error);
-    if (error instanceof AuthError) {
-      switch (error) {
-        case "CredentialsSignin":
-          console.log("CATCH BLOCK - ###Invalid credentials###", error);
-          return "Invalid credentials.";
-        default:
-          console.log("CATCH BLOCK - ###Something went wrong###", error);
-          return "Something went wrong.";
-      }
-    }
-    console.log("CATCH BLOCK - ###Throwing error###");
-    throw error;
-  }
-}
-
-export async function signOutUser() {
-  await signOut({ redirectTo: "/" });
-}

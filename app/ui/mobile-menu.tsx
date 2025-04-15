@@ -20,8 +20,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
-
-
+import { ModeToggle } from "./mode-toggle";
 interface MobileMenuProps {
   session: Session | null;
   navItems: {
@@ -61,11 +60,11 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
       )} */}
       <Drawer>
         <DrawerTrigger asChild>
-          <button className="flex items-center justify-center p-2 text-gray-700">
-            <RxHamburgerMenu size={24} />
+          <button className="flex items-center justify-center p-2">
+            <RxHamburgerMenu size={24}/>
           </button>
         </DrawerTrigger>
-        <DrawerContent data-vaul-drawer-direction="right">
+        <DrawerContent data-vaul-drawer-direction="bottom">
           <DrawerHeader>
             <DrawerTitle>Menu</DrawerTitle>
             <DrawerDescription>
@@ -78,6 +77,7 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
                   onClick={item.label === "Sign Out" ? handleSignOut : undefined} // Handle "Sign Out" action
                 />
               ))}
+              <ModeToggle />
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>

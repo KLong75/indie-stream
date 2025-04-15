@@ -8,6 +8,7 @@ export type User = {
   saved_releases: [string];
   saved_artists: [string];
   playlists: [string];
+  saved_public_playlists: [string];
 };
 
 export type Artist = {
