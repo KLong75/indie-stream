@@ -96,8 +96,7 @@ export async function createUser(prevState: State, formData: FormData) {
   return id;
 }
 
-
-
+// authenticate
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
@@ -146,11 +145,30 @@ export async function authenticate(
   }
 }
 
+// sign out
 export async function signOutUser() {
   await signOut({ redirectTo: "/" });
 }
 
 // save artist
+export async function saveArtist(userId: string, artistId: string) {
+  if (!userId || !artistId) {
+    throw new Error("Missing userId or artistId");
+  }
+
+  try {
+    await sql`
+      UPDATE users
+      SET saved_artists = array_append(saved_artists, ${artistId})
+      WHERE id = ${userId}
+    `;
+    console.log("Artist saved successfully");
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving artist:", error);
+    throw new Error("Failed to save artist");
+  }
+}
 // save song
 // save release
 // save playlist

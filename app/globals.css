@@ -124,3 +124,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.home-page-icon {
+  color: oklch(0.269 0 0);
+}

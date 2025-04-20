@@ -40,13 +40,11 @@ export default function RootLayout({
         {/* <Header /> */}
         {/* <main> */}
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {/* <ModeToggle /> */}
-        {children}
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          {children}
         </ThemeProvider>
         {/* </main> */}
         {/* <Footer /> */}

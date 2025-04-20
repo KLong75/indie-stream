@@ -1,21 +1,36 @@
 //import data
 import {
   getArtistById,
-  // getSongById,
-  // getReleaseById,
+  getSongById,
+  getReleaseById,
   // getPlaylistById,
 } from "@/app/lib/data";
+
+// import actions
+import { saveArtist } from "@/app/lib/actions";
 
 //import definitions
 // import { Artist, Song, Release, Playlist } from "@/app/lib/definitions";
 
 //import components
-import Image from 'next/image';
+import Image from "next/image";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+// import from react icons
+import { RiAddCircleLine } from "react-icons/ri";
+import { Save } from "lucide-react";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const artist = await getArtistById(id);
+  const artistReleases = artist?.releases
+    ? await Promise.all(artist.releases.map((release) => getReleaseById(release)))
+    : [];
+  const artistSongs = artist?.songs
+    ? await Promise.all(artist.songs.map((song) => getSongById(song)))
+    : [];
+
   if (!artist) {
     return <div>Artist not found</div>;
   } else {
@@ -38,7 +53,26 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           ))}
         </ul>
         <h2 className="p-2">Bio</h2>
-        <p className="p-4">{artist.bio}</p> 
+        <p className="p-4">{artist.bio}</p>
+        <div className="p-4">
+          <ul>Releases</ul>
+          {artistReleases.map((release, index) => (
+            <li key={index}>
+              {release && <Link href={`/releases/${release.id}`}>{release.title}</Link>}
+            </li>
+
+          ))}
+          </div>
+        <div className="p-4">
+          <ul>Songs</ul>
+          {artistSongs.map((song, index) => (
+            song && (
+              <li key={index}>
+                <Link href={`/songs/${song.id}`}>{song.title}</Link>
+              </li>
+            )
+          ))}
+          </div>
       </div>
     );
   }
