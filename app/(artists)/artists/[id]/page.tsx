@@ -7,17 +7,17 @@ import {
 } from "@/app/lib/data";
 
 // import actions
-import { saveArtist } from "@/app/lib/actions";
+// import { saveArtist } from "@/app/lib/actions";
 //import from next
 import Image from "next/image";
 import Link from "next/link";
 //import components
 import BackToLink from "@/app/ui/back-to-link";
 
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 // import from react icons
-import { RiAddCircleLine } from "react-icons/ri";
-import { Save } from "lucide-react";
+// import { RiAddCircleLine } from "react-icons/ri";
+// import { Save } from "lucide-react";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;

@@ -1,8 +1,8 @@
 // import data
 import { getReleaseById, getSongById, getArtistById } from "@/app/lib/data";
 // import from next
-// import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image";
+// import Link from "next/link";
 // import components
 import BackToLink from "@/app/ui/back-to-link";
 
@@ -37,7 +37,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <h2 className="px-4">Genre(s): {release.genre}</h2>
 
         <div className="p-4">
-          <img
+          <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
             alt={release.title}
             width={200}
