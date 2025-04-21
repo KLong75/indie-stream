@@ -33,9 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}
+      <body className="flex flex-col min-h-screen antialiased">
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         {/* <Header /> */}
         {/* <main> */}

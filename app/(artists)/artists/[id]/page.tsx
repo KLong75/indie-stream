@@ -8,13 +8,12 @@ import {
 
 // import actions
 import { saveArtist } from "@/app/lib/actions";
-
-//import definitions
-// import { Artist, Song, Release, Playlist } from "@/app/lib/definitions";
-
-//import components
+//import from next
 import Image from "next/image";
 import Link from "next/link";
+//import components
+import BackToLink from "@/app/ui/back-button";
+
 
 import { Button } from "@/components/ui/button";
 // import from react icons
@@ -36,7 +35,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   } else {
     return (
       <div>
-        <Link href="/artists">Back to Artists</Link>
+        <div className="p-2">
+          <BackToLink
+            href="/artists"
+            label="Back to Artists"
+          />
+        </div>
         <h1 className="p-4">{artist.name}</h1>
         <div className="p-4">
           <Image
