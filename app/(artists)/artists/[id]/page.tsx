@@ -12,8 +12,7 @@ import { saveArtist } from "@/app/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 //import components
-import BackToLink from "@/app/ui/back-button";
-
+import BackToLink from "@/app/ui/back-to-link";
 
 import { Button } from "@/components/ui/button";
 // import from react icons
@@ -24,7 +23,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const artist = await getArtistById(id);
   const artistReleases = artist?.releases
-    ? await Promise.all(artist.releases.map((release) => getReleaseById(release)))
+    ? await Promise.all(
+        artist.releases.map((release) => getReleaseById(release))
+      )
     : [];
   const artistSongs = artist?.songs
     ? await Promise.all(artist.songs.map((song) => getSongById(song)))
@@ -36,10 +37,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return (
       <div>
         <div className="p-2">
-          <BackToLink
-            href="/artists"
-            label="Back to Artists"
-          />
+          <BackToLink href="/artists" label="Back to Artists" />
         </div>
         <h1 className="p-4">{artist.name}</h1>
         <div className="p-4">
@@ -62,21 +60,23 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <ul>Releases</ul>
           {artistReleases.map((release, index) => (
             <li key={index}>
-              {release && <Link href={`/releases/${release.id}`}>{release.title}</Link>}
+              {release && (
+                <Link href={`/releases/${release.id}`}>{release.title}</Link>
+              )}
             </li>
-
           ))}
-          </div>
+        </div>
         <div className="p-4">
           <ul>Songs</ul>
-          {artistSongs.map((song, index) => (
-            song && (
-              <li key={index}>
-                <Link href={`/songs/${song.id}`}>{song.title}</Link>
-              </li>
-            )
-          ))}
-          </div>
+          {artistSongs.map(
+            (song, index) =>
+              song && (
+                <li key={index}>
+                  <Link href={`/songs/${song.id}`}>{song.title}</Link>
+                </li>
+              )
+          )}
+        </div>
       </div>
     );
   }

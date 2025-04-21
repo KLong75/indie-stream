@@ -2,7 +2,7 @@
 import Link from "next/link";
 // import icons
 import { RiArrowLeftSLine } from "react-icons/ri";
-import { IoIosArrowBack } from "react-icons/io";
+// import { IoIosArrowBack } from "react-icons/io";
 
 interface BackLinkProps {
   href: string;
