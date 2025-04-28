@@ -17,6 +17,7 @@ import {
 import { Song } from "@/app/lib/definitions";
 // import components
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
+import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 import { formatPlaylist } from "@/app/utils/utils";
 
@@ -84,9 +85,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="p-4">{user.user_name}</h2>
-      <div className="p-4">
-        <h3>All Songs</h3>
-      </div>
       {user.saved_artists && (
         <div className="p-4">
           <h3>Saved Artists</h3>
@@ -99,6 +97,31 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
       )}
+
+      {user.saved_artists && (
+        <div className="p-4">
+          <h3>Saved Artists</h3>
+          <Combobox
+            options={savedArtists.map((artist) => ({
+              value: artist?.id || "",
+              option_label: artist?.name || "Unknown Artist",
+            }))}
+            list_label={"Saved Artists"}
+            hasLink={true}
+            
+          />
+        </div>
+      )}
+
+      <div className="p-4">
+        <Combobox
+          options={allSongs.map((song) => ({
+            value: song.id,
+            option_label: song.title,
+          }))}
+          list_label={"All Songs"}
+        />
+      </div>
 
       {user.saved_songs && (
         <div className="p-4">
@@ -116,7 +139,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <h3>Saved Releases</h3>
           <ul>
             {savedReleases.map((release, index) => (
-              <li key={index}>{release?.title}</li>
+              <li key={index}>
+                <Link href={`/releases/${release?.id}`}>{release?.title}</Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -124,19 +149,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
       {user.playlists && (
         <div className="p-4">
-          <h3>Playlists</h3>
+          <h3>Your Playlists</h3>
           <ul>
             {playlists.map((playlist, index) => (
-              <li key={index}>{playlist?.title}</li>
+              <li key={index}>
+                <Link href={`/playlists/${playlist?.id}`}>
+                  {playlist?.title}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
       )}
       <AudioPlayerWrapper
         allSongs={allSongs}
-        savedSongs={savedSongs.filter(
-          (song): song is Song => song !== null
-        )}
+        savedSongs={savedSongs.filter((song): song is Song => song !== null)}
         // playlists={playlists.filter(
         //   (playlist): playlist is Playlist => playlist !== null
         // )}

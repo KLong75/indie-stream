@@ -214,7 +214,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center space-x-4">
+      <div className="flex justify-center items-center space-x-4 pt-2">
         <button
           className="bg-blue-600 px-2 py-1 rounded-full"
           onClick={handleShuffle}>

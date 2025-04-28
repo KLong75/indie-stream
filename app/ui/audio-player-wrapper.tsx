@@ -237,7 +237,7 @@ export default function AudioPlayerWrapper({
           </div>
         )}
       </div>
-      <span className="p-4">Current Playlist: {currentPlaylist}</span>
+      <div className="px-4 pt-4 flex justify-center">Current Playlist: {currentPlaylist}</div>
       <CustomAudioPlayer songs={currentSongs} />
     </>
   );

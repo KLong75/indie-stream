@@ -37,7 +37,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return (
       <div>
         <div className="p-2">
-          <BackToLink href="/artists" label="Back to Artists" />
+          <BackToLink href="/artists" label="Artists" />
         </div>
         <h1 className="p-4">{artist.name}</h1>
         <div className="p-4">
