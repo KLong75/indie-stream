@@ -34,7 +34,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const savedArtists = await Promise.all(
     (user.saved_artists || []).map((id) => getArtistById(id))
   );
-  // console.log("savedArtists", savedArtists);
+  console.log("savedArtists", savedArtists);
 
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))
@@ -101,25 +101,39 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       {user.saved_artists && (
         <div className="p-4">
           <h3>Saved Artists</h3>
-          <Combobox
+          {/* <Combobox
             options={savedArtists.map((artist) => ({
+             
               value: artist?.id || "",
               option_label: artist?.name || "Unknown Artist",
             }))}
             list_label={"Saved Artists"}
             hasLink={true}
-            
+            href={`/artists/${savedArtists[0]?.id || ""}`}
+          /> */}
+
+          <Combobox
+            options={savedArtists.map((artist) => ({
+              value: artist?.id || "",
+              option_label: artist?.name || "Unknown Artist",
+              href: `/artists/${artist?.id}`, // Precompute the href here
+            }))}
+            list_label={"Saved Artists"}
+            hasLink={true}
           />
         </div>
       )}
 
       <div className="p-4">
+        <h3>All Songs</h3>
         <Combobox
           options={allSongs.map((song) => ({
             value: song.id,
             option_label: song.title,
+            href: `/songs/${song.id}`, // Add href property
           }))}
           list_label={"All Songs"}
+          hasLink={false}
         />
       </div>
 

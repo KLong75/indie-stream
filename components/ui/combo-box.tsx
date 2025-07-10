@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/popover";
 
 interface Option {
+  href: string;
   value: string;
   option_label: string;
 }
@@ -29,7 +30,8 @@ interface ComboboxProps {
   options: Option[];
   list_label: string;
   hasLink?: boolean; // Determines if options should be wrapped in a Link
-  href?: (value: string) => string; // Function to generate the href dynamically
+  // href?: (value: string) => string; // Function to generate the href dynamically
+  href?: string; // Static href for the link
 }
 
 export function Combobox({
@@ -48,8 +50,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
+          className="w-[200px] justify-between">
           {value
             ? options.find((option) => option.value === value)?.option_label
             : list_label}
@@ -66,27 +67,14 @@ export function Combobox({
             <CommandEmpty>No {list_label} found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  {hasLink && href ? (
-                    <Link href={href(option.value)} className="w-full">
+                <CommandItem key={option.value}>
+                  {hasLink && option.href ? (
+                    <Link href={option.href} className="w-full">
                       {option.option_label}
                     </Link>
                   ) : (
                     option.option_label
                   )}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
                 </CommandItem>
               ))}
             </CommandGroup>
