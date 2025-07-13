@@ -1,6 +1,6 @@
 // import from next
 import Link from "next/link";
-// import UploadButtonContainer from "./ui/upload-button-container";
+import UploadButtonContainer from "./ui/upload-button-container";
 // import components
 import { Button } from "@/components/ui/button";
 // import from react icons
@@ -32,8 +32,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* <UploadButtonContainer file_route="audioUploader" /> */}
-      {/* <UploadButtonContainer file_route="imageUploader" /> */}
+      <UploadButtonContainer file_route="audioUploader" />
+      <UploadButtonContainer file_route="imageUploader" />
     </main>
   );
 }

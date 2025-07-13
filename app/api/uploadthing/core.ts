@@ -41,17 +41,24 @@
 // } satisfies FileRouter;
 
 // export type OurFileRouter = typeof ourFileRouter;
-
-
+import { v4 as uuidv4 } from "uuid";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
+
+import { auth } from "@/auth";
 
 const f = createUploadthing();
 
 // const auth = (_req: Request) => ({ id: "fakeId" }); // Fake auth function
-const auth = (req: Request) => {
-  console.log("Request URL:", req.url);
-  return { id: "fakeId" };
+// const auth = (req: Request) => {
+//   console.log("Request URL:", req.url);
+//   return { id: "fakeId" };
+// };
+
+const authUser = async (req: Request) => {
+  const session = await auth(); // This gets the session for the current user
+  if (!session?.user?.id) return null;
+  return { id: session.user.id };
 };
 
 export const ourFileRouter = {
@@ -63,14 +70,17 @@ export const ourFileRouter = {
     },
   })
     .middleware(async ({ req }) => {
-      const user = await auth(req);
+      const user = await authUser(req);
       if (!user) throw new UploadThingError("Unauthorized");
-      return { userId: user.id };
+      // return { userId: user.id };
+       // Generate a UUID here and pass it as metadata
+      return { userId: user.id, fileId: uuidv4() };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Image upload complete for userId:", metadata.userId);
       console.log("file url", file.ufsUrl);
-      return { uploadedBy: metadata.userId };
+      console.log("fileId", metadata.fileId);
+      return { uploadedBy: metadata.userId, fileId: metadata.fileId };
     }),
 
   // New audio route
@@ -81,14 +91,17 @@ export const ourFileRouter = {
     },
   })
     .middleware(async ({ req }) => {
-      const user = await auth(req);
+      const user = await authUser(req);
       if (!user) throw new UploadThingError("Unauthorized");
-      return { userId: user.id };
+      // return { userId: user.id };
+      // Generate a UUID here and pass it as metadata
+      return { userId: user.id, fileId: uuidv4() };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Audio upload complete for userId:", metadata.userId);
       console.log("audio file url", file.ufsUrl);
-      return { uploadedBy: metadata.userId };
+      console.log("fileId", metadata.fileId);
+      return { uploadedBy: metadata.userId, fileId: metadata.fileId };
     }),
 } satisfies FileRouter;
 

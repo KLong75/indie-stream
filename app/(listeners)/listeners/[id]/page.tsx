@@ -121,7 +121,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             list_label={"Saved Artists"}
             hasLink={true}
           />
-        </div>
+        </div> 
       )}
 
       <div className="p-4">
