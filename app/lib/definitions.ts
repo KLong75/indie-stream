@@ -1,3 +1,5 @@
+import { number } from "zod";
+
 export type User = {
   id: string;
   user_name: string;
@@ -20,6 +22,7 @@ export type Artist = {
   picture: string;
   songs: [string];
   releases: [string];
+  genre: [string];
   state: string;
 };
 
@@ -28,9 +31,11 @@ export type Song = {
   title: string;
   artist: string;
   release: string;
-  genre: string;
+  track_number: number;
+  genre: [string];
   year: number;
-  // duration: number;
+  number_of_saves: number;
+  number_of_plays: number;
   file_key: string;
 };
 
@@ -38,11 +43,12 @@ export type Release = {
   id: string;
   title: string;
   artist: Artist;
-  genre: string;
+  genre: [string];
   year: number;
   cover_img_file_key: string;
   songs: [string];
   type: "album" | "single" | "ep";
+  number_of_saves: number;
 };
 
 export type Playlist = {
@@ -50,4 +56,7 @@ export type Playlist = {
   title: string;
   songs: [string];
   public: boolean;
+  description: string;
+  created_by: string;
+  number_of_saves: number;
 };

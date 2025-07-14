@@ -29,6 +29,12 @@ async function seedUsers() {
   `;
   const insertedUsers = await Promise.all(
     users.map(async (user) => {
+      console.log("Inserting user:", user);
+      Object.entries(user).forEach(([key, value]) => {
+        if (value === undefined) {
+          console.warn(`User field '${key}' is undefined!`);
+        }
+      });
       const passwordHash = await bcrypt.hash(user.password, 12);
       const insertedUser = await sql`
         INSERT INTO users
@@ -54,6 +60,7 @@ async function seedArtists() {
       picture TEXT,
       songs UUID[],
       releases UUID[],
+      genre TEXT[],
       members TEXT[],
       city TEXT,
       state TEXT
@@ -61,11 +68,17 @@ async function seedArtists() {
   `;
   const insertedArtists = await Promise.all(
     artists.map(async (artist) => {
+      console.log("Inserting artist:", artist);
+      Object.entries(artist).forEach(([key, value]) => {
+        if (value === undefined) {
+          console.warn(`Artist field '${key}' is undefined!`);
+        }
+      });
       const insertedArtist = await sql`
         INSERT INTO artists
-          (id, name, bio, picture, songs, releases, members, city, state)
+          (id, name, bio, picture, songs, releases, genre, members, city, state)
         VALUES
-          (${artist.id}, ${artist.name}, ${artist.bio}, ${artist.picture}, ${artist.songs}, ${artist.releases}, ${artist.members}, ${artist.city}, ${artist.state})
+          (${artist.id}, ${artist.name}, ${artist.bio}, ${artist.picture}, ${artist.songs}, ${artist.releases}, ${artist.genre}, ${artist.members}, ${artist.city}, ${artist.state})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;
@@ -82,20 +95,27 @@ async function seedReleases() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       title TEXT NOT NULL,
       artist UUID,
-      genre TEXT,
+      genre TEXT[],
       year INT,
       cover_img_file_key TEXT,
       songs UUID[],
-      type TEXT
+      type TEXT,
+      number_of_saves INT DEFAULT 0
     )
   `;
   const insertedReleases = await Promise.all(
     releases.map(async (release) => {
+      console.log("Inserting release:", release);
+      Object.entries(release).forEach(([key, value]) => {
+        if (value === undefined) {
+          console.warn(`Release field '${key}' is undefined!`);
+        }
+      });
       const insertedRelease = await sql`
         INSERT INTO releases
-          (id, title, artist, genre, year, cover_img_file_key, songs, type)
+          (id, title, artist, genre, year, cover_img_file_key, songs, type, number_of_saves)
         VALUES
-          (${release.id}, ${release.title}, ${release.artist}, ${release.genre}, ${release.year}, ${release.cover_img_file_key}, ${release.songs}, ${release.type})
+          (${release.id}, ${release.title}, ${release.artist}, ${release.genre}, ${release.year}, ${release.cover_img_file_key}, ${release.songs}, ${release.type}, ${release.number_of_saves})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;
@@ -113,18 +133,27 @@ async function seedSongs() {
       title TEXT NOT NULL,
       artist UUID,
       release UUID,
-      genre TEXT,
+      track_number INT,
+      genre TEXT[],
       year INT,
+      number_of_saves INT DEFAULT 0,
+      number_of_plays INT DEFAULT 0,
       file_key TEXT NOT NULL
     )
   `;
   const insertedSongs = await Promise.all(
     songs.map(async (song) => {
+      console.log("Inserting song:", song);
+      Object.entries(song).forEach(([key, value]) => {
+        if (value === undefined) {
+          console.warn(`Song field '${key}' is undefined!`);
+        }
+      });
       const insertedSong = await sql`
         INSERT INTO songs
-          (id, title, artist, release, genre, year, file_key)
+          (id, title, artist, release, track_number, genre, year, number_of_saves, number_of_plays, file_key)
         VALUES
-          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.genre}, ${song.year}, ${song.file_key})
+          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.track_number}, ${song.genre}, ${song.year}, ${song.number_of_saves}, ${song.number_of_plays}, ${song.file_key})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;
@@ -141,16 +170,25 @@ async function seedPlaylists() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       title TEXT NOT NULL,
       songs UUID[],
-      public BOOLEAN DEFAULT FALSE
+      public BOOLEAN DEFAULT FALSE,
+      description TEXT,
+      created_by UUID,
+      number_of_saves INT DEFAULT 0
     )
   `;
   const insertedPlaylists = await Promise.all(
     playlists.map(async (playlist) => {
+      console.log("Inserting playlist:", playlist);
+      Object.entries(playlist).forEach(([key, value]) => {
+        if (value === undefined) {
+          console.warn(`Playlist field '${key}' is undefined!`);
+        }
+      });
       const insertedPlaylist = await sql`
         INSERT INTO playlists
-          (id, title, songs, public)
+          (id, title, songs, public, description, created_by, number_of_saves)
         VALUES
-          (${playlist.id}, ${playlist.title}, ${playlist.songs}, ${playlist.public})
+          (${playlist.id}, ${playlist.title}, ${playlist.songs}, ${playlist.public}, ${playlist.description}, ${playlist.created_by}, ${playlist.number_of_saves})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;

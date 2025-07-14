@@ -30,11 +30,16 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const allSongs = await getAllSongs();
   // console.log("allSongs", allSongs);
-
-  const savedArtists = await Promise.all(
-    (user.saved_artists || []).map((id) => getArtistById(id))
+  const allSongsAlphabeticalOrder = allSongs.sort((a, b) =>
+    a.title.localeCompare(b.title)
   );
+
+  const savedArtists = (
+    await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
+  ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
   console.log("savedArtists", savedArtists);
+
+
 
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))
@@ -85,7 +90,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="p-4">{user.user_name}</h2>
-      {user.saved_artists && (
+      {/* {user.saved_artists && (
         <div className="p-4">
           <h3>Saved Artists</h3>
           <ul>
@@ -96,7 +101,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
 
       {user.saved_artists && (
         <div className="p-4">
@@ -111,7 +116,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             hasLink={true}
             href={`/artists/${savedArtists[0]?.id || ""}`}
           /> */}
-
           <Combobox
             options={savedArtists.map((artist) => ({
               value: artist?.id || "",
@@ -127,7 +131,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <div className="p-4">
         <h3>All Songs</h3>
         <Combobox
-          options={allSongs.map((song) => ({
+          options={allSongsAlphabeticalOrder.map((song) => ({
             value: song.id,
             option_label: song.title,
             href: `/songs/${song.id}`, // Add href property
