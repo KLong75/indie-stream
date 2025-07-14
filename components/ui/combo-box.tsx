@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+// import { Check, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -31,15 +32,15 @@ interface ComboboxProps {
   list_label: string;
   hasLink?: boolean; // Determines if options should be wrapped in a Link
   // href?: (value: string) => string; // Function to generate the href dynamically
-  href?: string; // Static href for the link
+  // href?: string; // Static href for the link
 }
 
 export function Combobox({
   options,
   list_label,
   hasLink = false,
-  href,
-}: ComboboxProps) {
+}: // href,
+ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -67,7 +68,13 @@ export function Combobox({
             <CommandEmpty>No {list_label} found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
-                <CommandItem key={option.value}>
+                <CommandItem
+                  key={option.value}
+                  onSelect={() => {
+                    setValue(option.value);
+                    setOpen(false);
+                  }}
+                >
                   {hasLink && option.href ? (
                     <Link href={option.href} className="w-full">
                       {option.option_label}
