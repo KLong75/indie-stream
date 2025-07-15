@@ -163,8 +163,8 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   return (
-    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide">
-      <div className="flex justify-center items-center w-full h-auto p-6">
+    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide mb-12">
+      <div className="flex justify-center items-center w-full h-auto p-4">
         <Image
           src={`https://4ykxjgur5y.ufs.sh/f/${
             releaseCurrentlyPlaying
