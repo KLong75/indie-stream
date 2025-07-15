@@ -171,7 +171,7 @@ const releases = [
     artist: "The Long Emergency",
     genre: ["Indie", "Rock"],
     year: 2011,
-    cover_img_file_key: "9Dk0lBirZ3pQWKlW2xLQTzM6aijoeSqROlyfZuwGNI4Y0kp8",
+    cover_img_file_key: "9Dk0lBirZ3pQC9DaJ0mFSlgsE7pxCb9uMk8iOwY1UrBWIyj2",
     songs: ["Last Night", "Snow Emergency", "I-35", "I Am Not Sorry", "Twist The Knife", "Starting Over", "Sing Me To Sleep"].map((title) => songMap[title]),
     type: "album",
     number_of_saves: 0,

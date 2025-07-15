@@ -169,7 +169,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           src={`https://4ykxjgur5y.ufs.sh/f/${
             releaseCurrentlyPlaying
               ? releaseCurrentlyPlaying.cover_img_file_key
-              : "default"
+              : "9Dk0lBirZ3pQA66Rb9Bygdn5G8QFv0hfpWE7KZqxj3lTc9wC"
           }`}
           width={200}
           height={200}
