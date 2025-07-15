@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 // import from next
-import Link from "next/link";
+// import Link from "next/link";
 // get data
 import {
   getUserById,
@@ -97,7 +97,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   return (
     <>
-      <h2 className="p-4 mb-6">Welcome back {user.user_name}</h2>
+      <h2 className="p-4 mb-2 text-xl">Welcome back {user.user_name}</h2>
       <h3 className="px-4">View and edit your saved music</h3>
       <div>
         {user.saved_artists && (

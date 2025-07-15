@@ -174,6 +174,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           width={200}
           height={200}
           alt={`${releaseCurrentlyPlaying?.title} cover image`}
+          className="rounded-lg shadow-lg"
         />
       </div>
       <audio
