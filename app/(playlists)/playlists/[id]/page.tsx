@@ -4,6 +4,7 @@ import {
   getSongById,
   getReleaseById,
   getArtistById,
+  getUserById,
 } from "@/app/lib/data";
 
 // import from next
@@ -15,6 +16,10 @@ import BackToLink from "@/app/ui/back-to-link";
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const playlist = await getPlaylistById(id);
+  const playlistAuthor = await getUserById(playlist?.created_by || "");
+  if (!playlistAuthor) {
+    return <div>Playlist author not found</div>;
+  }
   const songs = await Promise.all(
     (playlist?.songs || []).map((id) => getSongById(id))
   );
@@ -36,10 +41,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return (
       <div>
         <BackToLink href="/playlists" label="Playlists" />
-        <h1 className="p-4">{playlist.title}</h1>
-        <p className="p-4"> by: </p>
+        <h1 className="p-4 text-center">{playlist.title}</h1>
+        <p className="px-4">Created by: {playlistAuthor.user_name}</p>
         <h2 className="p-4">Description</h2>
-        {/* <p className="p-4">{playlist.description}</p> */}
+        <p className="px-4">{playlist.description}</p>
         <div>
           <ul className="p-6">
             {songs.map((song, index) => (

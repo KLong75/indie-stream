@@ -2,9 +2,13 @@
 import { getReleaseById, getSongById, getArtistById } from "@/app/lib/data";
 // import from next
 import Image from "next/image";
-// import Link from "next/link";
+import Link from "next/link";
 // import components
 import BackToLink from "@/app/ui/back-to-link";
+// import icons
+import { RxPlus } from "react-icons/rx";
+import { RxPlay } from "react-icons/rx";
+import { CiSaveDown2 } from "react-icons/ci";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -29,13 +33,30 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <BackToLink href="/releases" label="Back to Releases" />
         </div>
         <h1 className="p-4 text-center">{release.title}</h1>
+
         <h2 className="px-4">
           {" "}
-          Artist: {artist ? artist.name : "Unknown Artist"}
+          Artist:{" "}
+          <Link
+            href={`/artists/${artistId}`}
+            className="text-blue-500 hover:underline">
+            {artist ? artist.name : "Unknown Artist"}
+          </Link>
         </h2>
-        <h2 className="px-4">Release Type: {release.type}</h2>
-        <h2 className="px-4">Genre(s): {release.genre}</h2>
-
+        <h2 className="px-4">
+          Release Type:{" "}
+          {release.type.charAt(0).toUpperCase() + release.type.slice(1)}
+        </h2>
+        {Array.isArray(release.genre) && release.genre.length > 0 && (
+          <h2 className="px-4">
+            {release.genre.length > 1 ? "Genres" : "Genre"}:{" "}
+            {release.genre.join(", ")}
+          </h2>
+        )}
+        {!Array.isArray(release.genre) && release.genre && (
+          <h2 className="px-4">Genre: {release.genre}</h2>
+        )}
+        <h2 className="px-4">Year: {release.year}</h2>
         <div className="p-4">
           <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
@@ -49,13 +70,31 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <ul>
             {releaseSongs.map((song, index) => (
               <li key={index}>
-                {song ? <span>{song.title}</span> : <span>Unknown Song</span>}
+                {song ? (
+                  <span>
+                    {index + 1}. {song.title}
+                  </span>
+                ) : (
+                  <span>Unknown Song</span>
+                )}
+                <div className="flex space-x-2">
+                  <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                    <RxPlay />
+                    Play
+                  </button>
+                  <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                    <RxPlus />
+                    Add to Playlist
+                  </button>
+                  <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                    <CiSaveDown2 />
+                    Save
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         </div>
-        <h2 className="px-4">Description</h2>
-        {/* <p className="p-4">{playlist.description}</p> */}
       </div>
     );
   }

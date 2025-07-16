@@ -201,6 +201,20 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           hasLink={false}
         />
       </div>
+
+      <div className="p-4">
+        <h4>Public Playlists</h4>
+        <Combobox
+          options={publicPlaylists.map((playlist) => ({
+            value: playlist.id,
+            option_label: playlist.title,
+            href: `/playlists/${playlist.id}`, // Add href property
+          }))}
+          list_label={"Public Playlists"}
+          hasLink={true}
+        />
+      </div>
+
       <hr className="my-6" />
 
       <div>
