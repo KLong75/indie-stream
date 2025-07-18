@@ -57,7 +57,34 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const savedReleases = await Promise.all(
     (user.saved_releases || []).map((id) => getReleaseById(id))
   );
-  // console.log("savedReleases", savedReleases);
+  console.log("savedReleases", savedReleases);
+
+  const formattedSavedReleases: { [key: string]: Song[] } = {};
+  await Promise.all(
+    savedReleases
+      .filter((release) => release !== null)
+      .map(async (release) => {
+        // Assign the array directly
+        formattedSavedReleases[release!.title] = await formatPlaylist({
+          playlist: release!,
+        });
+      })
+  );
+
+  const formattedAllReleases: { [key: string]: Song[] } = {};
+
+  await Promise.all(
+    allReleasesAlphabeticalOrder
+      .filter((release) => release !== null)
+      .map(async (release) => {
+        // Assign the array directly
+        formattedAllReleases[release!.title] = await formatPlaylist({
+          playlist: release!,
+        });
+      })
+  );
+
+
 
   const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
@@ -226,6 +253,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           //   (playlist): playlist is Playlist => playlist !== null
           // )}
           // publicPlaylists={publicPlaylists}
+          allReleases={formattedAllReleases}
+          savedReleases={formattedSavedReleases}
           formattedPlaylists={formattedPlaylists}
           formattedPublicPlaylists={formattedPublicPlaylists}
         />

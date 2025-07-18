@@ -128,15 +128,37 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     };
   }, []);
 
+  // useEffect(() => {
+  //   const audioElement = audioRef.current;
+  //   if (audioElement) {
+  //     audioElement.load();
+  //     if (isPlaying) {
+  //       audioElement.play();
+  //     }
+  //   }
+  // }, [currentSongIndex, isPlaying]);
+
+
+  // --- THIS IS THE UPDATED EFFECT ---
   useEffect(() => {
     const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.load();
+    if (!audioElement) return;
+
+    audioElement.load();
+
+    const handleCanPlay = () => {
       if (isPlaying) {
         audioElement.play();
       }
-    }
+    };
+
+    audioElement.addEventListener("canplay", handleCanPlay);
+
+    return () => {
+      audioElement.removeEventListener("canplay", handleCanPlay);
+    };
   }, [currentSongIndex, isPlaying]);
+  // --- END UPDATED EFFECT ---
 
   useEffect(() => {
     const audioElement = audioRef.current;
