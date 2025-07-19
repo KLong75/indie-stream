@@ -30,6 +30,7 @@ export default function NavListItem({
           asChild
           variant="secondary"  
           size="lg"
+          onClick={onClick}
         >
         <Link
           href={href}

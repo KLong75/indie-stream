@@ -26,7 +26,7 @@ export default async function Page() {
   console.log("Releases with artists: ", releasesWithArtists);
 
   return (
-    <div>
+    <div className="flex-grow">
       <h1 className="p-4 text-center">Releases</h1>
       <ul className="px-4">
         {releasesWithArtists.map((release) => (

@@ -9,7 +9,7 @@ export default async function Page() {
   // console.log("playlists", playlists);
 
   return (
-    <div>
+    <div className="flex flex-grow">
       <h1 className="p-4">Playlists</h1>
       <ul className="p-4">
         {playlists.map((playlist) => (

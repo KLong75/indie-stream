@@ -16,7 +16,7 @@ export default async function Page() {
   });
 
   return (
-    <div>
+    <div className="flex flex-col">
       <h1 className="p-4">Artists</h1>
       <ul className="p-4">
         {artists.map((artist) => (

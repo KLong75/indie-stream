@@ -2,7 +2,7 @@
 
 import { Session } from "next-auth";
 // import Link from "next/link";
-// import { useState } from "react";
+import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 // import { RxCross1 } from "react-icons/rx";
 // import { signOut } from "next-auth/react";
@@ -31,11 +31,16 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ session, navItems }: MobileMenuProps) {
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const userId = session?.user?.id;
 
   const handleSignOut = () => {
     signOutUser();
+    setOpen(false); // Close drawer after sign out
+  };
+
+  const handleNavClick = () => {
+    setOpen(false); // Close drawer when any link is clicked
   };
 
   return (
@@ -58,7 +63,7 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
           </ul>
         </nav>
       )} */}
-      <Drawer>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <button className="flex items-center justify-center p-2">
             <RxHamburgerMenu size={24}/>
@@ -74,7 +79,11 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
                   label={item.label}
                   href={item.label === "Your Music" ? `/listeners/${userId}` : item.href} // Replace placeholder with userId
                   htmlElement={item.htmlElement}
-                  onClick={item.label === "Sign Out" ? handleSignOut : undefined} // Handle "Sign Out" action
+                  onClick={
+                  item.label === "Sign Out"
+                    ? handleSignOut
+                    : handleNavClick
+                }
                 />
               ))}
               <ModeToggle />

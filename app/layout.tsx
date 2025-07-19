@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+// import auth
+import { auth } from "@/auth";
 // import from uploadthing
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
@@ -6,6 +8,8 @@ import { ourFileRouter } from "../app/api/uploadthing/core";
 // import theme provider
 import { ThemeProvider } from "@/components/theme-provider";
 // import components
+import Header from "@/app/ui/header";
+import Footer from "@/app/ui/footer";
 // import { ModeToggle } from "./ui/mode-toggle";
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
@@ -31,23 +35,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = auth();
   return (
     <html lang="en" suppressHydrationWarning>
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}
       <body className="flex flex-col min-h-screen antialiased">
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        {/* <Header /> */}
-        {/* <main> */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        {/* </main> */}
-        {/* <Footer /> */}
+        <Header session={session} />
+        <main>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+        </main>
+        <Footer />
       </body>
     </html>
   );
