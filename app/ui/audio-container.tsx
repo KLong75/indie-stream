@@ -9,14 +9,14 @@ import {
   getAllPublicPlaylists,
   getAllArtists,
   getAllReleases,
-} from "@/app/lib/data";
+} from "@/lib/data";
 // import definitions
-import { Song } from "@/app/lib/definitions";
+import { Song } from "@/lib/definitions";
 // import components
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
 import { Combobox } from "@/components/ui/combo-box";
 // import from utils
-import { formatPlaylist } from "@/app/utils/utils";
+import { formatPlaylist } from "@/utils/utils";
 // import auth
 import { auth } from "@/auth";
 
@@ -25,50 +25,66 @@ export default async function AudioContainer() {
   const userId = session?.user?.id || "";
   const user = await getUserById(userId);
   if (!user) {
-    return <div>User not found</div>;
+    return null;
   }
+  // all artists
+  const allArtists = await getAllArtists();
+  const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  // all songs
   const allSongs = await getAllSongs();
   // console.log("allSongs", allSongs);
   const allSongsAlphabeticalOrder = allSongs.sort((a, b) =>
     a.title.localeCompare(b.title)
   );
-
-  const allArtists = await getAllArtists();
-  const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-
+  // all releases
   const allReleases = await getAllReleases();
   const allReleasesAlphabeticalOrder = allReleases.sort((a, b) =>
     a.title.localeCompare(b.title)
   );
+  const formattedAllReleases: { [key: string]: Song[] } = {};
+  await Promise.all(
+    allReleasesAlphabeticalOrder
+      .filter((release) => release !== null)
+      .map(async (release) => {
+        // Assign the array directly
+        formattedAllReleases[release!.title] = await formatPlaylist({
+          playlist: release!,
+        });
+      })
+  );
+  // saved artists
   const savedArtists = (
     await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
   ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
   console.log("savedArtists", savedArtists);
-
+  // saved songs
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))
   );
-  // console.log("savedSongs", savedSongs);
-
+  // saved releases
   const savedReleases = await Promise.all(
     (user.saved_releases || []).map((id) => getReleaseById(id))
   );
-  // console.log("savedReleases", savedReleases);
-
-  const userPlaylists = await Promise.all(
+  const formattedSavedReleases: { [key: string]: Song[] } = {};
+  await Promise.all(
+    savedReleases
+      .filter((release) => release !== null)
+      .map(async (release) => {
+        // Assign the array directly
+        formattedSavedReleases[release!.title] = await formatPlaylist({
+          playlist: release!,
+        });
+      })
+  );
+  // user playlists
+  const playlists = await Promise.all(
     (user.playlists || []).map((id) => getPlaylistById(id))
   );
-  // console.log("playlists", playlists);
-
-  const publicPlaylists = await getAllPublicPlaylists();
-  // console.log("publicPlaylists", publicPlaylists);
-
   const formattedPlaylists: { [key: string]: Song[] } = {};
-
   await Promise.all(
-    userPlaylists
+    playlists
       .filter((pl) => pl !== null)
       .map(async (playlist) => {
         // Assign the array directly
@@ -77,9 +93,9 @@ export default async function AudioContainer() {
         });
       })
   );
-
+  // public playlists
+  const publicPlaylists = await getAllPublicPlaylists();
   const formattedPublicPlaylists: { [key: string]: Song[] } = {};
-
   await Promise.all(
     publicPlaylists
       .filter((pl) => pl !== null)
@@ -90,5 +106,17 @@ export default async function AudioContainer() {
         });
       })
   );
-
+  return (
+    <div>
+      <h3 className="px-4 text-center">Listen to music</h3>
+      <AudioPlayerWrapper
+        allSongs={allSongs}
+        savedSongs={savedSongs.filter((song): song is Song => song !== null)}
+        allReleases={formattedAllReleases}
+        savedReleases={formattedSavedReleases}
+        formattedPlaylists={formattedPlaylists}
+        formattedPublicPlaylists={formattedPublicPlaylists}
+      />
+    </div>
+  );
 }

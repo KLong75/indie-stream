@@ -5,7 +5,7 @@ import {
   getReleaseById,
   getArtistById,
   getUserById,
-} from "@/app/lib/data";
+} from "@/lib/data";
 
 // import from next
 // import Image from "next/image";

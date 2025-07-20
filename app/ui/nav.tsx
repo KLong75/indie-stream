@@ -1,7 +1,7 @@
 "use client";
 
 import NavListItem from "./navListItem";
-import { signOutUser } from "../lib/actions";
+import { signOutUser } from "../../lib/actions";
 import { Session } from "next-auth";
 export default function Nav({
   navItems,
@@ -27,7 +27,9 @@ export default function Nav({
           <NavListItem
             key={item.label}
             label={item.label}
-            href={item.label === "Your Music" ? `/listeners/${userId}` : item.href} // Replace placeholder with userId
+            href={
+              item.label === "Your Music" ? `/listeners/${userId}` : item.href
+            } // Replace placeholder with userId
             htmlElement={item.htmlElement}
             onClick={item.label === "Sign Out" ? handleSignOut : undefined} // Handle "Sign Out" action
           />

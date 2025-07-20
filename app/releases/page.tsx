@@ -2,8 +2,8 @@
 import Link from "next/link";
 
 // get data
-import { getAllReleases } from "@/app/lib/data";
-import { getArtistById } from "@/app/lib/data";
+import { getAllReleases } from "@/lib/data";
+import { getArtistById } from "@/lib/data";
 
 export default async function Page() {
   const releases = await getAllReleases();

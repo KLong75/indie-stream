@@ -10,8 +10,10 @@ import {
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function getUserById(id: string): Promise<User | null> {
+  if (!id || id.trim() === "") {
+    return null;
+  }
   try {
-    // Use ${sql(id)} to keep the query plan consistent
     const userData = await sql<User[]>`SELECT * FROM users WHERE id = ${id}::uuid`;
     return userData[0] || null;
   } catch (error) {

@@ -1,8 +1,7 @@
 // import from next
 import Link from "next/link";
 // get data
-import { getAllPlaylists } from "@/app/lib/data";
-
+import { getAllPlaylists } from "@/lib/data";
 
 export default async function Page() {
   const playlists = await getAllPlaylists();

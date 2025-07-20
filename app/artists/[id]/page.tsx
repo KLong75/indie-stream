@@ -4,7 +4,7 @@ import {
   getSongById,
   getReleaseById,
   // getPlaylistById,
-} from "@/app/lib/data";
+} from "@/lib/data";
 
 // import actions
 // import { saveArtist } from "@/app/lib/actions";

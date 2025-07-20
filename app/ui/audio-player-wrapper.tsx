@@ -5,9 +5,21 @@ import { useState } from "react";
 // import components
 import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls";
 // import definitions
-import { Song } from "@/app/lib/definitions";
+import { Song } from "@/lib/definitions";
 // import icons
 import { RxCrossCircled } from "react-icons/rx";
+import { RxChevronDown } from "react-icons/rx";
+import { RxCheck } from "react-icons/rx";
+// import from headless ui
+import {
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from "@headlessui/react";
+// import from clsx
+import clsx from "clsx";
 
 export default function AudioPlayerWrapper({
   allSongs,
@@ -24,6 +36,9 @@ export default function AudioPlayerWrapper({
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<Song | null>(null);
   const [currentSongs, setCurrentSongs] = useState<Song[]>(
     savedSongs.length > 0 ? savedSongs : allSongs
   );
@@ -63,21 +78,6 @@ export default function AudioPlayerWrapper({
     setPlaylistsDropdownVisible(false); // Close playlists dropdown when opening public playlists dropdown
   };
 
-  const handleClosePlaylistsDropdown = () => {
-    setPlaylistsDropdownVisible(false);
-  };
-
-  const handleClosePublicPlaylistsDropdown = () => {
-    setPublicPlaylistsDropdownVisible(false);
-  };
-
-  const handleCloseAllReleasesDropdown = () => {
-    setAllReleasesDropdownVisible(false);
-  };
-  const handleCloseSavedReleasesDropdown = () => {
-    setSavedReleasesDropdownVisible(false);
-  };
-
   const toggleAllReleasesDropdown = () => {
     setAllReleasesDropdownVisible(!allReleasesDropdownVisible);
     setSavedReleasesDropdownVisible(false); // Close saved releases dropdown when opening all releases dropdown
@@ -88,23 +88,82 @@ export default function AudioPlayerWrapper({
     setAllReleasesDropdownVisible(false); // Close all releases dropdown when opening saved releases dropdown
   };
 
-  return (
-    <>
-      <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
-        All Songs
-      </button>
-      <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
-        Saved Songs
-      </button>
+  // Filter songs by query
+  const filteredSongs =
+    query === ""
+      ? allSongs.filter((song): song is Song => !!song && !!song.file_key)
+      : allSongs.filter(
+          (song): song is Song =>
+            !!song &&
+            !!song.file_key &&
+            song.title.toLowerCase().includes(query.toLowerCase())
+        );
 
-      <div className="relative inline-block text-left">
+  return (
+    <div className="flex flex-col">
+      <div className="p-4 ">
+        <h3 className="text-center">All Songs</h3>
+        <Combobox
+          value={selected}
+          onChange={(song: Song | null) => {
+            setSelected(song);
+            
+            if (song) {
+              setCurrentSongs([song]);
+              setCurrentPlaylist("All Songs");
+              setIsPlaying(true);
+            }
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              displayValue={(song: Song) => song?.title || ""}
+              placeholder="Search songs..."
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {filteredSongs.map((song) => (
+              <ComboboxOption
+                key={song.id}
+                value={song}
+                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                <div className="text-sm/6 text-white">{song.title}</div>
+              </ComboboxOption>
+            ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
+      <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4">
+        <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
+          All Songs
+        </button>
+        <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
+          Saved Songs
+        </button>
+
+        {/* <div className=""> */}
         <button
           onClick={toggleAllReleasesDropdown}
           className="p-4 cursor-pointer">
           All Releases
         </button>
         {allReleasesDropdownVisible && (
-          <div className="z-50 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="z-50  mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div className="flex justify-end">
               <button
                 onClick={toggleAllReleasesDropdown}
@@ -117,39 +176,37 @@ export default function AudioPlayerWrapper({
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="options-menu">
-              {Object.keys(allReleases)
-                .sort((a, b) => a.localeCompare(b))
-                .map((releaseKey) => (
-                  <button
-                    key={releaseKey}
-                    onClick={() => {
-                      setCurrentSongs(
-                        allReleases[releaseKey].filter(
-                          (song): song is Song => !!song && !!song.file_key
-                        )
-                      );
-                      setCurrentPlaylist(releaseKey);
-                      setAllReleasesDropdownVisible(false); // Close dropdown after selection
-                    }}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                    {releaseKey}
-                  </button>
-                ))}
+              {Object.keys(allReleases).map((releaseKey) => (
+                <button
+                  key={releaseKey}
+                  onClick={() => {
+                    setCurrentSongs(
+                      allReleases[releaseKey].filter(
+                        (song): song is Song => !!song && !!song.file_key
+                      )
+                    );
+                    setCurrentPlaylist(releaseKey);
+                    toggleAllReleasesDropdown(); // Close dropdown after selection
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
+                  {releaseKey}
+                </button>
+              ))}
             </div>
           </div>
         )}
-      </div>
-      <div className="relative inline-block text-left">
+        {/* </div> */}
+        {/* <div className=""> */}
         <button
           onClick={toggleSavedReleasesDropdown}
           className="p-4 cursor-pointer">
           Saved Releases
         </button>
         {savedReleasesDropdownVisible && (
-          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className=" mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div className="flex justify-end">
               <button
-                onClick={handleCloseSavedReleasesDropdown}
+                onClick={toggleSavedReleasesDropdown}
                 className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
                 <RxCrossCircled size={18} />
               </button>
@@ -159,40 +216,38 @@ export default function AudioPlayerWrapper({
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="options-menu">
-              {Object.keys(savedReleases)
-                .sort((a, b) => a.localeCompare(b))
-                .map((releaseKey) => (
-                  <button
-                    key={releaseKey}
-                    onClick={() => {
-                      setCurrentSongs(
-                        savedReleases[releaseKey].filter(
-                          (song): song is Song => !!song && !!song.file_key
-                        )
-                      );
-                      setCurrentPlaylist(releaseKey);
-                      setSavedReleasesDropdownVisible(false); // Close dropdown after selection
-                    }}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                    {releaseKey}
-                  </button>
-                ))}
+              {Object.keys(savedReleases).map((releaseKey) => (
+                <button
+                  key={releaseKey}
+                  onClick={() => {
+                    setCurrentSongs(
+                      savedReleases[releaseKey].filter(
+                        (song): song is Song => !!song && !!song.file_key
+                      )
+                    );
+                    setCurrentPlaylist(releaseKey);
+                    toggleSavedReleasesDropdown(); // Close dropdown after selection
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
+                  {releaseKey}
+                </button>
+              ))}
             </div>
           </div>
         )}
-      </div>
+        {/* </div> */}
 
-      <div className="relative inline-block text-left">
+        {/* <div className=""> */}
         <button
           onClick={togglePlaylistsDropdown}
           className="p-4 cursor-pointer">
           Your Playlists
         </button>
         {playlistsDropdownVisible && (
-          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className=" mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div className="flex justify-end">
               <button
-                onClick={handleClosePlaylistsDropdown}
+                onClick={togglePlaylistsDropdown}
                 className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
                 <RxCrossCircled size={18} />
               </button>
@@ -212,7 +267,7 @@ export default function AudioPlayerWrapper({
                       )
                     );
                     setCurrentPlaylist(playlistKey);
-                    setPlaylistsDropdownVisible(false); // Close dropdown after selection
+                    togglePlaylistsDropdown(); // Close dropdown after selection
                   }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
                   {playlistKey}
@@ -221,18 +276,18 @@ export default function AudioPlayerWrapper({
             </div>
           </div>
         )}
-      </div>
-      <div className="relative inline-block text-left">
+        {/* </div> */}
+        {/* <div className=""> */}
         <button
           onClick={togglePublicPlaylistsDropdown}
           className="p-4 cursor-pointer">
           Public Playlists
         </button>
         {publicPlaylistsDropdownVisible && (
-          <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div className="mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div className="flex justify-end">
               <button
-                onClick={handleClosePublicPlaylistsDropdown}
+                onClick={togglePublicPlaylistsDropdown}
                 className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
                 <RxCrossCircled size={18} />
               </button>
@@ -252,7 +307,7 @@ export default function AudioPlayerWrapper({
                       )
                     );
                     setCurrentPlaylist(playlistKey);
-                    setPublicPlaylistsDropdownVisible(false); // Close dropdown after selection
+                    togglePublicPlaylistsDropdown(); // Close dropdown after selection
                   }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
                   {playlistKey}
@@ -261,11 +316,12 @@ export default function AudioPlayerWrapper({
             </div>
           </div>
         )}
+        {/* </div> */}
       </div>
       <div className="px-4 pt-4 flex justify-center">
         Current Playlist: {currentPlaylist}
       </div>
-      <CustomAudioPlayer songs={currentSongs} />
-    </>
+      <CustomAudioPlayer songs={currentSongs} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+    </div>
   );
 }

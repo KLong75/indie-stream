@@ -9,9 +9,9 @@ import Nav from "./nav";
 import MobileMenu from "./mobile-menu";
 import { ModeToggle } from "./mode-toggle";
 // import nav items
-import { navItems } from "@/app/lib/nav-items";
+import { navItems } from "@/lib/nav-items";
 
-export default function Header({session}: {session: any}) {
+export default function Header({ session }: { session: any }) {
   const pathname = usePathname();
   // const session = await auth();
   // console.log("Session in Header:", session);

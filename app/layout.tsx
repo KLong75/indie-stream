@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 // import components
 import Header from "@/app/ui/header";
 import Footer from "@/app/ui/footer";
+import AudioContainer from "./ui/audio-container";
 // import { ModeToggle } from "./ui/mode-toggle";
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
@@ -50,6 +51,8 @@ export default function RootLayout({
             disableTransitionOnChange>
             {children}
           </ThemeProvider>
+          <AudioContainer />
+          {/* <ModeToggle /> */}
         </main>
         <Footer />
       </body>

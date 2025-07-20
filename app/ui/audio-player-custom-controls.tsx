@@ -3,7 +3,7 @@
 // import from next
 import Image from "next/image";
 // import definitions
-import { Song, Release } from "../lib/definitions";
+import { Song, Release } from "../../lib/definitions";
 // import from react
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";
@@ -27,10 +27,10 @@ import { MdOutlineReplay10 } from "react-icons/md";
 // import { RxMixerVertical } from "react-icons/rx";
 // import { songs } from "../lib/_songs_";
 
-export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
+export default function CustomAudioPlayer({ songs, isPlaying, setIsPlaying }: { songs: Song[], isPlaying: boolean, setIsPlaying: (isPlaying: boolean) => void }) {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [shuffle, setShuffle] = useState(false);
@@ -44,6 +44,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
   useEffect(() => {
     async function fetchReleaseAndArtist() {
       const currentSong = songs[currentSongIndex];
+      if (!currentSong) return;
       const response = await fetch(
         `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
       );
@@ -54,6 +55,27 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     }
     fetchReleaseAndArtist();
   }, [currentSongIndex, songs]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+
+    const handleEnded = () => {
+      if (shuffle) {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        setCurrentSongIndex(randomIndex);
+      } else {
+        setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+      }
+      setIsPlaying(true); // Automatically play the next song
+    };
+
+    audioElement.addEventListener("ended", handleEnded);
+
+    return () => {
+      audioElement.removeEventListener("ended", handleEnded);
+    };
+  }, [currentSongIndex, shuffle, songs.length]);
 
   function handleShuffle() {
     const audioElement = audioRef.current;
@@ -72,7 +94,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
       return newShuffle;
     });
 
-    audioElement.play();
+    // audioElement.play();
     setIsPlaying(true);
   }
 
@@ -138,7 +160,6 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
   //   }
   // }, [currentSongIndex, isPlaying]);
 
-
   // --- THIS IS THE UPDATED EFFECT ---
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -185,7 +206,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
   return (
-    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide mb-12">
+    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide mb-12 rounded-lg">
       <div className="flex justify-center items-center w-full h-auto p-4">
         <Image
           src={`https://4ykxjgur5y.ufs.sh/f/${
@@ -196,16 +217,37 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           width={200}
           height={200}
           alt={`${releaseCurrentlyPlaying?.title} cover image`}
-          className="rounded-lg shadow-lg"
+          className="rounded-lg shadow-2xl"
         />
       </div>
-      <audio
+      {/* <audio
         ref={audioRef}
         src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
         controls={false}
-      />
-      <div className="flex justify-center text-center text-sm">
+      /> */}
+      {/* <audio
+        ref={audioRef}
+        src={
+          songs[currentSongIndex] && songs[currentSongIndex].file_key
+            ? `https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`
+            : ""
+        }
+        controls={false}
+      /> */}
+      {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
+        <audio
+          ref={audioRef}
+          src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
+          controls={false}
+        />
+      ) : null}
+      {/* <div className="flex justify-center text-center text-sm">
         {songs[currentSongIndex].title}
+      </div> */}
+      <div className="flex justify-center text-center text-sm">
+        {songs[currentSongIndex] && songs[currentSongIndex].title
+          ? songs[currentSongIndex].title
+          : "No song selected"}
       </div>
       <div className="flex justify-center text-center text-xs my-1">
         {/* {songs[currentSongIndex].artist} */}
@@ -214,7 +256,7 @@ export default function CustomAudioPlayer({ songs }: { songs: Song[] }) {
           : "Unknown Artist"}
       </div>
       <div className="flex justify-center text-center text-xs my-1">
-        {releaseCurrentlyPlaying
+        {releaseCurrentlyPlaying && releaseCurrentlyPlaying.title
           ? releaseCurrentlyPlaying.title
           : "Unknown Album"}
       </div>

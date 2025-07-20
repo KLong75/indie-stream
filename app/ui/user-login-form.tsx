@@ -20,7 +20,6 @@
 //   );
 // }
 
-
 // below is the good one
 // "use client";
 
@@ -63,17 +62,12 @@
 //   );
 // }
 
-
-
-
-
 // this one works kinda
 // "use client";
 
 // import { useFormStatus } from 'react-dom';
 // import { useActionState } from "react";
 // import { authenticate } from "@/app/lib/actions";
-
 
 // export default function UserLoginForm() {
 //   const [errorMessage, dispatch] = useActionState(authenticate, undefined);
@@ -99,7 +93,7 @@
 //         minLength={6}
 //         autoComplete="current-password"
 //       />
-//       <LoginButton/> 
+//       <LoginButton/>
 //       <div>
 //         {errorMessage && <p>{errorMessage}</p>}
 //       </div>
@@ -119,7 +113,7 @@
 "use client";
 
 // import { useActionState } from "react";
-import { authenticate } from "@/app/lib/actions";
+import { authenticate } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 // import { useSearchParams } from 'next/navigation';
 
@@ -134,7 +128,7 @@ export default function UserLoginForm() {
       // router.push(`/listeners/${user}?postLogin=true`);
       router.push(`/listeners/${user}`);
     } else {
-      console.error('Authentication failed: user is undefined');
+      console.error("Authentication failed: user is undefined");
     }
   }
 
@@ -162,7 +156,7 @@ export default function UserLoginForm() {
         autoComplete="current-password"
       />
       {/* <input type="hidden" name="redirectTo" value={callBackUrl} /> */}
-      <button className="mt-6 rounded-md bg-blue-600 p-2">Log In</button> 
+      <button className="mt-6 rounded-md bg-blue-600 p-2">Log In</button>
       {/* <div>
         {errorMessage && <p>Error message: {errorMessage}</p>}
       </div> */}

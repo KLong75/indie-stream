@@ -1,5 +1,5 @@
 // import data
-import { getReleaseById, getSongById, getArtistById } from "@/app/lib/data";
+import { getReleaseById, getSongById, getArtistById } from "@/lib/data";
 // import from next
 import Image from "next/image";
 import Link from "next/link";

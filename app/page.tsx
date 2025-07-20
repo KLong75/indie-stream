@@ -1,12 +1,20 @@
+// import auth
+import { auth } from "@/auth";
 // import from next
 import Link from "next/link";
-import UploadButtonContainer from "./ui/upload-button-container";
 // import components
 import { Button } from "@/components/ui/button";
+import UploadButtonContainer from "./ui/upload-button-container";
 // import from react icons
 import { GiMusicalNotes } from "react-icons/gi";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  if (session && session.user && session.user.id) {
+    // redirect to listener page
+    redirect(`/listeners/${session.user.id}`);
+  }
   return (
     <main className="flex flex-col">
       <div className="flex flex-col items-center justify-center min-h-screen p-24">

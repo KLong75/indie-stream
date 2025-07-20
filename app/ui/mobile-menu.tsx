@@ -6,7 +6,7 @@ import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 // import { RxCross1 } from "react-icons/rx";
 // import { signOut } from "next-auth/react";
-import { signOutUser } from "../lib/actions";
+import { signOutUser } from "../../lib/actions";
 // import components
 import NavListItem from "./navListItem";
 // import from shadcn/ui
@@ -19,7 +19,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { ModeToggle } from "./mode-toggle";
 interface MobileMenuProps {
   session: Session | null;
@@ -66,7 +66,7 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <button className="flex items-center justify-center p-2">
-            <RxHamburgerMenu size={24}/>
+            <RxHamburgerMenu size={24} />
           </button>
         </DrawerTrigger>
         <DrawerContent data-vaul-drawer-direction="bottom">
@@ -77,13 +77,15 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
                 <NavListItem
                   key={item.label}
                   label={item.label}
-                  href={item.label === "Your Music" ? `/listeners/${userId}` : item.href} // Replace placeholder with userId
+                  href={
+                    item.label === "Your Music"
+                      ? `/listeners/${userId}`
+                      : item.href
+                  } // Replace placeholder with userId
                   htmlElement={item.htmlElement}
                   onClick={
-                  item.label === "Sign Out"
-                    ? handleSignOut
-                    : handleNavClick
-                }
+                    item.label === "Sign Out" ? handleSignOut : handleNavClick
+                  }
                 />
               ))}
               <ModeToggle />

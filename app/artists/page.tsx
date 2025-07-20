@@ -2,17 +2,17 @@
 import Link from "next/link";
 // import Image from "next/image";
 // get data
-import { getArtistById, getAllArtists } from "@/app/lib/data";
+import { getArtistById, getAllArtists } from "@/lib/data";
 // import definitions
 // import { Artist } from "@/app/lib/definitions";
 
 export default async function Page() {
   const artists = await getAllArtists();
- // console.log("artists", artists);
+  // console.log("artists", artists);
 
   artists.forEach((artist) => {
     getArtistById(artist.id);
-   // console.log("artist", artist);
+    // console.log("artist", artist);
   });
 
   return (
