@@ -58,7 +58,7 @@ export default async function AudioContainer() {
   const savedArtists = (
     await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
   ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
-  console.log("savedArtists", savedArtists);
+  // console.log("savedArtists", savedArtists);
   // saved songs
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))

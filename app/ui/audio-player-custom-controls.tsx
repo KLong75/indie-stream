@@ -27,8 +27,20 @@ import { MdOutlineReplay10 } from "react-icons/md";
 // import { RxMixerVertical } from "react-icons/rx";
 // import { songs } from "../lib/_songs_";
 
-export default function CustomAudioPlayer({ songs, isPlaying, setIsPlaying }: { songs: Song[], isPlaying: boolean, setIsPlaying: (isPlaying: boolean) => void }) {
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+export default function CustomAudioPlayer({
+  songs,
+  isPlaying,
+  setIsPlaying,
+  currentSongIndex,
+  setCurrentSongIndex,
+}: {
+  songs: Song[];
+  isPlaying: boolean;
+  setIsPlaying: (isPlaying: boolean) => void;
+  currentSongIndex: number;
+  setCurrentSongIndex: (index: number) => void;
+}) {
+  // const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   // const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -49,53 +61,69 @@ export default function CustomAudioPlayer({ songs, isPlaying, setIsPlaying }: { 
         `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
       );
       const data = await response.json();
-      // console.log("!!!!!!!!!!!!!!!!!!!!data", data);
       setReleaseCurrentlyPlaying(data.release);
       setArtistCurrentlyPlaying(data.artist);
     }
     fetchReleaseAndArtist();
   }, [currentSongIndex, songs]);
 
+
+  // --- NEW: useEffect to handle shuffle activation and pick a new random song ---
+  useEffect(() => {
+    if (shuffle && songs.length > 1) {
+      let newIndex = currentSongIndex;
+      while (newIndex === currentSongIndex) {
+        newIndex = Math.floor(Math.random() * songs.length);
+      }
+      setCurrentSongIndex(newIndex);
+      setIsPlaying(true);
+    }
+    // Only run when shuffle is turned on
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shuffle]);
+  // --- END NEW ---
+
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
-
     const handleEnded = () => {
       if (shuffle) {
         const randomIndex = Math.floor(Math.random() * songs.length);
         setCurrentSongIndex(randomIndex);
       } else {
-        setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+        setCurrentSongIndex((currentSongIndex + 1) % songs.length);
       }
       setIsPlaying(true); // Automatically play the next song
     };
-
     audioElement.addEventListener("ended", handleEnded);
-
     return () => {
       audioElement.removeEventListener("ended", handleEnded);
     };
   }, [currentSongIndex, shuffle, songs.length]);
 
-  function handleShuffle() {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
+  // function handleShuffle() {
+  //   const audioElement = audioRef.current;
+  //   if (!audioElement) return;
 
-    // Toggle shuffle, but only pick a new random index if we are going from OFF -> ON
-    setShuffle((wasShuffle) => {
-      const newShuffle = !wasShuffle;
-      if (!wasShuffle && newShuffle) {
-        let newIndex = currentSongIndex;
-        while (newIndex === currentSongIndex && songs.length > 1) {
-          newIndex = Math.floor(Math.random() * songs.length);
-        }
-        setCurrentSongIndex(newIndex);
-      }
-      return newShuffle;
-    });
+  //   // Toggle shuffle, but only pick a new random index if we are going from OFF -> ON
+  //   setShuffle((wasShuffle) => {
+  //     const newShuffle = !wasShuffle;
+  //     if (!wasShuffle && newShuffle) {
+  //       let newIndex = currentSongIndex;
+  //       while (newIndex === currentSongIndex && songs.length > 1) {
+  //         newIndex = Math.floor(Math.random() * songs.length);
+  //       }
+  //       setCurrentSongIndex(newIndex);
+  //     }
+  //     return newShuffle;
+  //   });
 
-    // audioElement.play();
-    setIsPlaying(true);
+  //   // audioElement.play();
+  //   setIsPlaying(true);
+  // }
+
+   function handleShuffle() {
+    setShuffle((wasShuffle) => !wasShuffle);
   }
 
   const handlePlayPause = () => {
@@ -115,13 +143,13 @@ export default function CustomAudioPlayer({ songs, isPlaying, setIsPlaying }: { 
       const randomIndex = Math.floor(Math.random() * songs.length);
       setCurrentSongIndex(randomIndex);
     } else {
-      setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+      setCurrentSongIndex((currentSongIndex + 1) % songs.length);
     }
     setIsPlaying(true);
   };
 
   const handlePrev = () => {
-    setCurrentSongIndex((prev) => (prev - 1 < 0 ? songs.length - 1 : prev - 1));
+    setCurrentSongIndex(currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1);
     setIsPlaying(true);
   };
 

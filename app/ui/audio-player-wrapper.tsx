@@ -42,6 +42,7 @@ export default function AudioPlayerWrapper({
   const [currentSongs, setCurrentSongs] = useState<Song[]>(
     savedSongs.length > 0 ? savedSongs : allSongs
   );
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
     "Saved Songs"
   );
@@ -107,10 +108,18 @@ export default function AudioPlayerWrapper({
           value={selected}
           onChange={(song: Song | null) => {
             setSelected(song);
-            
+
             if (song) {
-              setCurrentSongs([song]);
+              // setCurrentSongs([song]);
+              setCurrentSongs(
+                allSongs.filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
               setCurrentPlaylist("All Songs");
+              const index = allSongs.findIndex((s) => s.id === song.id);
+              setCurrentSongIndex(index >= 0 ? index : 0);
+              console.log('index', index);
               setIsPlaying(true);
             }
           }}
@@ -321,7 +330,13 @@ export default function AudioPlayerWrapper({
       <div className="px-4 pt-4 flex justify-center">
         Current Playlist: {currentPlaylist}
       </div>
-      <CustomAudioPlayer songs={currentSongs} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+      <CustomAudioPlayer
+        songs={currentSongs}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        currentSongIndex={currentSongIndex}
+        setCurrentSongIndex={setCurrentSongIndex}
+      />
     </div>
   );
 }

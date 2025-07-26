@@ -23,7 +23,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const releaseSongs = release?.songs
     ? await Promise.all(release.songs.map((song) => getSongById(song)))
     : [];
-  console.log("Release Songs: ", releaseSongs);
+  // console.log("Release Songs: ", releaseSongs);
   if (!release) {
     return <div>Release not found</div>;
   } else {

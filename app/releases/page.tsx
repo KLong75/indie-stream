@@ -7,7 +7,7 @@ import { getArtistById } from "@/lib/data";
 
 export default async function Page() {
   const releases = await getAllReleases();
-  console.log("releases", releases);
+  // console.log("releases", releases);
   if (!releases) {
     return <div>No releases found</div>;
   }

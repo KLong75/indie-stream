@@ -69,7 +69,7 @@ export const authConfig = {
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
         if (auth?.user) {
-          console.log("auth.user:", auth.user);
+          // console.log("auth.user:", auth.user);
           return Response.redirect(
             new URL(`/listeners/${auth.user.id}`, nextUrl) // <-- use user.id here
           );

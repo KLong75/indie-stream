@@ -16,12 +16,12 @@ import {
 // import definitions
 import { Song } from "@/lib/definitions";
 // import components
-import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
 import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  
   const { id } = await props.params;
   const user = await getUserById(id);
   if (!user) {
@@ -58,7 +58,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const savedArtists = (
     await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
   ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
-  console.log("savedArtists", savedArtists);
+  // console.log("savedArtists", savedArtists);
   // saved songs
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))

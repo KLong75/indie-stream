@@ -56,7 +56,7 @@ const f = createUploadthing();
 // };
 
 const authUser = async (req: Request) => {
-  console.log("Request URL:", req.url);
+  // console.log("Request URL:", req.url);
   const session = await auth(); // This gets the session for the current user
   if (!session?.user?.id) return null;
   return { id: session.user.id };

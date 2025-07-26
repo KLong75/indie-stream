@@ -118,11 +118,11 @@ export async function authenticate(
       console.log("CATCH BLOCK - ###Error occurred###", result.error);
       return `Error: ${result.error}`;
     }
-    console.log("###Authenticated successfully.###");
+    // console.log("###Authenticated successfully.###");
 
     const email = formData.get("email") as string;
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    console.log("authorized user:", user);
+    // console.log("authorized user:", user);
     return user[0].id;
 
     // console.log("result", result);
