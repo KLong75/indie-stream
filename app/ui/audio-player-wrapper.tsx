@@ -1,12 +1,12 @@
 "use client";
 // import from react
-import { useState } from "react";
+import { useState, useRef } from "react";
 // import components
 import AudioPlayer from "@/app/ui/audio-player";
 // import definitions
 import { Song } from "@/lib/definitions";
 // import icons
-import { RxCrossCircled } from "react-icons/rx";
+// import { RxCrossCircled } from "react-icons/rx";
 import { RxChevronDown } from "react-icons/rx";
 import { RxCheck } from "react-icons/rx";
 // import from headless ui
@@ -39,6 +39,7 @@ export default function AudioPlayerWrapper({
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Song | null>(null);
   const [selectedRelease, setSelectedRelease] = useState<string | null>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
   const [currentSongs, setCurrentSongs] = useState<Song[]>(
     savedSongs.length > 0 ? savedSongs : allSongs
   );
@@ -46,10 +47,16 @@ export default function AudioPlayerWrapper({
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
     "Saved Songs"
   );
-  const [playlistsDropdownVisible, setPlaylistsDropdownVisible] =
-    useState<boolean>(false);
-  const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] =
-    useState<boolean>(false);
+  const allSongsInputRef = useRef<HTMLInputElement>(null);
+  const savedSongsInputRef = useRef<HTMLInputElement>(null);
+  const allReleasesInputRef = useRef<HTMLInputElement>(null);
+  const savedReleasesInputRef = useRef<HTMLInputElement>(null);
+  const playlistsInputRef = useRef<HTMLInputElement>(null);
+  const publicPlaylistsInputRef = useRef<HTMLInputElement>(null);
+  // const [playlistsDropdownVisible, setPlaylistsDropdownVisible] =
+  // useState<boolean>(false);
+  // const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] =
+  //   useState<boolean>(false);
   // const [allReleasesDropdownVisible, setAllReleasesDropdownVisible] =
   //   useState<boolean>(false);
   // const [savedReleasesDropdownVisible, setSavedReleasesDropdownVisible] =
@@ -69,15 +76,15 @@ export default function AudioPlayerWrapper({
   //   setCurrentPlaylist("Saved Songs");
   // };
 
-  const togglePlaylistsDropdown = () => {
-    setPlaylistsDropdownVisible(!playlistsDropdownVisible);
-    setPublicPlaylistsDropdownVisible(false); // Close public playlists dropdown when opening playlists dropdown
-  };
+  // const togglePlaylistsDropdown = () => {
+  //   setPlaylistsDropdownVisible(!playlistsDropdownVisible);
+  //   setPublicPlaylistsDropdownVisible(false); // Close public playlists dropdown when opening playlists dropdown
+  // };
 
-  const togglePublicPlaylistsDropdown = () => {
-    setPublicPlaylistsDropdownVisible(!publicPlaylistsDropdownVisible);
-    setPlaylistsDropdownVisible(false); // Close playlists dropdown when opening public playlists dropdown
-  };
+  // const togglePublicPlaylistsDropdown = () => {
+  //   setPublicPlaylistsDropdownVisible(!publicPlaylistsDropdownVisible);
+  //   setPlaylistsDropdownVisible(false); // Close playlists dropdown when opening public playlists dropdown
+  // };
 
   // const toggleAllReleasesDropdown = () => {
   //   setAllReleasesDropdownVisible(!allReleasesDropdownVisible);
@@ -112,6 +119,18 @@ export default function AudioPlayerWrapper({
 
   return (
     <div className="flex flex-col">
+      <div className="px-4 pt-4 flex justify-center">
+        {isPlaying
+          ? `Currently playing: ${currentPlaylist}`
+          : `Currently loaded: ${currentPlaylist}`}
+      </div>
+      <AudioPlayer
+        songs={currentSongs}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        currentSongIndex={currentSongIndex}
+        setCurrentSongIndex={setCurrentSongIndex}
+      />
       <div className="px-8 py-2 w-80 mx-auto">
         <h3 className="text-center">All Songs</h3>
         <Combobox
@@ -130,16 +149,21 @@ export default function AudioPlayerWrapper({
               // console.log("index", index);
               setIsPlaying(true);
             }
+            // Remove focus from the input
+            allSongsInputRef.current?.blur();
           }}
           onClose={() => setQuery("")}>
           <div className="relative">
             <ComboboxInput
+              ref={allSongsInputRef}
               className={clsx(
                 "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
                 "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
               )}
               // the commented out line below sets the display value to the selected song title
               // displayValue={(song: Song) => song?.title || ""}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
               placeholder="Search all songs..."
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -185,16 +209,21 @@ export default function AudioPlayerWrapper({
               // console.log("index", index);
               setIsPlaying(true);
             }
+            // Remove focus from the input
+            savedSongsInputRef.current?.blur();
           }}
           onClose={() => setQuery("")}>
           <div className="relative">
             <ComboboxInput
+              ref={savedSongsInputRef}
               className={clsx(
                 "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
                 "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
               )}
               // the commented out line below sets the display value to the selected song title
               // displayValue={(song: Song) => song?.title || ""}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
               placeholder="Search your saved songs..."
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -239,11 +268,14 @@ export default function AudioPlayerWrapper({
               setIsPlaying(true);
             }
             // Reset query so input shows placeholder again
-            setQuery("");
+            // setQuery("");
+            // Remove focus from the input
+            allReleasesInputRef.current?.blur();
           }}
           onClose={() => setQuery("")}>
           <div className="relative">
             <ComboboxInput
+              ref={allReleasesInputRef}
               className={clsx(
                 "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
                 "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
@@ -301,11 +333,14 @@ export default function AudioPlayerWrapper({
               setIsPlaying(true);
             }
             // Reset query so input shows placeholder again
-            setQuery("");
+            // setQuery("");
+            // Remove focus from the input
+            savedReleasesInputRef.current?.blur();
           }}
           onClose={() => setQuery("")}>
           <div className="relative">
             <ComboboxInput
+              ref={savedReleasesInputRef}
               className={clsx(
                 "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
                 "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
@@ -346,17 +381,171 @@ export default function AudioPlayerWrapper({
         </Combobox>
       </div>
 
-      {/* replace the buttons below with combo boxes */}
-      <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4">
-        {/* <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
-          All Songs
-        </button> */}
-        {/* <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
-          Saved Songs
-        </button> */}
+      <div className="px-8 py-2 w-80 mx-auto">
+        <h3 className="text-center">Your Playlists</h3>
+        <Combobox
+          value={selectedPlaylist}
+          onChange={(playlistTitle: string | null) => {
+            setSelectedPlaylist(playlistTitle);
+            if (playlistTitle) {
+              setCurrentSongs(
+                formattedPlaylists[playlistTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(playlistTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+            // Reset query so input shows placeholder again
+            setQuery("");
+            // Remove focus from the input
+            playlistsInputRef.current?.blur();
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              ref={playlistsInputRef}
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              placeholder="Search your playlists..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {Object.keys(formattedPlaylists)
+              .filter((playlistTitle) =>
+                query === ""
+                  ? true
+                  : playlistTitle.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((playlistTitle) => (
+                <ComboboxOption
+                  key={playlistTitle}
+                  value={playlistTitle}
+                  className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                  <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                  <div className="text-sm/6 text-white">{playlistTitle}</div>
+                </ComboboxOption>
+              ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
 
-        {/* <div className=""> */}
-        {/* <button
+      <div className="px-8 py-2 w-80 mx-auto">
+        <h3 className="text-center">Public Playlists</h3>
+        <Combobox
+          value={selectedPlaylist}
+          onChange={(playlistTitle: string | null) => {
+            setSelectedPlaylist(playlistTitle);
+            if (playlistTitle) {
+              setCurrentSongs(
+                formattedPublicPlaylists[playlistTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(playlistTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+            // Reset query so input shows placeholder again
+            setQuery("");
+            // Remove focus from the input
+            publicPlaylistsInputRef.current?.blur();
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              ref={publicPlaylistsInputRef}
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              placeholder="Search public playlists..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {Object.keys(formattedPublicPlaylists)
+              .filter((playlistTitle) =>
+                query === ""
+                  ? true
+                  : playlistTitle.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((playlistTitle) => (
+                <ComboboxOption
+                  key={playlistTitle}
+                  value={playlistTitle}
+                  className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                  <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                  <div className="text-sm/6 text-white">{playlistTitle}</div>
+                </ComboboxOption>
+              ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
+
+      {/* <div className="px-4 pt-4 flex justify-center">
+        {isPlaying
+          ? `Currently playing: ${currentPlaylist}`
+          : `Currently loaded: ${currentPlaylist}`}
+      </div>
+      <AudioPlayer
+        songs={currentSongs}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        currentSongIndex={currentSongIndex}
+        setCurrentSongIndex={setCurrentSongIndex}
+      /> */}
+    </div>
+  );
+}
+
+{
+  /* <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4"> */
+}
+{
+  /* <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
+          All Songs
+        </button> */
+}
+{
+  /* <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
+          Saved Songs
+        </button> */
+}
+
+{
+  /* <div className=""> */
+}
+{
+  /* <button
           onClick={toggleAllReleasesDropdown}
           className="p-4 cursor-pointer">
           All Releases
@@ -393,10 +582,16 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )} */}
-        {/* </div> */}
-        {/* <div className=""> */}
-        {/* <button
+        )} */
+}
+{
+  /* </div> */
+}
+{
+  /* <div className=""> */
+}
+{
+  /* <button
           onClick={toggleSavedReleasesDropdown}
           className="p-4 cursor-pointer">
           Saved Releases
@@ -433,11 +628,17 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )} */}
-        {/* </div> */}
+        )} */
+}
+{
+  /* </div> */
+}
 
-        {/* <div className=""> */}
-        <button
+{
+  /* <div className=""> */
+}
+{
+  /* <button
           onClick={togglePlaylistsDropdown}
           className="p-4 cursor-pointer">
           Your Playlists
@@ -474,10 +675,16 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )}
-        {/* </div> */}
-        {/* <div className=""> */}
-        <button
+        )} */
+}
+{
+  /* </div> */
+}
+{
+  /* <div className=""> */
+}
+{
+  /* <button
           onClick={togglePublicPlaylistsDropdown}
           className="p-4 cursor-pointer">
           Public Playlists
@@ -514,19 +721,11 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )}
-        {/* </div> */}
-      </div>
-      <div className="px-4 pt-4 flex justify-center">
-        Current Playlist: {currentPlaylist}
-      </div>
-      <AudioPlayer
-        songs={currentSongs}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        currentSongIndex={currentSongIndex}
-        setCurrentSongIndex={setCurrentSongIndex}
-      />
-    </div>
-  );
+        )} */
+}
+{
+  /* </div> */
+}
+{
+  /* </div> */
 }

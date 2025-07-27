@@ -40,13 +40,10 @@ export default function AudioPlayer({
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
 }) {
-  // const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  // const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [shuffle, setShuffle] = useState(false);
-
   const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{
     id: string;
     name: string;
@@ -54,87 +51,9 @@ export default function AudioPlayer({
   const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
     useState<Release | null>(null);
 
-  useEffect(() => {
-    async function fetchReleaseAndArtist() {
-      const currentSong = songs[currentSongIndex];
-      if (!currentSong) return;
-      const response = await fetch(
-        `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
-      );
-      const data = await response.json();
-      setReleaseCurrentlyPlaying(data.release);
-      setArtistCurrentlyPlaying(data.artist);
-    }
-    fetchReleaseAndArtist();
-  }, [currentSongIndex, songs]);
-
-  // useEffect hook to handle shuffle activation and pick a new random song ---
-  useEffect(() => {
-    if (shuffle && songs.length > 1) {
-      let newIndex = currentSongIndex;
-      while (newIndex === currentSongIndex) {
-        newIndex = Math.floor(Math.random() * songs.length);
-      }
-      setCurrentSongIndex(newIndex);
-      setIsPlaying(true);
-    }
-  }, [
-    shuffle,
-    songs.length,
-    currentSongIndex,
-    setCurrentSongIndex,
-    setIsPlaying,
-  ]);
-  // --- END NEW ---
-
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
-    const handleEnded = () => {
-      if (shuffle) {
-        const randomIndex = Math.floor(Math.random() * songs.length);
-        setCurrentSongIndex(randomIndex);
-      } else {
-        setCurrentSongIndex((currentSongIndex + 1) % songs.length);
-      }
-      setIsPlaying(true); // Automatically play the next song
-    };
-    audioElement.addEventListener("ended", handleEnded);
-    return () => {
-      audioElement.removeEventListener("ended", handleEnded);
-    };
-  }, [
-    currentSongIndex,
-    shuffle,
-    songs.length,
-    setCurrentSongIndex,
-    setIsPlaying,
-  ]);
-
-  // function handleShuffle() {
-  //   const audioElement = audioRef.current;
-  //   if (!audioElement) return;
-
-  //   // Toggle shuffle, but only pick a new random index if we are going from OFF -> ON
-  //   setShuffle((wasShuffle) => {
-  //     const newShuffle = !wasShuffle;
-  //     if (!wasShuffle && newShuffle) {
-  //       let newIndex = currentSongIndex;
-  //       while (newIndex === currentSongIndex && songs.length > 1) {
-  //         newIndex = Math.floor(Math.random() * songs.length);
-  //       }
-  //       setCurrentSongIndex(newIndex);
-  //     }
-  //     return newShuffle;
-  //   });
-
-  //   // audioElement.play();
-  //   setIsPlaying(true);
-  // }
-
-  function handleShuffle() {
+  const handleShuffle = () => {
     setShuffle((wasShuffle) => !wasShuffle);
-  }
+  };
 
   const handlePlayPause = () => {
     const audioElement = audioRef.current;
@@ -177,6 +96,75 @@ export default function AudioPlayer({
     audioElement.currentTime -= 10;
   };
 
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!audioRef.current) return;
+    const newProgress = Number(e.target.value);
+    audioRef.current.currentTime = (newProgress / 100) * duration;
+    setProgress(newProgress);
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  useEffect(() => {
+    async function fetchReleaseAndArtist() {
+      const currentSong = songs[currentSongIndex];
+      if (!currentSong) return;
+      const response = await fetch(
+        `/api/getReleaseAndArtist?releaseId=${currentSong.release}&artistId=${currentSong.artist}`
+      );
+      const data = await response.json();
+      setReleaseCurrentlyPlaying(data.release);
+      setArtistCurrentlyPlaying(data.artist);
+    }
+    fetchReleaseAndArtist();
+  }, [currentSongIndex, songs]);
+
+  // useEffect hook to handle shuffle activation and pick a new random song ---
+  useEffect(() => {
+    if (shuffle && songs.length > 1) {
+      let newIndex = currentSongIndex;
+      while (newIndex === currentSongIndex) {
+        newIndex = Math.floor(Math.random() * songs.length);
+      }
+      setCurrentSongIndex(newIndex);
+      setIsPlaying(true);
+    }
+  }, [
+    shuffle,
+    songs.length,
+    currentSongIndex,
+    setCurrentSongIndex,
+    setIsPlaying,
+  ]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+    const handleEnded = () => {
+      if (shuffle) {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        setCurrentSongIndex(randomIndex);
+      } else {
+        setCurrentSongIndex((currentSongIndex + 1) % songs.length);
+      }
+      setIsPlaying(true); // Automatically play the next song
+    };
+    audioElement.addEventListener("ended", handleEnded);
+    return () => {
+      audioElement.removeEventListener("ended", handleEnded);
+    };
+  }, [
+    currentSongIndex,
+    shuffle,
+    songs.length,
+    setCurrentSongIndex,
+    setIsPlaying,
+  ]);
+
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
@@ -217,18 +205,6 @@ export default function AudioPlayer({
     };
   }, [currentSongIndex]);
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!audioRef.current) return;
-    const newProgress = Number(e.target.value);
-    audioRef.current.currentTime = (newProgress / 100) * duration;
-    setProgress(newProgress);
-  };
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
   return (
     <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide mb-12 rounded-lg">
       <div className="flex justify-center items-center w-full h-auto p-4">
