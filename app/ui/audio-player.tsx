@@ -13,6 +13,7 @@ import { RxPlay } from "react-icons/rx";
 import { RxPause } from "react-icons/rx";
 import { RxShuffle } from "react-icons/rx";
 import { RxArrowRight } from "react-icons/rx";
+// import { RxChevronDown } from "react-icons/rx";
 // import { RxDoubleArrowRight } from "react-icons/rx";
 // import { RxDoubleArrowLeft } from "react-icons/rx";
 // import { TbPlaylistAdd } from "react-icons/tb";
@@ -206,7 +207,7 @@ export default function AudioPlayer({
   }, [currentSongIndex]);
 
   return (
-    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide mb-12 rounded-lg">
+    <div className="bg-gray-900 pb-4 pt-2 rounded m-6 tracking-wide rounded-lg">
       <div className="flex justify-center items-center w-full h-auto p-4">
         <Image
           src={`https://4ykxjgur5y.ufs.sh/f/${

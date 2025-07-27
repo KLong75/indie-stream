@@ -112,7 +112,6 @@ export default async function AudioContainer() {
   );
   return (
     <div>
-      <h3 className="px-4 text-center">Listen to music</h3>
       <AudioPlayerWrapper
         allSongs={allSongsAlphabeticalOrder.filter(
           (song): song is Song => !!song && !!song.file_key
