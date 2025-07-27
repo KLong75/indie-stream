@@ -58,3 +58,13 @@ export type Playlist = {
   created_by: string;
   number_of_saves: number;
 };
+
+export type AppSession = {
+  user?: {
+    id: string;
+    user_name?: string;
+    email?: string;
+    // add any other fields you use
+  };
+  // add any other fields your session includes
+} | null;
