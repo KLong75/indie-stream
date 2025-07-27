@@ -1,5 +1,4 @@
 "use client";
-
 // import from next
 import Image from "next/image";
 import Link from "next/link";
@@ -69,7 +68,7 @@ export default function AudioPlayer({
     fetchReleaseAndArtist();
   }, [currentSongIndex, songs]);
 
-  // --- NEW: useEffect to handle shuffle activation and pick a new random song ---
+  // useEffect hook to handle shuffle activation and pick a new random song ---
   useEffect(() => {
     if (shuffle && songs.length > 1) {
       let newIndex = currentSongIndex;
@@ -79,8 +78,6 @@ export default function AudioPlayer({
       setCurrentSongIndex(newIndex);
       setIsPlaying(true);
     }
-    // Only run when shuffle is turned on
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     shuffle,
     songs.length,
@@ -106,7 +103,13 @@ export default function AudioPlayer({
     return () => {
       audioElement.removeEventListener("ended", handleEnded);
     };
-  }, [currentSongIndex, shuffle, songs.length, setCurrentSongIndex, setIsPlaying]);
+  }, [
+    currentSongIndex,
+    shuffle,
+    songs.length,
+    setCurrentSongIndex,
+    setIsPlaying,
+  ]);
 
   // function handleShuffle() {
   //   const audioElement = audioRef.current;
@@ -241,20 +244,6 @@ export default function AudioPlayer({
           className="rounded-lg shadow-2xl"
         />
       </div>
-      {/* <audio
-        ref={audioRef}
-        src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
-        controls={false}
-      /> */}
-      {/* <audio
-        ref={audioRef}
-        src={
-          songs[currentSongIndex] && songs[currentSongIndex].file_key
-            ? `https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`
-            : ""
-        }
-        controls={false}
-      /> */}
       {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
         <audio
           ref={audioRef}
@@ -262,9 +251,6 @@ export default function AudioPlayer({
           controls={false}
         />
       ) : null}
-      {/* <div className="flex justify-center text-center text-sm">
-        {songs[currentSongIndex].title}
-      </div> */}
       <Link href={`/songs/${songs[currentSongIndex]?.id}`}>
         <div className="flex justify-center text-center text-sm">
           {songs[currentSongIndex] && songs[currentSongIndex].title
