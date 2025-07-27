@@ -1,5 +1,4 @@
 "use client";
-
 // import from react
 import { useState } from "react";
 // import components
@@ -51,10 +50,10 @@ export default function AudioPlayerWrapper({
     useState<boolean>(false);
   const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] =
     useState<boolean>(false);
-  const [allReleasesDropdownVisible, setAllReleasesDropdownVisible] =
-    useState<boolean>(false);
-  const [savedReleasesDropdownVisible, setSavedReleasesDropdownVisible] =
-    useState<boolean>(false);
+  // const [allReleasesDropdownVisible, setAllReleasesDropdownVisible] =
+  //   useState<boolean>(false);
+  // const [savedReleasesDropdownVisible, setSavedReleasesDropdownVisible] =
+  //   useState<boolean>(false);
 
   // const handleAllSongsClick = () => {
   //   setCurrentSongs(

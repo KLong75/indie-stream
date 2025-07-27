@@ -81,7 +81,7 @@ export default function CustomAudioPlayer({
     }
     // Only run when shuffle is turned on
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shuffle]);
+  }, [shuffle, songs.length, currentSongIndex, setCurrentSongIndex, setIsPlaying]);
   // --- END NEW ---
 
   useEffect(() => {
@@ -181,36 +181,20 @@ export default function CustomAudioPlayer({
     };
   }, []);
 
-  // useEffect(() => {
-  //   const audioElement = audioRef.current;
-  //   if (audioElement) {
-  //     audioElement.load();
-  //     if (isPlaying) {
-  //       audioElement.play();
-  //     }
-  //   }
-  // }, [currentSongIndex, isPlaying]);
-
-  // --- THIS IS THE UPDATED EFFECT ---
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
-
     audioElement.load();
-
     const handleCanPlay = () => {
       if (isPlaying) {
         audioElement.play();
       }
     };
-
     audioElement.addEventListener("canplay", handleCanPlay);
-
     return () => {
       audioElement.removeEventListener("canplay", handleCanPlay);
     };
   }, [currentSongIndex, isPlaying]);
-  // --- END UPDATED EFFECT ---
 
   useEffect(() => {
     const audioElement = audioRef.current;
