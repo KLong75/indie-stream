@@ -80,15 +80,15 @@ export default function AudioPlayerWrapper({
     setPlaylistsDropdownVisible(false); // Close playlists dropdown when opening public playlists dropdown
   };
 
-  const toggleAllReleasesDropdown = () => {
-    setAllReleasesDropdownVisible(!allReleasesDropdownVisible);
-    setSavedReleasesDropdownVisible(false); // Close saved releases dropdown when opening all releases dropdown
-  };
+  // const toggleAllReleasesDropdown = () => {
+  //   setAllReleasesDropdownVisible(!allReleasesDropdownVisible);
+  //   setSavedReleasesDropdownVisible(false); // Close saved releases dropdown when opening all releases dropdown
+  // };
 
-  const toggleSavedReleasesDropdown = () => {
-    setSavedReleasesDropdownVisible(!savedReleasesDropdownVisible);
-    setAllReleasesDropdownVisible(false); // Close all releases dropdown when opening saved releases dropdown
-  };
+  // const toggleSavedReleasesDropdown = () => {
+  //   setSavedReleasesDropdownVisible(!savedReleasesDropdownVisible);
+  //   setAllReleasesDropdownVisible(false); // Close all releases dropdown when opening saved releases dropdown
+  // };
 
   // Filter songs by query
   const allSongsFiltered =
