@@ -39,6 +39,7 @@ export default function AudioPlayerWrapper({
   const [isPlaying, setIsPlaying] = useState(false);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Song | null>(null);
+  const [selectedRelease, setSelectedRelease] = useState<string | null>(null);
   const [currentSongs, setCurrentSongs] = useState<Song[]>(
     savedSongs.length > 0 ? savedSongs : allSongs
   );
@@ -55,19 +56,19 @@ export default function AudioPlayerWrapper({
   const [savedReleasesDropdownVisible, setSavedReleasesDropdownVisible] =
     useState<boolean>(false);
 
-  const handleAllSongsClick = () => {
-    setCurrentSongs(
-      allSongs.filter((song): song is Song => !!song && !!song.file_key)
-    );
-    setCurrentPlaylist("All Songs");
-  };
+  // const handleAllSongsClick = () => {
+  //   setCurrentSongs(
+  //     allSongs.filter((song): song is Song => !!song && !!song.file_key)
+  //   );
+  //   setCurrentPlaylist("All Songs");
+  // };
 
-  const handleSavedSongsClick = () => {
-    setCurrentSongs(
-      savedSongs.filter((song): song is Song => !!song && !!song.file_key)
-    );
-    setCurrentPlaylist("Saved Songs");
-  };
+  // const handleSavedSongsClick = () => {
+  //   setCurrentSongs(
+  //     savedSongs.filter((song): song is Song => !!song && !!song.file_key)
+  //   );
+  //   setCurrentPlaylist("Saved Songs");
+  // };
 
   const togglePlaylistsDropdown = () => {
     setPlaylistsDropdownVisible(!playlistsDropdownVisible);
@@ -90,7 +91,7 @@ export default function AudioPlayerWrapper({
   };
 
   // Filter songs by query
-  const filteredSongs =
+  const allSongsFiltered =
     query === ""
       ? allSongs.filter((song): song is Song => !!song && !!song.file_key)
       : allSongs.filter(
@@ -100,17 +101,25 @@ export default function AudioPlayerWrapper({
             song.title.toLowerCase().includes(query.toLowerCase())
         );
 
+  const savedSongsFiltered =
+    query === ""
+      ? savedSongs.filter((song): song is Song => !!song && !!song.file_key)
+      : savedSongs.filter(
+          (song): song is Song =>
+            !!song &&
+            !!song.file_key &&
+            song.title.toLowerCase().includes(query.toLowerCase())
+        );
+
   return (
     <div className="flex flex-col">
-      <div className="p-4 ">
+      <div className="px-8 py-2 w-80 mx-auto">
         <h3 className="text-center">All Songs</h3>
         <Combobox
           value={selected}
           onChange={(song: Song | null) => {
             setSelected(song);
-
             if (song) {
-              // setCurrentSongs([song]);
               setCurrentSongs(
                 allSongs.filter(
                   (song): song is Song => !!song && !!song.file_key
@@ -119,7 +128,7 @@ export default function AudioPlayerWrapper({
               setCurrentPlaylist("All Songs");
               const index = allSongs.findIndex((s) => s.id === song.id);
               setCurrentSongIndex(index >= 0 ? index : 0);
-              console.log('index', index);
+              console.log("index", index);
               setIsPlaying(true);
             }
           }}
@@ -130,8 +139,9 @@ export default function AudioPlayerWrapper({
                 "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
                 "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
               )}
-              displayValue={(song: Song) => song?.title || ""}
-              placeholder="Search songs..."
+              // the commented out line below sets the display value to the selected song title
+              // displayValue={(song: Song) => song?.title || ""}
+              placeholder="Search all songs..."
               onChange={(event) => setQuery(event.target.value)}
             />
             <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
@@ -145,7 +155,7 @@ export default function AudioPlayerWrapper({
               "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
               "transition duration-100 ease-in data-leave:data-closed:opacity-0"
             )}>
-            {filteredSongs.map((song) => (
+            {allSongsFiltered.map((song) => (
               <ComboboxOption
                 key={song.id}
                 value={song}
@@ -157,16 +167,197 @@ export default function AudioPlayerWrapper({
           </ComboboxOptions>
         </Combobox>
       </div>
+
+      <div className="px-8 py-2 w-80 mx-auto">
+        <h3 className="text-center">Your Saved Songs</h3>
+        <Combobox
+          value={selected}
+          onChange={(song: Song | null) => {
+            setSelected(song);
+            if (song) {
+              setCurrentSongs(
+                savedSongs.filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist("Your Saved Songs");
+              const index = savedSongs.findIndex((s) => s.id === song.id);
+              setCurrentSongIndex(index >= 0 ? index : 0);
+              console.log("index", index);
+              setIsPlaying(true);
+            }
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              // the commented out line below sets the display value to the selected song title
+              // displayValue={(song: Song) => song?.title || ""}
+              placeholder="Search your saved songs..."
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {savedSongsFiltered.map((song) => (
+              <ComboboxOption
+                key={song.id}
+                value={song}
+                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                <div className="text-sm/6 text-white">{song.title}</div>
+              </ComboboxOption>
+            ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
+
+      <div className="px-8 py-2 w-80 mx-auto">
+        <h3 className="text-center">All Releases</h3>
+        <Combobox
+          value={selectedRelease}
+          onChange={(releaseTitle: string | null) => {
+            setSelectedRelease(releaseTitle);
+            if (releaseTitle) {
+              setCurrentSongs(
+                allReleases[releaseTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(releaseTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+            // Reset query so input shows placeholder again
+            setQuery("");
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              placeholder="Search all releases..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {Object.keys(allReleases)
+              .filter((releaseTitle) =>
+                query === ""
+                  ? true
+                  : releaseTitle.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((releaseTitle) => (
+                <ComboboxOption
+                  key={releaseTitle}
+                  value={releaseTitle}
+                  className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                  <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                  <div className="text-sm/6 text-white">{releaseTitle}</div>
+                </ComboboxOption>
+              ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
+
+      <div className="px-8 py-2 w-80 mx-auto">
+        <h3 className="text-center">Saved Releases</h3>
+        <Combobox
+          value={selectedRelease}
+          onChange={(releaseTitle: string | null) => {
+            setSelectedRelease(releaseTitle);
+            if (releaseTitle) {
+              setCurrentSongs(
+                savedReleases[releaseTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(releaseTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+            // Reset query so input shows placeholder again
+            setQuery("");
+          }}
+          onClose={() => setQuery("")}>
+          <div className="relative">
+            <ComboboxInput
+              className={clsx(
+                "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+              )}
+              placeholder="Search saved releases..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              // always show placeholder, never show selected value
+              displayValue={() => ""}
+            />
+            <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+              <RxChevronDown className="size-4 fill-white/60 group-data-hover:fill-white" />
+            </ComboboxButton>
+          </div>
+          <ComboboxOptions
+            anchor="bottom"
+            transition
+            className={clsx(
+              "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+            )}>
+            {Object.keys(savedReleases)
+              .filter((releaseTitle) =>
+                query === ""
+                  ? true
+                  : releaseTitle.toLowerCase().includes(query.toLowerCase())
+              )
+              .map((releaseTitle) => (
+                <ComboboxOption
+                  key={releaseTitle}
+                  value={releaseTitle}
+                  className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                  <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
+                  <div className="text-sm/6 text-white">{releaseTitle}</div>
+                </ComboboxOption>
+              ))}
+          </ComboboxOptions>
+        </Combobox>
+      </div>
+
+      {/* replace the buttons below with combo boxes */}
       <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4">
-        <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
+        {/* <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
           All Songs
-        </button>
-        <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
+        </button> */}
+        {/* <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
           Saved Songs
-        </button>
+        </button> */}
 
         {/* <div className=""> */}
-        <button
+        {/* <button
           onClick={toggleAllReleasesDropdown}
           className="p-4 cursor-pointer">
           All Releases
@@ -203,10 +394,10 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )}
+        )} */}
         {/* </div> */}
         {/* <div className=""> */}
-        <button
+        {/* <button
           onClick={toggleSavedReleasesDropdown}
           className="p-4 cursor-pointer">
           Saved Releases
@@ -243,7 +434,7 @@ export default function AudioPlayerWrapper({
               ))}
             </div>
           </div>
-        )}
+        )} */}
         {/* </div> */}
 
         {/* <div className=""> */}

@@ -30,7 +30,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return (
       <div>
         <div className="p-2">
-          <BackToLink href="/releases" label="Back to Releases" />
+          <BackToLink href="/releases" label="All Releases" />
         </div>
         <h1 className="p-4 text-center">{release.title}</h1>
 
@@ -39,7 +39,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           Artist:{" "}
           <Link
             href={`/artists/${artistId}`}
-            className="text-blue-500 hover:underline">
+            className="text-blue-500 underline">
             {artist ? artist.name : "Unknown Artist"}
           </Link>
         </h2>

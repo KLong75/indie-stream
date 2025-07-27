@@ -2,6 +2,7 @@
 
 // import from next
 import Image from "next/image";
+import Link from "next/link";
 // import definitions
 import { Song, Release } from "../../lib/definitions";
 // import from react
@@ -48,6 +49,7 @@ export default function CustomAudioPlayer({
   const [shuffle, setShuffle] = useState(false);
 
   const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{
+    id: string;
     name: string;
   } | null>(null);
   const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
@@ -66,7 +68,6 @@ export default function CustomAudioPlayer({
     }
     fetchReleaseAndArtist();
   }, [currentSongIndex, songs]);
-
 
   // --- NEW: useEffect to handle shuffle activation and pick a new random song ---
   useEffect(() => {
@@ -122,7 +123,7 @@ export default function CustomAudioPlayer({
   //   setIsPlaying(true);
   // }
 
-   function handleShuffle() {
+  function handleShuffle() {
     setShuffle((wasShuffle) => !wasShuffle);
   }
 
@@ -149,7 +150,9 @@ export default function CustomAudioPlayer({
   };
 
   const handlePrev = () => {
-    setCurrentSongIndex(currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1);
+    setCurrentSongIndex(
+      currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1
+    );
     setIsPlaying(true);
   };
 
@@ -272,23 +275,28 @@ export default function CustomAudioPlayer({
       {/* <div className="flex justify-center text-center text-sm">
         {songs[currentSongIndex].title}
       </div> */}
-      <div className="flex justify-center text-center text-sm">
-        {songs[currentSongIndex] && songs[currentSongIndex].title
-          ? songs[currentSongIndex].title
-          : "No song selected"}
-      </div>
-      <div className="flex justify-center text-center text-xs my-1">
-        {/* {songs[currentSongIndex].artist} */}
-        {artistCurrentlyPlaying
-          ? artistCurrentlyPlaying.name
-          : "Unknown Artist"}
-      </div>
-      <div className="flex justify-center text-center text-xs my-1">
-        {releaseCurrentlyPlaying && releaseCurrentlyPlaying.title
-          ? releaseCurrentlyPlaying.title
-          : "Unknown Album"}
-      </div>
-
+      <Link href={`/songs/${songs[currentSongIndex]?.id}`}>
+        <div className="flex justify-center text-center text-sm">
+          {songs[currentSongIndex] && songs[currentSongIndex].title
+            ? songs[currentSongIndex].title
+            : "No song selected"}
+        </div>
+      </Link>
+      <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
+        <div className="flex justify-center text-center text-xs my-1">
+          {/* {songs[currentSongIndex].artist} */}
+          {artistCurrentlyPlaying
+            ? artistCurrentlyPlaying.name
+            : "Unknown Artist"}
+        </div>
+      </Link>
+      <Link href={`/releases/${releaseCurrentlyPlaying?.id}`}>
+        <div className="flex justify-center text-center text-xs my-1">
+          {releaseCurrentlyPlaying && releaseCurrentlyPlaying.title
+            ? releaseCurrentlyPlaying.title
+            : "Unknown Album"}
+        </div>
+      </Link>
       <div className="mx-4">
         <input
           className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
