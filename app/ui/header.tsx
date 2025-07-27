@@ -1,6 +1,6 @@
 "use client";
 // import auth
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 // import from next
 import { usePathname } from "next/navigation";
 import Link from "next/link";

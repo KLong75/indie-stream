@@ -14,7 +14,7 @@ import {
 import { Song } from "@/lib/definitions";
 // import components
 import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
-import { Combobox } from "@/components/ui/combo-box";
+// import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 import { formatPlaylist } from "@/utils/utils";
 // import auth
@@ -32,6 +32,7 @@ export default async function AudioContainer() {
   const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
+  console.log("allArtistsAlphabeticalOrder", allArtistsAlphabeticalOrder);
   // all songs
   const allSongs = await getAllSongs();
   // console.log("allSongs", allSongs);
@@ -58,10 +59,13 @@ export default async function AudioContainer() {
   const savedArtists = (
     await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
   ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
-  // console.log("savedArtists", savedArtists);
+  console.log("savedArtists", savedArtists);
   // saved songs
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))
+  );
+  const savedSongsAlphabeticalOrder = savedSongs.sort((a, b) =>
+    (a?.title || "").localeCompare(b?.title || "")
   );
   // saved releases
   const savedReleases = await Promise.all(
@@ -110,8 +114,12 @@ export default async function AudioContainer() {
     <div>
       <h3 className="px-4 text-center">Listen to music</h3>
       <AudioPlayerWrapper
-        allSongs={allSongs}
-        savedSongs={savedSongs.filter((song): song is Song => song !== null)}
+        allSongs={allSongsAlphabeticalOrder.filter(
+          (song): song is Song => !!song && !!song.file_key
+        )}
+        savedSongs={savedSongsAlphabeticalOrder.filter(
+          (song): song is Song => song !== null
+        )}
         allReleases={formattedAllReleases}
         savedReleases={formattedSavedReleases}
         formattedPlaylists={formattedPlaylists}
