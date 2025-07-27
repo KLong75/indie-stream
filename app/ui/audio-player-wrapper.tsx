@@ -2,7 +2,7 @@
 // import from react
 import { useState } from "react";
 // import components
-import CustomAudioPlayer from "@/app/ui/audio-player-custom-controls";
+import AudioPlayer from "@/app/ui/audio-player";
 // import definitions
 import { Song } from "@/lib/definitions";
 // import icons
@@ -520,7 +520,7 @@ export default function AudioPlayerWrapper({
       <div className="px-4 pt-4 flex justify-center">
         Current Playlist: {currentPlaylist}
       </div>
-      <CustomAudioPlayer
+      <AudioPlayer
         songs={currentSongs}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
