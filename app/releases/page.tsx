@@ -23,7 +23,7 @@ export default async function Page() {
       return { ...release, artist };
     })
   );
-  console.log("Releases with artists: ", releasesWithArtists);
+  // console.log("Releases with artists: ", releasesWithArtists);
 
   return (
     <div className="flex-grow">

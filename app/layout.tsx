@@ -37,7 +37,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  console.log("Session in RootLayout:", session);
+  // console.log("Session in RootLayout:", session);
   return (
     <html lang="en" suppressHydrationWarning>
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}

@@ -127,7 +127,7 @@ export default function AudioPlayerWrapper({
               setCurrentPlaylist("All Songs");
               const index = allSongs.findIndex((s) => s.id === song.id);
               setCurrentSongIndex(index >= 0 ? index : 0);
-              console.log("index", index);
+              // console.log("index", index);
               setIsPlaying(true);
             }
           }}
@@ -182,7 +182,7 @@ export default function AudioPlayerWrapper({
               setCurrentPlaylist("Your Saved Songs");
               const index = savedSongs.findIndex((s) => s.id === song.id);
               setCurrentSongIndex(index >= 0 ? index : 0);
-              console.log("index", index);
+              // console.log("index", index);
               setIsPlaying(true);
             }
           }}
