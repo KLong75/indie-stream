@@ -1,5 +1,5 @@
 "use client";
-// import { Session } from "next-auth";
+import type { Session } from "next-auth";
 // import auth
 // import { auth } from "@/auth";
 // import from next
@@ -12,15 +12,15 @@ import { ModeToggle } from "./mode-toggle";
 // import nav items
 import { navItems } from "@/lib/nav-items";
 
-interface Session {
-  user: {
-    id: string;
-    email: string;
-  };
-  expires: string;
-}
+// interface Session {
+//   user: {
+//     id: string;
+//     email: string;
+//   };
+//   expires: string;
+// }
 
-export default function Header({ session }: { session: Session }) {
+export default function Header({ session }: { session: Session | null }) {
   const pathname = usePathname();
   // const session = await auth();
   // console.log("Session in Header:", session);
