@@ -9,7 +9,7 @@ import { Song, Release } from "../../lib/definitions";
 // import from react
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";
-import { RxTrackPrevious } from "react-icons/rx";
+import { RxChevronDown, RxTrackPrevious } from "react-icons/rx";
 import { RxTrackNext } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";
 import { RxPause } from "react-icons/rx";
@@ -217,8 +217,7 @@ export default function AudioPlayer({
       className={clsx(
         "bg-gray-900 m-6 tracking-wide rounded-lg transition-all duration-300",
         isAudioPlayerExpanded ? "pb-4 pt-2" : "py-2"
-      )}
-    >
+      )}>
       {/* Always render the audio element */}
       {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
         <audio
@@ -235,8 +234,7 @@ export default function AudioPlayer({
           isAudioPlayerExpanded
             ? "justify-center h-auto p-4 flex-col space-y-4"
             : "justify-center h-auto p-4 flex-row space-x-3"
-        )}
-      >
+        )}>
         <Image
           src={`https://4ykxjgur5y.ufs.sh/f/${
             releaseCurrentlyPlaying
@@ -251,88 +249,110 @@ export default function AudioPlayer({
             isAudioPlayerExpanded ? "rounded-lg shadow-2xl" : ""
           )}
         />
-
-        <div className={clsx(
-          "flex-1 min-w-0",
-          isAudioPlayerExpanded ? "w-full text-center mt-4" : ""
-        )}>
+        <div
+          className={clsx(
+            "flex-1 min-w-0",
+            isAudioPlayerExpanded ? "w-full text-center" : ""
+          )}>
           <Link href={`/songs/${songs[currentSongIndex]?.id}`}>
-            <div className={clsx(
-              "truncate font-medium",
-              isAudioPlayerExpanded ? "text-lg mb-1" : "text-sm"
-            )}>
+            <div
+              className={clsx(
+                "truncate font-medium",
+                isAudioPlayerExpanded ? "text-lg" : "text-sm"
+              )}>
               {songs[currentSongIndex]?.title || "No song selected"}
             </div>
           </Link>
           <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
-            <div className={clsx(
-              "truncate text-gray-400",
-              isAudioPlayerExpanded ? "text-base" : "text-xs"
-            )}>
+            <div
+              className={clsx(
+                "truncate text-gray-400",
+                isAudioPlayerExpanded ? "text-base" : "text-xs"
+              )}>
               {artistCurrentlyPlaying?.name || "Unknown Artist"}
             </div>
           </Link>
           <Link href={`/releases/${releaseCurrentlyPlaying?.id}`}>
-            <div className={clsx(
-              "truncate text-gray-400",
-              isAudioPlayerExpanded ? "text-base" : "text-xs"
-            )}>
+            <div
+              className={clsx(
+                "truncate text-gray-400",
+                isAudioPlayerExpanded ? "text-base" : "text-xs"
+              )}>
               {releaseCurrentlyPlaying?.title || "Unknown Album"}
             </div>
           </Link>
         </div>
 
+        {/* Progress bar and time, only in expanded mode */}
+        {isAudioPlayerExpanded && (
+          <div className="w-full">
+            <input
+              className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
+              type="range"
+              max="100"
+              value={progress}
+              onChange={handleSeek}
+            />
+            <div className="flex justify-between text-xs text-gray-400 px-2">
+              <div>{formatTime(audioRef.current?.currentTime || 0)}</div>
+              <div>
+                {formatTime(
+                  (audioRef.current?.duration || 0) -
+                    (audioRef.current?.currentTime || 0)
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Controls */}
-        <div className={clsx(
-          "flex items-center",
-          isAudioPlayerExpanded ? "justify-center space-x-4 mt-4 w-full" : "space-x-2 ml-auto"
-        )}>
+        <div
+          className={clsx(
+            "flex items-center",
+            isAudioPlayerExpanded
+              ? "justify-center space-x-4 mt-2 w-full"
+              : "space-x-2 ml-auto"
+          )}>
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
               onClick={handleShuffle}
-              title="Shuffle"
-            >
+              title="Shuffle">
               {shuffle ? <RxArrowRight /> : <RxShuffle />}
             </button>
           )}
           <button
             className="bg-blue-600 px-2 py-1 rounded-full"
             onClick={handlePrev}
-            title="Previous"
-          >
+            title="Previous">
             <RxTrackPrevious />
           </button>
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
               onClick={rewind}
-              title="Rewind 10s"
-            >
+              title="Rewind 10s">
               <MdOutlineReplay10 />
             </button>
           )}
           <button
             className="bg-blue-600 px-2 py-1 rounded-full"
             onClick={handlePlayPause}
-            title={isPlaying ? "Pause" : "Play"}
-          >
+            title={isPlaying ? "Pause" : "Play"}>
             {isPlaying ? <RxPause /> : <RxPlay />}
           </button>
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
               onClick={fastForward}
-              title="Forward 10s"
-            >
+              title="Forward 10s">
               <MdOutlineForward10 />
             </button>
           )}
           <button
             className="bg-blue-600 px-2 py-1 rounded-full"
             onClick={handleNext}
-            title="Next"
-          >
+            title="Next">
             <RxTrackNext />
           </button>
           <button
@@ -341,39 +361,16 @@ export default function AudioPlayer({
               isAudioPlayerExpanded ? "" : ""
             )}
             onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
-            title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}
-          >
-            <RxArrowRight
+            title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>
+            <RxChevronDown
               className={clsx(
                 "transition-transform duration-200",
-                isAudioPlayerExpanded ? "rotate-180" : ""
+                isAudioPlayerExpanded ? "" : "rotate-180"
               )}
             />
           </button>
         </div>
       </div>
-
-      {/* Progress bar and time, only in expanded mode */}
-      {isAudioPlayerExpanded && (
-        <div className="mx-4 mt-4">
-          <input
-            className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
-            type="range"
-            max="100"
-            value={progress}
-            onChange={handleSeek}
-          />
-          <div className="flex justify-between text-xs text-gray-400 px-2">
-            <div>{formatTime(audioRef.current?.currentTime || 0)}</div>
-            <div>
-              {formatTime(
-                (audioRef.current?.duration || 0) -
-                  (audioRef.current?.currentTime || 0)
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -174,7 +174,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
       <hr className="my-6" />
       <h3 className="px-4">Explore music</h3>
-
       <div className="p-4">
         {/* <h4>All Artists</h4> */}
         <Combobox
@@ -184,7 +183,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             href: `/artists/${artist.id}`, // Add href property
           }))}
           list_label={"All Artists"}
-          hasLink={false}
+          hasLink={true}
         />
       </div>
 
@@ -197,7 +196,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             href: `/songs/${song.id}`, // Add href property
           }))}
           list_label={"All Songs"}
-          hasLink={false}
+          hasLink={true}
         />
       </div>
 
@@ -210,7 +209,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             href: `/releases/${release.id}`, // Add href property
           }))}
           list_label={"All Releases"}
-          hasLink={false}
+          hasLink={true}
         />
       </div>
       <div className="p-4">
