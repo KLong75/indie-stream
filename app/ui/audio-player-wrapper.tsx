@@ -124,7 +124,7 @@ export default function AudioPlayerWrapper({
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center px-4 py-2 bg-gray-800 rounded-t-lg">
+      <div className="flex justify-between items-center px-4 py-2 bg-gray-900">
         <h2 className="text-lg font-semibold text-white">Audio Player</h2>
         <button
           onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}

@@ -324,7 +324,7 @@ export default function AudioPlayer({
           className={clsx(
             "flex items-center",
             isAudioPlayerExpanded
-              ? "justify-center space-x-4 mt-2 w-full"
+              ? "justify-center space-x-6 w-full"
               : "space-x-2 ml-auto"
           )}>
           {isAudioPlayerExpanded && (
@@ -369,9 +369,9 @@ export default function AudioPlayer({
             title="Next">
             <RxTrackNext />
           </button>
-          <button
+          {/* <button
             className={clsx(
-              "ml-2 bg-gray-700 px-2 py-1 rounded-full",
+              "ml-1 bg-gray-700 px-2 py-1 rounded-full",
               isAudioPlayerExpanded ? "" : ""
             )}
             onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
@@ -382,7 +382,7 @@ export default function AudioPlayer({
                 isAudioPlayerExpanded ? "" : "rotate-180"
               )}
             />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
