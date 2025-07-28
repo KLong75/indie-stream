@@ -58,10 +58,24 @@ export default function AudioPlayer({
   const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
     useState<Release | null>(null);
 
-  const handleShuffle = () => {
-    setShuffle((wasShuffle) => !wasShuffle);
-  };
+  // const handleShuffle = () => {
+  //   setShuffle((wasShuffle) => !wasShuffle);
+  // };
 
+  const handleShuffle = () => {
+  const turningOn = !shuffle;
+  setShuffle(turningOn);
+  if (turningOn && songs.length > 1) {
+    let newIndex = currentSongIndex;
+    while (newIndex === currentSongIndex) {
+      newIndex = Math.floor(Math.random() * songs.length);
+    }
+    setCurrentSongIndex(newIndex);
+    if (!isPlaying) setIsPlaying(true);
+  } else if (turningOn && songs.length === 1 && !isPlaying) {
+    setIsPlaying(true);
+  }
+};
   const handlePlayPause = () => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
@@ -131,22 +145,22 @@ export default function AudioPlayer({
   }, [currentSongIndex, songs]);
 
   // useEffect hook to handle shuffle activation and pick a new random song ---
-  useEffect(() => {
-    if (shuffle && songs.length > 1) {
-      let newIndex = currentSongIndex;
-      while (newIndex === currentSongIndex) {
-        newIndex = Math.floor(Math.random() * songs.length);
-      }
-      setCurrentSongIndex(newIndex);
-      setIsPlaying(true);
-    }
-  }, [
-    shuffle,
-    songs.length,
-    currentSongIndex,
-    setCurrentSongIndex,
-    setIsPlaying,
-  ]);
+  // useEffect(() => {
+  //   if (shuffle && songs.length > 1) {
+  //     let newIndex = currentSongIndex;
+  //     while (newIndex === currentSongIndex) {
+  //       newIndex = Math.floor(Math.random() * songs.length);
+  //     }
+  //     setCurrentSongIndex(newIndex);
+  //     setIsPlaying(true);
+  //   }
+  // }, [
+  //   shuffle,
+  //   songs.length,
+  //   currentSongIndex,
+  //   setCurrentSongIndex,
+  //   setIsPlaying,
+  // ]);
 
   useEffect(() => {
     const audioElement = audioRef.current;

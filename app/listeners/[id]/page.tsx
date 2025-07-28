@@ -225,17 +225,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         />
       </div>
       <hr className="my-6" />
-      {/* <div>
-        <h3 className="px-4 text-center">Listen to music</h3>
-        <AudioPlayerWrapper
-          allSongs={allSongs}
-          savedSongs={savedSongs.filter((song): song is Song => song !== null)}
-          allReleases={formattedAllReleases}
-          savedReleases={formattedSavedReleases}
-          formattedPlaylists={formattedPlaylists}
-          formattedPublicPlaylists={formattedPublicPlaylists}
-        />
-      </div> */}
     </>
   );
 }
