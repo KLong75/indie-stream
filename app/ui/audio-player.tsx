@@ -230,7 +230,7 @@ export default function AudioPlayer({
     <div
       className={clsx(
         "bg-gray-900 m-6 tracking-wide rounded-lg transition-all duration-300",
-        isAudioPlayerExpanded ? "pb-4 pt-2" : "py-2"
+        isAudioPlayerExpanded ? "py-2" : "py-0"
       )}>
       {/* Always render the audio element */}
       {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
