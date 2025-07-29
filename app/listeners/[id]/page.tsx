@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 // import from next
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 // import Link from "next/link";
 // get data
 import {
