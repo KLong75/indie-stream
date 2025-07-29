@@ -7,7 +7,7 @@ import {
   songs,
   releases,
   playlists,
-} from "../app/lib/initial-data.js";
+} from "../lib/initial-data.js";
 
 const sql = postgres(process.env.POSTGRES_URL, { ssl: "require" });
 
@@ -63,7 +63,9 @@ async function seedArtists() {
       genre TEXT[],
       members TEXT[],
       city TEXT,
-      state TEXT
+      state TEXT,
+      number_of_saves INT DEFAULT 0,
+      website TEXT
     )
   `;
   const insertedArtists = await Promise.all(
@@ -76,9 +78,9 @@ async function seedArtists() {
       });
       const insertedArtist = await sql`
         INSERT INTO artists
-          (id, name, bio, picture, songs, releases, genre, members, city, state)
+          (id, name, bio, picture, songs, releases, genre, members, city, state, number_of_saves, website)
         VALUES
-          (${artist.id}, ${artist.name}, ${artist.bio}, ${artist.picture}, ${artist.songs}, ${artist.releases}, ${artist.genre}, ${artist.members}, ${artist.city}, ${artist.state})
+          (${artist.id}, ${artist.name}, ${artist.bio}, ${artist.picture}, ${artist.songs}, ${artist.releases}, ${artist.genre}, ${artist.members}, ${artist.city}, ${artist.state}, ${artist.number_of_saves}, ${artist.website})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;

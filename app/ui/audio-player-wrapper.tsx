@@ -125,7 +125,7 @@ export default function AudioPlayerWrapper({
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center px-4 py-2 bg-gray-900">
-        <h2 className="text-lg font-semibold text-white">Audio Player</h2>
+        {/* <h2 className="text-lg font-semibold text-white">Audio Player</h2> */}
         <button
           onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
           className="text-white hover:text-gray-300 focus:outline-none">
@@ -137,12 +137,12 @@ export default function AudioPlayerWrapper({
               )}
               aria-label={isAudioPlayerExpanded ? "Collapse" : "Expand"}
             />
-            <span className={clsx(isAudioPlayerExpanded ? "block" : "hidden")}>
+            {/* <span className={clsx(isAudioPlayerExpanded ? "block" : "hidden")}>
               Collapse
             </span>
             <span className={clsx(isAudioPlayerExpanded ? "hidden" : "block")}>
               Expand
-            </span>
+            </span> */}
           </div>
         </button>
       </div>

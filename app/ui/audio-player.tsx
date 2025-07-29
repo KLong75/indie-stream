@@ -9,13 +9,13 @@ import { Song, Release } from "../../lib/definitions";
 // import from react
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";
-import { RxChevronDown, RxTrackPrevious } from "react-icons/rx";
+import { RxTrackPrevious } from "react-icons/rx";
 import { RxTrackNext } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";
 import { RxPause } from "react-icons/rx";
 import { RxShuffle } from "react-icons/rx";
 import { RxArrowRight } from "react-icons/rx";
-// import { RxChevronDown } from "react-icons/rx";
+import { RxChevronDown } from "react-icons/rx";
 // import { RxDoubleArrowRight } from "react-icons/rx";
 // import { RxDoubleArrowLeft } from "react-icons/rx";
 // import { TbPlaylistAdd } from "react-icons/tb";
@@ -63,19 +63,19 @@ export default function AudioPlayer({
   // };
 
   const handleShuffle = () => {
-  const turningOn = !shuffle;
-  setShuffle(turningOn);
-  if (turningOn && songs.length > 1) {
-    let newIndex = currentSongIndex;
-    while (newIndex === currentSongIndex) {
-      newIndex = Math.floor(Math.random() * songs.length);
+    const turningOn = !shuffle;
+    setShuffle(turningOn);
+    if (turningOn && songs.length > 1) {
+      let newIndex = currentSongIndex;
+      while (newIndex === currentSongIndex) {
+        newIndex = Math.floor(Math.random() * songs.length);
+      }
+      setCurrentSongIndex(newIndex);
+      if (!isPlaying) setIsPlaying(true);
+    } else if (turningOn && songs.length === 1 && !isPlaying) {
+      setIsPlaying(true);
     }
-    setCurrentSongIndex(newIndex);
-    if (!isPlaying) setIsPlaying(true);
-  } else if (turningOn && songs.length === 1 && !isPlaying) {
-    setIsPlaying(true);
-  }
-};
+  };
   const handlePlayPause = () => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
@@ -241,13 +241,26 @@ export default function AudioPlayer({
           style={{ display: "none" }}
         />
       ) : null}
-
+      <button
+        className={clsx(
+          "ml-2 bg-gray-700 px-2 py-1 rounded-full",
+          isAudioPlayerExpanded ? "" : "mt-2"
+        )}
+        onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
+        title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>
+        <RxChevronDown
+          className={clsx(
+            "transition-transform duration-200",
+            isAudioPlayerExpanded ? "" : "rotate-180"
+          )}
+        />
+      </button>
       <div
         className={clsx(
           "flex items-center w-full transition-all duration-300",
           isAudioPlayerExpanded
             ? "justify-center h-auto p-4 flex-col space-y-4"
-            : "justify-center h-auto p-4 flex-row space-x-3"
+            : "justify-center h-auto p-4 pt-2 flex-row space-x-3"
         )}>
         <Image
           src={`https://4ykxjgur5y.ufs.sh/f/${
@@ -324,7 +337,7 @@ export default function AudioPlayer({
           className={clsx(
             "flex items-center",
             isAudioPlayerExpanded
-              ? "justify-center space-x-6 w-full"
+              ? "justify-center space-x-4 w-full"
               : "space-x-2 ml-auto"
           )}>
           {isAudioPlayerExpanded && (

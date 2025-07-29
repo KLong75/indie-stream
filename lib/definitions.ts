@@ -15,13 +15,15 @@ export type Artist = {
   bio: string;
   city: string;
   id: string;
+  genre: [string];
   members: [string];
   name: string;
+  number_of_saves: number;
   picture: string;
-  songs: [string];
   releases: [string];
-  genre: [string];
+  songs: [string];
   state: string;
+  website: string;
 };
 
 export type Song = {

@@ -22,6 +22,10 @@ import BackToLink from "@/app/ui/back-to-link";
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const artist = await getArtistById(id);
+  const artistWebsiteShortUrl = artist?.website
+    .replace("https://", "")
+    .replace("www.", "")
+    .split("/")[0];
   const artistReleases = artist?.releases
     ? await Promise.all(
         artist.releases.map((release) => getReleaseById(release))
@@ -39,7 +43,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <div className="p-2">
           <BackToLink href="/artists" label="Artists" />
         </div>
-        <h1 className="p-4">{artist.name}</h1>
+        <h1 className="px-4">{artist.name}</h1>
+        <h2 className="px-4">
+          <Link
+            href={artist.website}
+            target="_blank"
+            className="text-blue-500"
+            rel="noopener noreferrer">
+            {artistWebsiteShortUrl}
+          </Link>
+        </h2>
+
         <div className="p-4">
           <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${artist.picture}`}
@@ -57,14 +71,25 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <h2 className="p-2">Bio</h2>
         <p className="p-4">{artist.bio}</p>
         <div className="p-4">
-          <ul>Releases</ul>
+          <p>Releases</p>
+          <ul>
           {artistReleases.map((release, index) => (
+            console.log("release", release),
             <li key={index}>
               {release && (
-                <Link href={`/releases/${release.id}`}>{release.title}</Link>
+                <Link href={`/releases/${release.id}`}>
+                  <p>{release.title}</p>
+                  <Image
+                    src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
+                    alt={release.title}
+                    width={100}
+                    height={100}
+                  />
+                </Link>
               )}
             </li>
           ))}
+          </ul>
         </div>
         <div className="p-4">
           <ul>Songs</ul>
