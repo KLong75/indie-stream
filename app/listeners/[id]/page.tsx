@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 // import from next
-// import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 // import Link from "next/link";
 // get data
 import {
@@ -26,16 +26,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const user = await getUserById(id);
   if (!user) {
-    return (
-      <>
-        <div className="p-4 text-red-500">User not found. Please login...</div>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `setTimeout(() => { window.location.href = "/"; }, 2000);`,
-          }}
-        />
-      </>
-    );
+    return redirect("/");
   }
   // all artists
   const allArtists = await getAllArtists();
