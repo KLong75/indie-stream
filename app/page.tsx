@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await auth();
+  console.log("session", session);
   if (session && session.user && session.user.id) {
     // redirect to listener page
     redirect(`/listeners/${session.user.id}`);
