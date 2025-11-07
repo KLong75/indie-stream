@@ -7,7 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 // import { signOut } from "next-auth/react";
 import { signOutUser } from "../../lib/actions";
 // import components
-import NavListItem from "./navListItem";
+import NavListItem from "./nav-list-item";
 // import from shadcn/ui
 import {
   Drawer,
@@ -19,7 +19,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ModeToggle } from "./mode-toggle";
+// import { ModeToggle } from "./mode-toggle";
 interface MobileMenuProps {
   session: Session | null;
   navItems: {
@@ -87,7 +87,7 @@ export default function MobileMenu({ session, navItems }: MobileMenuProps) {
                   }
                 />
               ))}
-              <ModeToggle />
+              {/* <ModeToggle /> */}
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>

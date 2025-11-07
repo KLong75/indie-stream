@@ -8,7 +8,7 @@ import Link from "next/link";
 // import components
 import Nav from "./nav";
 import MobileMenu from "./mobile-menu";
-import { ModeToggle } from "./mode-toggle";
+// import { ModeToggle } from "./mode-toggle";
 // import nav items
 import { navItems } from "@/lib/nav-items";
 
@@ -37,7 +37,7 @@ export default function Header({ session }: { session: Session | null }) {
           <Nav navItems={navItems} session={session} />
         </div>
         <div className="hidden md:flex mr-4">
-          <ModeToggle />
+          {/* <ModeToggle /> */}
         </div>
         <div className="md:hidden">
           <MobileMenu session={session} navItems={navItems} />

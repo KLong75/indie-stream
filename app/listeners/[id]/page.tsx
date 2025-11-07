@@ -17,7 +17,7 @@ import {
 // import definitions
 import { Song } from "@/lib/definitions";
 // import components
-import { Combobox } from "@/components/ui/combo-box";
+// import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 import { formatPlaylist } from "@/utils/utils";
 
@@ -35,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   );
   // all songs
   const allSongs = await getAllSongs();
-  // console.log("allSongs", allSongs);
+  console.log("allSongs", allSongs);
   const allSongsAlphabeticalOrder = allSongs.sort((a, b) =>
     a.title.localeCompare(b.title)
   );
@@ -111,11 +111,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="p-4 mb-2 text-xl">Welcome back {user.user_name}</h2>
-      <h3 className="px-4">Your saved music</h3>
-      <div>
-        {user.saved_artists && (
+      {/* <h3 className="px-4">Your saved music</h3> */}
+      {/* <div> */}
+        {/* {user.saved_artists && (
           <div className="p-4">
-            {/* <h4>Saved Artists</h4> */}
+            <h4>Saved Artists</h4>
             <Combobox
               options={savedArtists.map((artist) => ({
                 value: artist?.id || "",
@@ -126,11 +126,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               hasLink={true}
             />
           </div>
-        )}
+        )} */}
 
-        {user.saved_songs && (
+        {/* {user.saved_songs && (
           <div className="p-4">
-            {/* <h4>Saved Songs</h4> */}
+            <h4>Saved Songs</h4>
             <Combobox
               options={savedSongs.map((song) => ({
                 value: song?.id || "",
@@ -141,11 +141,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               hasLink={true}
             />
           </div>
-        )}
+        )} */}
 
-        {user.saved_releases && (
+        {/* {user.saved_releases && (
           <div className="p-4">
-            {/* <h4>Saved Releases</h4> */}
+            <h4>Saved Releases</h4>
             <Combobox
               options={savedReleases.map((release) => ({
                 value: release?.id || "",
@@ -156,11 +156,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               hasLink={true}
             />
           </div>
-        )}
+        )} */}
 
-        {user.playlists && (
+        {/* {user.playlists && (
           <div className="p-4">
-            {/* <h4>Your Playlists</h4> */}
+            <h4>Your Playlists</h4>
             <Combobox
               options={playlists.map((playlist) => ({
                 value: playlist?.id || "",
@@ -171,12 +171,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               hasLink={true}
             />
           </div>
-        )}
-      </div>
-      <hr className="my-6" />
+        )} */}
+      {/* </div> */}
+      {/* <hr className="my-6" />
       <h3 className="px-4">Explore music</h3>
       <div className="p-4">
-        {/* <h4>All Artists</h4> */}
+        <h4>All Artists</h4>
         <Combobox
           options={allArtistsAlphabeticalOrder.map((artist) => ({
             value: artist.id,
@@ -186,10 +186,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           list_label={"All Artists"}
           hasLink={true}
         />
-      </div>
+      </div> */}
 
-      <div className="p-4">
-        {/* <h4>All Songs</h4> */}
+      {/* <div className="p-4">
+        <h4>All Songs</h4>
         <Combobox
           options={allSongsAlphabeticalOrder.map((song) => ({
             value: song.id,
@@ -199,10 +199,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           list_label={"All Songs"}
           hasLink={true}
         />
-      </div>
+      </div> */}
 
-      <div className="p-4">
-        {/* <h4>All Releases</h4> */}
+      {/* <div className="p-4">
+        <h4>All Releases</h4>
         <Combobox
           options={allReleasesAlphabeticalOrder.map((release) => ({
             value: release.id,
@@ -212,9 +212,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           list_label={"All Releases"}
           hasLink={true}
         />
-      </div>
-      <div className="p-4">
-        {/* <h4>Public Playlists</h4> */}
+      </div> */}
+      {/* <div className="p-4">
+        <h4>Public Playlists</h4>
         <Combobox
           options={publicPlaylists.map((playlist) => ({
             value: playlist.id,
@@ -225,7 +225,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           hasLink={true}
         />
       </div>
-      <hr className="my-6" />
+      <hr className="my-6" /> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import NavListItem from "./navListItem";
+import NavListItem from "./nav-list-item";
 import { signOutUser } from "../../lib/actions";
 import { Session } from "next-auth";
 export default function Nav({

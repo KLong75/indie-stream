@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 
 export default function NavListItem({
   label,
@@ -15,21 +15,21 @@ export default function NavListItem({
   onClick?: () => void;
 }) {
   return (
-    <li className="flex items-center space-x-">
+    <li className="flex items-center ">
       {htmlElement === "button" ? (
-        <Button
-          variant="secondary"
-          size="lg"
+        <button
+          // variant="secondary"
+          // size="lg"
           onClick={onClick}
           className=""
         >
           <span>{label}</span>
-        </Button>
+        </button>
       ) : (
-        <Button
-          asChild
-          variant="secondary"  
-          size="lg"
+        <button
+          // asChild
+          // variant="secondary"  
+          // size="lg"
           onClick={onClick}
         >
         <Link
@@ -38,7 +38,7 @@ export default function NavListItem({
         >
           <span>{label}</span>
         </Link>
-        </Button>
+        </button>
       )}
     </li>
   );
