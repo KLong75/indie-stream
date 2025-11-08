@@ -10,7 +10,6 @@ import Nav from "./nav";
 // import MobileMenu from "./mobile-menu";
 import SignOutButton from "./sign-out-button";
 import HomeLink from "./home-link";
-// import { ModeToggle } from "./mode-toggle";
 // import nav items
 import { navItems } from "@/lib/nav-items";
 
@@ -37,9 +36,6 @@ export default function Header({ session }: { session: Session | null }) {
       <div className="flex items-center space-">
         <div className="hidden md:flex mr-4">
           <Nav navItems={navItems} session={session} />
-        </div>
-        <div className="hidden md:flex mr-4">
-          {/* <ModeToggle /> */}
         </div>
         {/* <div className="md:hidden">
           <MobileMenu session={session} navItems={navItems} />
