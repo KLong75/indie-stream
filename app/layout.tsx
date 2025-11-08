@@ -11,7 +11,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/app/ui/header";
 import Footer from "@/app/ui/footer";
 import AudioContainer from "./ui/audio-container";
-// import { ModeToggle } from "./ui/mode-toggle";
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
 import "./globals.css";
@@ -53,7 +52,6 @@ export default async function RootLayout({
             {children}
           </ThemeProvider>
           <AudioContainer />
-          {/* <ModeToggle /> */}
         </main>
         <Footer />
       </body>

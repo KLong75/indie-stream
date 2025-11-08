@@ -16,7 +16,8 @@ export default async function Home() {
     redirect(`/listeners/${session.user.id}`);
   }
   return (
-    <main className="flex flex-col">
+    // <main className="flex flex-col">
+    <>
       <div className="flex flex-col items-center justify-center min-h-screen p-24">
         <GiMusicalNotes className="absolute top-1/5 left-1/2 transform -translate-x-1/2 -z-10 text-gray-300 text-[10rem] home-page-icon" />
         <h1 className="text-4xl font-bold absolute top-1/4 left-1/2 transform -translate-x-1/2 text-center">
@@ -36,6 +37,7 @@ export default async function Home() {
       </div>
       <UploadButtonContainer file_route="audioUploader" />
       <UploadButtonContainer file_route="imageUploader" />
-    </main>
+    {/* </main> */}
+    </>
   );
 }
