@@ -1,4 +1,4 @@
-import UserLoginForm from "../ui/user-login-form";
+import UserLoginForm from "../../ui/user-login-form";
 
 export default function LoginPage() {
   return (

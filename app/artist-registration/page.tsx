@@ -1,4 +1,4 @@
-import ArtistRegistrationForm from "@/app/ui/artist-registration-form";
+import ArtistRegistrationForm from "@/ui/artist-registration-form";
 
 export default function ArtistRegistrationPage() {
   return (

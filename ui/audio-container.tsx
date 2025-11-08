@@ -13,7 +13,7 @@ import {
 // import definitions
 import { Song } from "@/lib/definitions";
 // import components
-import AudioPlayerWrapper from "@/app/ui/audio-player-wrapper";
+import AudioPlayerWrapper from "@/ui/audio-player-wrapper";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 import { formatPlaylist } from "@/utils/utils";
@@ -59,7 +59,7 @@ export default async function AudioContainer() {
   const savedArtists = (
     await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
   ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
-  console.log("savedArtists", savedArtists);
+  // console.log("savedArtists", savedArtists);
   // saved songs
   const savedSongs = await Promise.all(
     (user.saved_songs || []).map((id) => getSongById(id))

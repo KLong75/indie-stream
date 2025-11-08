@@ -4,7 +4,7 @@ import { getReleaseById, getSongById, getArtistById } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 // import components
-import BackToLink from "@/app/ui/back-to-link";
+import BackToLink from "@/ui/back-to-link";
 // import icons
 import { RxPlus } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";

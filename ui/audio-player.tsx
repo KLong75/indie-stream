@@ -5,7 +5,7 @@ import Link from "next/link";
 // import clsx
 import clsx from "clsx";
 // import definitions
-import { Song, Release } from "../../lib/definitions";
+import { Song, Release } from "../lib/definitions";
 // import from react
 import { useState, useRef, useEffect } from "react";
 // import { PiPlayPauseBold } from "react-icons/pi";

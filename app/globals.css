@@ -2,8 +2,6 @@
 
 @import "uploadthing/tw/v4";
 
-@import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 @source "../node_modules/@uploadthing/react/dist";
 

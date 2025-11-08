@@ -35,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   );
   // all songs
   const allSongs = await getAllSongs();
-  console.log("allSongs", allSongs);
+  // console.log("allSongs", allSongs);
   const allSongsAlphabeticalOrder = allSongs.sort((a, b) =>
     a.title.localeCompare(b.title)
   );

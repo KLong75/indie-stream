@@ -6,11 +6,11 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "../app/api/uploadthing/core";
 // import theme provider
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/themes/theme-provider";
 // import components
-import Header from "@/app/ui/header";
-import Footer from "@/app/ui/footer";
-import AudioContainer from "./ui/audio-container";
+import Header from "@/ui/header";
+import Footer from "@/ui/footer";
+import AudioContainer from "../ui/audio-container";
 // import { Geist, Geist_Mono } from "next/font/google";
 //import css
 import "./globals.css";

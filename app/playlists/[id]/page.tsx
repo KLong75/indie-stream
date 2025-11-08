@@ -11,7 +11,7 @@ import {
 // import Image from "next/image";
 import Link from "next/link";
 // import components
-import BackToLink from "@/app/ui/back-to-link";
+import BackToLink from "@/ui/back-to-link";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;

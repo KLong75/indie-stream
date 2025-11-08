@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 // import from next
 import Link from "next/link";
 // import components
-import UploadButtonContainer from "./ui/upload-button-container";
+import UploadButtonContainer from "../ui/upload-button-container";
 // import from react icons
 import { GiMusicalNotes } from "react-icons/gi";
 import { redirect } from "next/navigation";
@@ -37,7 +37,7 @@ export default async function Home() {
       </div>
       <UploadButtonContainer file_route="audioUploader" />
       <UploadButtonContainer file_route="imageUploader" />
-    {/* </main> */}
+      {/* </main> */}
     </>
   );
 }
