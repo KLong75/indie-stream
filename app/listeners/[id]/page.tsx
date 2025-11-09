@@ -110,7 +110,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   return (
     <>
-      <h2 className="p-4 mb-2 text-xl">Welcome back {user.user_name}</h2>
+      <h2 className="mx-auto -mb-4 mt-2">Welcome back {user.user_name}</h2>
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}
         {/* {user.saved_artists && (

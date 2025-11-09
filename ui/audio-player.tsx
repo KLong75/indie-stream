@@ -38,6 +38,7 @@ export default function AudioPlayer({
   setCurrentSongIndex,
   isAudioPlayerExpanded,
   setIsAudioPlayerExpanded,
+  currentPlaylist,
 }: {
   songs: Song[];
   isPlaying: boolean;
@@ -46,7 +47,9 @@ export default function AudioPlayer({
   setCurrentSongIndex: (index: number) => void;
   isAudioPlayerExpanded: boolean;
   setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
+  currentPlaylist: string;
 }) {
+  console.log("currentPlaylist in AudioPlayer:", currentPlaylist);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -57,7 +60,6 @@ export default function AudioPlayer({
   } | null>(null);
   const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
     useState<Release | null>(null);
-
   // const handleShuffle = () => {
   //   setShuffle((wasShuffle) => !wasShuffle);
   // };
@@ -230,7 +232,7 @@ export default function AudioPlayer({
     <div
       className={clsx(
         "bg-gray-900 m-6 tracking-wide rounded-lg transition-all duration-300",
-        isAudioPlayerExpanded ? "py-2" : "py-0"
+        isAudioPlayerExpanded ? "py-0" : "py-0"
       )}>
       {/* Always render the audio element */}
       {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
@@ -244,7 +246,7 @@ export default function AudioPlayer({
       <button
         className={clsx(
           "ml-2 bg-gray-700 px-2 py-1 rounded-full",
-          isAudioPlayerExpanded ? "" : "mt-2"
+          isAudioPlayerExpanded ? "mt-2" : "mt-2"
         )}
         onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
         title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>
@@ -255,14 +257,19 @@ export default function AudioPlayer({
           )}
         />
       </button>
+      <div className="flex justify-center">
+        {`Current playlist: ${currentPlaylist}`}
+      </div>
       <div
         className={clsx(
           "flex items-center w-full transition-all duration-300",
           isAudioPlayerExpanded
             ? "justify-center h-auto p-4 flex-col space-y-4"
-            : "justify-center h-auto p-4 pt-2 flex-row space-x-3"
+            : "justify-center h-auto p-4 flex-row space-x-3"
         )}>
         <Image
+          priority
+          fetchPriority="high"
           src={`https://4ykxjgur5y.ufs.sh/f/${
             releaseCurrentlyPlaying
               ? releaseCurrentlyPlaying.cover_img_file_key
