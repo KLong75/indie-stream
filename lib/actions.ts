@@ -91,7 +91,7 @@ export async function createUser(prevState: State, formData: FormData) {
     redirect: false,
   });
 
-  console.log("sign in - result:", result);
+  // console.log("sign in - result:", result);
 
   return id;
 }
@@ -101,9 +101,9 @@ export async function authenticate(
   prevState: string | undefined,
   formData: FormData
 ) {
-  console.log("###Authenticating...###");
+  // console.log("###Authenticating...###");
   try {
-    console.log("formData:", formData);
+    // console.log("formData:", formData);
     // await signIn('credentials', formData);
     // console.log('email', formData.get("email"));
     // console.log('password', formData.get("password"));

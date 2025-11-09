@@ -32,7 +32,7 @@ export default async function AudioContainer() {
   const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
-  console.log("allArtistsAlphabeticalOrder", allArtistsAlphabeticalOrder);
+  // console.log("allArtistsAlphabeticalOrder", allArtistsAlphabeticalOrder);
   // all songs
   const allSongs = await getAllSongs();
   // console.log("allSongs", allSongs);

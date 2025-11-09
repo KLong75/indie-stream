@@ -58,7 +58,7 @@ export default function AudioPlayerWrapper({
   const savedReleasesInputRef = useRef<HTMLInputElement>(null);
   const playlistsInputRef = useRef<HTMLInputElement>(null);
   const publicPlaylistsInputRef = useRef<HTMLInputElement>(null);
-  console.log("currentSongs", currentSongs);  
+  // console.log("currentSongs", currentSongs);  
   // const [playlistsDropdownVisible, setPlaylistsDropdownVisible] =
   // useState<boolean>(false);
   // const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] =
@@ -165,9 +165,9 @@ export default function AudioPlayerWrapper({
             setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
             currentPlaylist={currentPlaylist ?? ""}
           />
-          <div className="grid grid-cols-2 md:grid-cols-3 mb-6">
-            <div className="px-4 my-2">
-              {/* <h3 className="text-center">All Songs</h3> */}
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-4 px-6 py-2 mb-4">
+            <div className="">
+              <h3 className="text-center text-sm pb-1">All Songs</h3>
               <Combobox
                 value={selected}
                 onChange={(song: Song | null) => {
@@ -192,17 +192,17 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={allSongsInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
                     // the commented out line below sets the display value to the selected song title
                     // displayValue={(song: Song) => song?.title || ""}
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
-                    placeholder="All songs..."
+                    placeholder="All songs"
                     onChange={(event) => setQuery(event.target.value)}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -220,7 +220,7 @@ export default function AudioPlayerWrapper({
                     <ComboboxOption
                       key={song.id}
                       value={song}
-                      className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10 tab">
+                      className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10 tab">
                       <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                       <div className="text-sm/6 text-white">{song.title}</div>
                     </ComboboxOption>
@@ -229,8 +229,8 @@ export default function AudioPlayerWrapper({
               </Combobox>
             </div>
 
-            <div className="px-4 my-2">
-              {/* <h3 className="text-center">Your Saved Songs</h3> */}
+            <div className="">
+              <h3 className="text-center text-sm pb-1">Saved Songs</h3>
               <Combobox
                 value={selected}
                 onChange={(song: Song | null) => {
@@ -255,17 +255,17 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={savedSongsInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
                     // the commented out line below sets the display value to the selected song title
                     // displayValue={(song: Song) => song?.title || ""}
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
-                    placeholder="Saved songs..."
+                    placeholder="Saved songs"
                     onChange={(event) => setQuery(event.target.value)}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -283,7 +283,7 @@ export default function AudioPlayerWrapper({
                     <ComboboxOption
                       key={song.id}
                       value={song}
-                      className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                      className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10">
                       <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                       <div className="text-sm/6 text-white">{song.title}</div>
                     </ComboboxOption>
@@ -291,9 +291,8 @@ export default function AudioPlayerWrapper({
                 </ComboboxOptions>
               </Combobox>
             </div>
-
-            <div className="px-4 my-2">
-              {/* <h3 className="text-center">All Releases</h3> */}
+            <div>
+              <h3 className="text-center text-sm pb-1">All Releases</h3>
               <Combobox
                 value={selectedRelease}
                 onChange={(releaseTitle: string | null) => {
@@ -318,10 +317,10 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={allReleasesInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
-                    placeholder="All releases..."
+                    placeholder="All releases"
                     value={allReleasesQuery}
                     onChange={(event) =>
                       setAllReleasesQuery(event.target.value)
@@ -329,7 +328,7 @@ export default function AudioPlayerWrapper({
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -355,7 +354,7 @@ export default function AudioPlayerWrapper({
                       <ComboboxOption
                         key={releaseTitle}
                         value={releaseTitle}
-                        className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                        className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10">
                         <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                         <div className="text-sm/6 text-white">
                           {releaseTitle}
@@ -366,8 +365,8 @@ export default function AudioPlayerWrapper({
               </Combobox>
             </div>
 
-            <div className="px-4 my-2">
-              {/* <h3 className="text-center">Saved Releases</h3> */}
+            <div>
+              <h3 className="text-center text-sm pb-1">Saved Releases</h3>
               <Combobox
                 value={selectedRelease}
                 onChange={(releaseTitle: string | null) => {
@@ -392,10 +391,10 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={savedReleasesInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
-                    placeholder="Saved releases..."
+                    placeholder="Saved releases"
                     value={savedReleasesQuery}
                     onChange={(event) =>
                       setSavedReleasesQuery(event.target.value)
@@ -403,7 +402,7 @@ export default function AudioPlayerWrapper({
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -429,7 +428,7 @@ export default function AudioPlayerWrapper({
                       <ComboboxOption
                         key={releaseTitle}
                         value={releaseTitle}
-                        className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                        className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10">
                         <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                         <div className="text-sm/6 text-white">
                           {releaseTitle}
@@ -439,9 +438,8 @@ export default function AudioPlayerWrapper({
                 </ComboboxOptions>
               </Combobox>
             </div>
-
-            <div className="px-4 my-2">
-              {/* <h3 className="text-center">Your Playlists</h3> */}
+            <div>
+              <h3 className="text-center text-sm pb-1">Your Playlists</h3>
               <Combobox
                 value={selectedPlaylist}
                 onChange={(playlistTitle: string | null) => {
@@ -466,16 +464,16 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={playlistsInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
-                    placeholder="Your playlists..."
+                    placeholder="Your playlists"
                     value={playlistsQuery}
                     onChange={(event) => setPlaylistsQuery(event.target.value)}
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -501,7 +499,7 @@ export default function AudioPlayerWrapper({
                       <ComboboxOption
                         key={playlistTitle}
                         value={playlistTitle}
-                        className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                        className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10">
                         <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                         <div className="text-sm/6 text-white">
                           {playlistTitle}
@@ -511,9 +509,8 @@ export default function AudioPlayerWrapper({
                 </ComboboxOptions>
               </Combobox>
             </div>
-
-            <div className="px-4 my-2 ">
-              {/* <h3 className="text-center">Public Playlists</h3> */}
+            <div>
+              <h3 className="text-center text-sm pb-1">Public Playlists</h3>
               <Combobox
                 value={selectedPlaylist}
                 onChange={(playlistTitle: string | null) => {
@@ -538,10 +535,10 @@ export default function AudioPlayerWrapper({
                   <ComboboxInput
                     ref={publicPlaylistsInputRef}
                     className={clsx(
-                      "w-full rounded-lg border-none bg-white/5 py-1.5 pr-8 pl-3 text-sm/6 text-white",
+                      "w-full rounded-lg border-none bg-white/5 py-1 pr-6 pl-2 text-sm/6 text-white",
                       "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white outline-1 outline-white/25"
                     )}
-                    placeholder="Public playlists..."
+                    placeholder="Public playlists"
                     value={publicPlaylistsQuery}
                     onChange={(event) =>
                       setPublicPlaylistsQuery(event.target.value)
@@ -549,7 +546,7 @@ export default function AudioPlayerWrapper({
                     // always show placeholder, never show selected value
                     displayValue={() => ""}
                   />
-                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-1">
                     <RxChevronDown
                       className="size-4 fill-white/60 group-data-hover:fill-white"
                       tabIndex={0}
@@ -575,7 +572,7 @@ export default function AudioPlayerWrapper({
                       <ComboboxOption
                         key={playlistTitle}
                         value={playlistTitle}
-                        className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 select-none data-focus:bg-white/10">
+                        className="group flex cursor-default items-center gap-2 rounded-lg p-0 select-none data-focus:bg-white/10">
                         <RxCheck className="invisible size-4 fill-white group-data-selected:visible" />
                         <div className="text-sm/6 text-white">
                           {playlistTitle}
@@ -587,9 +584,6 @@ export default function AudioPlayerWrapper({
             </div>
           </div>
         </>
-      {/* ) : (
-        <p>audio player collapsed</p>
-      )} */}
     </div>
   );
 }

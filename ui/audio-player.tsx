@@ -49,7 +49,7 @@ export default function AudioPlayer({
   setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
   currentPlaylist: string;
 }) {
-  console.log("currentPlaylist in AudioPlayer:", currentPlaylist);
+  // console.log("currentPlaylist in AudioPlayer:", currentPlaylist);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -231,7 +231,7 @@ export default function AudioPlayer({
   return (
     <div
       className={clsx(
-        "bg-gray-900 m-6 tracking-wide rounded-lg transition-all duration-300",
+        "bg-gray-900 mx-6 my-4  tracking-wide rounded-lg transition-all duration-300",
         isAudioPlayerExpanded ? "py-0" : "py-0"
       )}>
       {/* Always render the audio element */}
