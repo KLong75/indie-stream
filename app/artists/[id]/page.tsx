@@ -97,7 +97,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             (song, index) =>
               song && (
                 <li key={index}>
-                  <Link href={`/songs/${song.id}`}>{song.title}</Link>
+                  {/* <Link href={`/songs/${song.id}`}> */}
+                    {song.title}
+                  {/* </Link> */}
                 </li>
               )
           )}

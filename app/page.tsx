@@ -4,6 +4,8 @@ import { auth } from "@/auth";
 import Link from "next/link";
 // import components
 import UploadButtonContainer from "../ui/upload-button-container";
+import InstallPrompt from "@/ui/install-prompt";
+import PushNotificationManager from "@/ui/push-notification-manager";
 // import from react icons
 import { GiMusicalNotes } from "react-icons/gi";
 import { redirect } from "next/navigation";
@@ -35,6 +37,10 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      <div className="p-6">
+        <InstallPrompt />
+      </div>
+
       <UploadButtonContainer file_route="audioUploader" />
       <UploadButtonContainer file_route="imageUploader" />
       {/* </main> */}

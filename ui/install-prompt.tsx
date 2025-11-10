@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function InstallPrompt() {
   const [isIOS, setIsIOS] = useState(false);
@@ -60,17 +60,16 @@ export default function InstallPrompt() {
       {deferredPrompt && (
         <button
           onClick={handleInstallClick}
-          className="bg-[#a8d4e8] text-black px-4 py-2 rounded-md border border-gray-300 text-gray-700 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md border border-gray-300 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer"
         >
           Install App
         </button>
       )}
-      {!deferredPrompt && !isStandalone && (
-        <p>
-          Your browser does not support automatic app installation. You can add
-          this site to your home screen manually via your browser menu.
-        </p>
-      )}
+     {!deferredPrompt && !isStandalone && (
+  <p className="mx-auto p-6 max-w-2xl">
+    App installation is not available in this browser mode. If you are using private or incognito browsing, try switching to a regular window. Otherwise, you can add this app to your home screen manually using your browser&apos;s menu (look for “Add to Home Screen” or similar).
+  </p>
+)}
 
       {isIOS && (
         <p>

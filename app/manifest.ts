@@ -17,7 +17,7 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
       {
-        src: '/web-app-manifest-512x512.png',
+        src: '/icons/web-app-manifest-512x512.png',
         sizes: '512x512',
         type: 'image/png',
       },

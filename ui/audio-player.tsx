@@ -288,7 +288,7 @@ export default function AudioPlayer({
             "flex-1 min-w-0",
             isAudioPlayerExpanded ? "w-full text-center" : ""
           )}>
-          <Link href={`/songs/${songs[currentSongIndex]?.id}`}>
+          {/* <Link href={`/songs/${songs[currentSongIndex]?.id}`}> */}
             <div
               className={clsx(
                 "truncate font-medium",
@@ -296,7 +296,7 @@ export default function AudioPlayer({
               )}>
               {songs[currentSongIndex]?.title || "No song selected"}
             </div>
-          </Link>
+          {/* </Link> */}
           <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
             <div
               className={clsx(

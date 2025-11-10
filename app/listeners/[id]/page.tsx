@@ -5,21 +5,22 @@ import { redirect } from "next/navigation";
 // get data
 import {
   getUserById,
-  getArtistById,
-  getSongById,
-  getReleaseById,
-  getPlaylistById,
-  getAllSongs,
-  getAllPublicPlaylists,
-  getAllArtists,
-  getAllReleases,
+  // getArtistById,
+  // getSongById,
+  // getReleaseById,
+  // getPlaylistById,
+  // getAllSongs,
+  // getAllPublicPlaylists,
+  // getAllArtists,
+  // getAllReleases,
 } from "@/lib/data";
 // import definitions
-import { Song } from "@/lib/definitions";
+// import { Song } from "@/lib/definitions";
 // import components
+import PushNotificationManager from "@/ui/push-notification-manager";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
-import { formatPlaylist } from "@/utils/utils";
+// import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   
@@ -111,6 +112,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
+      <PushNotificationManager 
+        // userId={user.id} 
+      />
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}
         {/* {user.saved_artists && (
