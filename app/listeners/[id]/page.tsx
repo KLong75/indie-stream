@@ -17,13 +17,12 @@ import {
 // import definitions
 // import { Song } from "@/lib/definitions";
 // import components
-import PushNotificationManager from "@/ui/push-notification-manager";
+import PushNotificationSubscriptionManager from "@/ui/push-notification-subscription-manager";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 // import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
-  
   const { id } = await props.params;
   const user = await getUserById(id);
   if (!user) {
@@ -112,12 +111,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
-      <PushNotificationManager 
-        // userId={user.id} 
-      />
+      <PushNotificationSubscriptionManager />
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}
-        {/* {user.saved_artists && (
+      {/* {user.saved_artists && (
           <div className="p-4">
             <h4>Saved Artists</h4>
             <Combobox
@@ -132,7 +129,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         )} */}
 
-        {/* {user.saved_songs && (
+      {/* {user.saved_songs && (
           <div className="p-4">
             <h4>Saved Songs</h4>
             <Combobox
@@ -147,7 +144,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         )} */}
 
-        {/* {user.saved_releases && (
+      {/* {user.saved_releases && (
           <div className="p-4">
             <h4>Saved Releases</h4>
             <Combobox
@@ -162,7 +159,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         )} */}
 
-        {/* {user.playlists && (
+      {/* {user.playlists && (
           <div className="p-4">
             <h4>Your Playlists</h4>
             <Combobox

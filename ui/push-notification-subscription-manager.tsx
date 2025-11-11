@@ -35,7 +35,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 // Manage the browser's push subscription
-export default function PushNotificationManager() {
+export default function PushNotificationSubscriptionManager() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   // const [message, setMessage] = useState("");

@@ -13,15 +13,16 @@ webpush.setVapidDetails(
 // let subscription: PushSubscription | null = null
 // let subscriptions: PushSubscription[] = [];
 
-export async function subscribeUser(sub: PushSubscription) {
-  saveSubscription(sub);
-  return { success: true };
-}
-
-export async function unsubscribeUser(sub: PushSubscription) {
-  removeSubscription(sub.endpoint);
-  return { success: true };
-}
+// save for potential server-side subscription management
+// export async function subscribeUserServerSide(endpoint: string) {
+//   saveSubscription(endpoint);
+//   return { success: true };
+// }
+// save for potential server-side subscription management
+// export async function unsubscribeUserServerSide(endpoint: string) {
+//   removeSubscription(endpoint);
+//   return { success: true };
+// }
 
 export async function sendNotification(message: string, url?: string) {
   const subscriptions = getSubscriptions();
