@@ -35,7 +35,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <h1 className="p-4 text-center">{release.title}</h1>
 
         <h2 className="px-4">
-          {" "}
           Artist:{" "}
           <Link
             href={`/artists/${artistId}`}

@@ -15,11 +15,13 @@ export default async function Page() {
     // console.log("artist", artist);
   });
 
+  const artistsAlphbetized = artists.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <div className="flex flex-col">
       <h1 className="p-4">Artists</h1>
       <ul className="p-4">
-        {artists.map((artist) => (
+        {artistsAlphbetized.map((artist) => (
           <li key={artist.id} className="p-4 cursor-pointer">
             <Link href={`/artists/${artist.id}`}>{artist.name}</Link>
           </li>
