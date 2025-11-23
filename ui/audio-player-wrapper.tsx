@@ -165,7 +165,7 @@ export default function AudioPlayerWrapper({
             setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
             currentPlaylist={currentPlaylist ?? ""}
           />
-          <div className="grid grid-cols-3 md:grid-cols-3 gap-4 px-6 py-2 mb-4">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 px-6 py-2 mb-4">
             <div className="">
               <h3 className="text-center text-sm pb-1">All Songs</h3>
               <Combobox
