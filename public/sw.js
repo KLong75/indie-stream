@@ -96,6 +96,6 @@ self.addEventListener("notificationclick", function (event) {
 });
 
 // Minimal fetch handler (required for service worker to control the site)
-self.addEventListener("fetch", () => {
+// self.addEventListener("fetch", () => {
   // You could optionally implement caching logic here
-});
+// });
