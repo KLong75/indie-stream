@@ -9,7 +9,7 @@ export default function AdminNotificationPanel() {
 
   async function handleSend() {
     const result = await sendNotification(message, url);
-    setStatus(result.success ? "Notification sent!" : "Failed to send.");
+    setStatus(result && result.success ? "Notification sent!" : "Failed to send.");
     setMessage("");
     setUrl("");
   }
