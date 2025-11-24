@@ -3,12 +3,11 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function saveSubscriptionToDB(sub: any) {
   await sql`
-    INSERT INTO push_subscriptions (endpoint, expiration_time, p256dh, auth)
+    INSERT INTO push_subscriptions (endpoint, expiration_time, keys)
     VALUES (
       ${sub.endpoint},
       ${sub.expirationTime ?? null},
-      ${sub.keys.p256dh},
-      ${sub.keys.auth}
+      ${JSON.stringify(sub.keys)}
     )
     ON CONFLICT (endpoint) DO NOTHING
   `;
@@ -16,7 +15,7 @@ export async function saveSubscriptionToDB(sub: any) {
 
 export async function getSubscriptionsFromDB() {
   return await sql`
-    SELECT endpoint, expiration_time, p256dh, auth
+    SELECT endpoint, expiration_time, keys
     FROM push_subscriptions
   `;
 }
