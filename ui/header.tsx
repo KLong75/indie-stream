@@ -10,6 +10,7 @@ import Nav from "./nav";
 // import MobileMenu from "./mobile-menu";
 import SignOutButton from "./sign-out-button";
 import HomeLink from "./home-link";
+import PushNotificationSubscriptionManager from "./push-notification-subscription-manager";
 // import nav items
 import { navItems } from "@/lib/nav-items";
 
@@ -41,6 +42,7 @@ export default function Header({ session }: { session: Session | null }) {
           <MobileMenu session={session} navItems={navItems} />
         </div> */}
         <HomeLink session={session}/>
+        <PushNotificationSubscriptionManager renderedAs="icon" />
         {session && (
           <div className="ml-4">
             <SignOutButton />

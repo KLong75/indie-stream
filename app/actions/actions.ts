@@ -2,10 +2,10 @@
 
 import webpush from "web-push";
 import type { PushSubscription } from "web-push";
-// import { 
-  // getSubscriptions, 
-  // saveSubscription, 
-  // removeSubscription 
+// import {
+// getSubscriptions,
+// saveSubscription,
+// removeSubscription
 // } from "@/lib/subscriptions";
 
 import { getSubscriptionsFromDB } from "@/lib/notification-subscriptions-db";
@@ -42,32 +42,32 @@ webpush.setVapidDetails(
 export async function sendNotification(message: string, url?: string) {
   // const subscriptions = getSubscriptions();
   const subscriptions = await getSubscriptionsFromDB();
-if (subscriptions.length === 0) {
-  throw new Error("No subscriptions available");
-}
+  if (subscriptions.length === 0) {
+    throw new Error("No subscriptions available");
+  }
 
   try {
-  await Promise.all(
-    subscriptions.map((row) => {
-      // Convert Row to PushSubscription
-      const subscription: PushSubscription = {
-        endpoint: row.endpoint,
-        keys: JSON.parse(row.keys),
-      };
-      return webpush.sendNotification(
-        subscription,
-        JSON.stringify({
-          title: "Notification from indieStream",
-          body: message,
-          icon: "/icons/web-app-manifest-192x192.png",
-          data: {
-            url: url || "https://indie-stream.vercel.app/",
-          },
-        })
-      );
-    })
-  );
-} catch (error) {
+    await Promise.all(
+      subscriptions.map((row) => {
+        // Convert Row to PushSubscription
+        const subscription: PushSubscription = {
+          endpoint: row.endpoint,
+          keys: JSON.parse(row.keys),
+        };
+        return webpush.sendNotification(
+          subscription,
+          JSON.stringify({
+            title: "Notification from indieStream",
+            body: message,
+            icon: "/icons/web-app-manifest-192x192.png",
+            data: {
+              url: url || "https://indie-stream.vercel.app/",
+            },
+          })
+        );
+      })
+    );
+  } catch (error) {
     console.error("Error sending push notification:", error);
     return { success: false, error: "Failed to send notification" };
   }

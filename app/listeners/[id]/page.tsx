@@ -14,15 +14,18 @@ import {
   // getAllArtists,
   // getAllReleases,
 } from "@/lib/data";
+// import context
+import { usePushNotification } from "../../../context/push-notification-context-provider";
 // import definitions
 // import { Song } from "@/lib/definitions";
 // import components
-import PushNotificationSubscriptionManager from "@/ui/push-notification-subscription-manager";
+import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
 // import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+
   const { id } = await props.params;
   const user = await getUserById(id);
   if (!user) {
@@ -111,7 +114,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
-      <PushNotificationSubscriptionManager />
+      
+      <div className="p-2">
+        <SubscriptionContextClientContainer renderedAs="button" />
+      </div>
+      
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}
       {/* {user.saved_artists && (

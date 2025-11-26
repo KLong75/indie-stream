@@ -5,7 +5,7 @@ import Link from "next/link";
 // import components
 import UploadButtonContainer from "../ui/upload-button-container";
 import InstallPrompt from "@/ui/install-prompt";
-import PushNotificationManager from "@/ui/push-notification-subscription-manager";
+// import PushNotificationManager from "@/ui/push-notification-subscription-manager";
 // import from react icons
 import { GiMusicalNotes } from "react-icons/gi";
 import { redirect } from "next/navigation";
