@@ -13,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@uploadthing/react": "^7.3.3",
+    "@vercel/analytics": "^1.5.0",
     "autoprefixer": "^10.4.21",
     "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
