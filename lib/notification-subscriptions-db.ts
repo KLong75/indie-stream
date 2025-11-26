@@ -13,11 +13,19 @@ export async function saveSubscriptionToDB(sub: any) {
   `;
 }
 
+// export async function getSubscriptionsFromDB() {
+//   return await sql`
+//     SELECT endpoint, expiration_time, keys
+//     FROM push_subscriptions
+//   `;
+// }
+
 export async function getSubscriptionsFromDB() {
-  return await sql`
+  const result = await sql`
     SELECT endpoint, expiration_time, keys
     FROM push_subscriptions
   `;
+  return result; // For postgres, this is already an array
 }
 
 export async function removeSubscriptionFromDB(endpoint: string) {

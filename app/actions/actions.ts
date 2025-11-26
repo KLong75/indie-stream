@@ -2,22 +2,22 @@
 
 import webpush from "web-push";
 import type { PushSubscription } from "web-push";
-import { 
-  getSubscriptions, 
+// import { 
+  // getSubscriptions, 
   // saveSubscription, 
   // removeSubscription 
-} from "@/lib/subscriptions";
+// } from "@/lib/subscriptions";
 
 import { getSubscriptionsFromDB } from "@/lib/notification-subscriptions-db";
 
-type Row = {
-  endpoint: string;
-  keys: {
-    p256dh: string;
-    auth: string;
-  };
-  expiration_time?: number | null;
-};
+// type Row = {
+//   endpoint: string;
+//   keys: {
+//     p256dh: string;
+//     auth: string;
+//   };
+//   expiration_time?: number | null;
+// };
 
 webpush.setVapidDetails(
   "mailto:kevin@rhythmcodestudio.tech",
