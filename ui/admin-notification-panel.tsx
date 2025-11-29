@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { sendNotification } from "../app/actions/actions";
 
-export default function AdminNotificationPanel() {
+export default function AdminNotificationPanel( {numberOfSubscriptions}: {numberOfSubscriptions?: number} ) {
+  // console.log("numberOfSubscriptions in client:", numberOfSubscriptions);
   const [message, setMessage] = useState("");
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<null | string>(null);
 
   async function handleSend() {
     const result = await sendNotification(message, url);
+    console.log("Notification send result:", result);
     setStatus(result && result.success ? "Notification sent!" : "Failed to send.");
     setMessage("");
     setUrl("");
@@ -17,6 +19,13 @@ export default function AdminNotificationPanel() {
   return (
     <div className="p-2">
       <h2>Push Notification Admin</h2>
+      <p>
+        {numberOfSubscriptions === 1
+              ? `There is currently ${numberOfSubscriptions} person subscribed to notifications.`
+          : `There are currently ${numberOfSubscriptions ?? "Loading..."} people subscribed to notifications.`}
+      </p>
+      <br />
+      <p>Send a new notification:</p>
       <input
         type="text"
         placeholder="Enter Notification Message"
