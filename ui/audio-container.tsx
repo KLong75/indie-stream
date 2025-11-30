@@ -28,10 +28,10 @@ export default async function AudioContainer() {
     return null;
   }
   // all artists
-  const allArtists = await getAllArtists();
-  const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  // const allArtists = await getAllArtists();
+  // const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
+  //   a.name.localeCompare(b.name)
+  // );
   // console.log("allArtistsAlphabeticalOrder", allArtistsAlphabeticalOrder);
   // all songs
   const allSongs = await getAllSongs();
@@ -56,9 +56,9 @@ export default async function AudioContainer() {
       })
   );
   // saved artists
-  const savedArtists = (
-    await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
-  ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
+  // const savedArtists = (
+  //   await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))
+  // ).sort((a, b) => (a?.name || "").localeCompare(b?.name || ""));
   // console.log("savedArtists", savedArtists);
   // saved songs
   const savedSongs = await Promise.all(

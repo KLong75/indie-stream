@@ -115,9 +115,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <>
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
       
-      <div className="p-2">
+      {/* <div className="p-2">
         <SubscriptionContextClientContainer renderedAs="button" />
-      </div>
+      </div> */}
       
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}

@@ -44,19 +44,19 @@ export default async function RootLayout({
       {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}
       <body className="flex flex-col min-h-screen antialiased">
         <PushNotificationContextProvider>
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <Header session={session} />
-        <main className="flex-1 flex flex-col">
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-            {children}
+            <Header session={session} />
+            <main className="flex-1 flex flex-col">
+              {children}
+              <AudioContainer />
+            </main>
+            <Footer />
           </ThemeProvider>
-          <AudioContainer />
-        </main>
-        <Footer />
         </PushNotificationContextProvider>
       </body>
     </html>
