@@ -1,6 +1,6 @@
 // import from react
 import { useRef } from "react";
-// import from headlessui 
+// import from headlessui
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 // import from react icons
 import { RiCloseCircleFill } from "react-icons/ri";
@@ -51,11 +51,13 @@ export default function SongListDialog({
         onClose={() => setOpen(false)}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <DialogPanel className="relative bg-gray-900 border-2 rounded-lg p-6 w-11/12 max-w-md">
-        <Button
-            icon={<RiCloseCircleFill className="size-6 absolute top-2 right-2" />}
+          <Button
+            icon={
+              <RiCloseCircleFill className="absolute top-2 right-2" size={24} />
+            }
             title="Close"
             onClick={() => setOpen(false)}
-          />  
+          />
           <DialogTitle className="text-lg text-center font-semibold -mt-2 mb-2">
             {dialogTitle || label}
           </DialogTitle>

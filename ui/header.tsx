@@ -42,12 +42,14 @@ export default function Header({ session }: { session: Session | null }) {
           <MobileMenu session={session} navItems={navItems} />
         </div> */}
         <HomeLink session={session}/>
+        <div className="flex space-x-2">
         <PushNotificationSubscriptionManager renderedAs="icon" />
         {session && (
-          <div className="ml-4">
+          <div className="">
             <SignOutButton />
           </div>
         )}
+        </div>
       </div>
     </header>
   );

@@ -1,11 +1,18 @@
 "use client";
-
+// import signOut action
 import { signOutUser } from "../lib/actions";
+// import from react icons
+import { MdLogout } from "react-icons/md";
+// import components
+import Button from "./button";
 
 export default function SignOutButton() {
   return (
-    <button onClick={signOutUser} className="bg-blue-500 p-1 text-sm rounded-md">
-      Sign Out
-    </button>
+    <Button onClick={signOutUser} className=""
+      // label="Sign Out"
+      title="Sign Out"
+      ariaLabel="Sign Out"
+      icon={<MdLogout className="inline" size={24}/>}
+    />
   );
 }
