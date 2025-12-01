@@ -32,7 +32,7 @@ export default function Header({ session }: { session: Session | null }) {
   return (
     <header className="bg-gray-900 p-4 flex justify-between items-center">
       <Link href="/">
-        <h1 className="text-white text-2xl font-bold">Indie Stream</h1>
+        <h1 className="text-white text-2xl font-bold">indieStream</h1>
       </Link>
       <div className="flex items-center space-">
         <div className="hidden md:flex mr-4">
