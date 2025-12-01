@@ -731,7 +731,7 @@ export default function AudioPlayerWrapper({
         setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
         currentPlaylist={currentPlaylist ?? ""}
       />
-      <div className="grid grid-cols-6 gap-4 px-6 py-2">
+      <div className="grid grid-cols-6 gap-4 p-2">
         <SongListDialog
           icon={<GiMusicSpell className="size-6" />}
           label="All Songs"
