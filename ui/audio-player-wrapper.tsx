@@ -58,7 +58,7 @@
 //   const savedReleasesInputRef = useRef<HTMLInputElement>(null);
 //   const playlistsInputRef = useRef<HTMLInputElement>(null);
 //   const publicPlaylistsInputRef = useRef<HTMLInputElement>(null);
-//   // console.log("currentSongs", currentSongs);  
+//   // console.log("currentSongs", currentSongs);
 //   // const [playlistsDropdownVisible, setPlaylistsDropdownVisible] =
 //   // useState<boolean>(false);
 //   // const [publicPlaylistsDropdownVisible, setPublicPlaylistsDropdownVisible] =
@@ -126,7 +126,7 @@
 //   return (
 //     <div className="flex flex-col">
 //       {/* <div className="flex justify-between items-center px-4 py-2 bg-gray-900">
-//         {/* <h2 className="text-lg font-semibold text-white">Audio Player</h2> 
+//         {/* <h2 className="text-lg font-semibold text-white">Audio Player</h2>
 //         <button
 //           onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
 //           className="text-white hover:text-gray-300 focus:outline-none">
@@ -143,7 +143,7 @@
 //             </span>
 //             <span className={clsx(isAudioPlayerExpanded ? "hidden" : "block")}>
 //               Expand
-//             </span> 
+//             </span>
 //           </div>
 //         </button>
 //       </div> */}
@@ -588,17 +588,26 @@
 //   );
 // }
 
-
-
-
-
 "use client";
 import { useState, useRef } from "react";
 import AudioPlayer from "@/ui/audio-player";
 import { Song } from "@/lib/definitions";
+// import
 // import icons
-import { FaRecordVinyl } from "react-icons/fa";
+// all songs
 import { GiMusicSpell } from "react-icons/gi";
+// saved songs
+import { GiMusicalNotes } from "react-icons/gi";
+// all releases
+import { BsFillFileMusicFill } from "react-icons/bs";
+// saved releases
+import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
+// playlists
+import { RiPlayList2Fill } from "react-icons/ri";
+// public playlists
+import { RiPlayList2Line } from "react-icons/ri";
+import { FaRecordVinyl } from "react-icons/fa";
+// import { GiMusicSpell } from "react-icons/gi";
 import { TbPlaylist } from "react-icons/tb";
 import { ImFileMusic } from "react-icons/im";
 import { RxChevronDown, RxCheck } from "react-icons/rx";
@@ -609,10 +618,12 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import clsx from "clsx";
 // import components
 import Button from "./button";
-import AudioComboBox, { AudioComboBoxOption } from "./audio-combobox"; // --- Refactor: import new component ---
+import SongListComboBox, { SongListComboBoxOption } from "./song-list-combobox";
+import SongListDialog from "./song-list-dialog";
 
 export default function AudioPlayerWrapper({
   allSongs,
@@ -650,6 +661,14 @@ export default function AudioPlayerWrapper({
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
     "Saved Songs"
   );
+  const [allSongsDialogOpen, setAllSongsDialogOpen] = useState(false);
+  const [savedSongsDialogOpen, setSavedSongsDialogOpen] = useState(false);
+  const [allReleasesDialogOpen, setAllReleasesDialogOpen] = useState(false);
+  const [savedReleasesDialogOpen, setSavedReleasesDialogOpen] = useState(false);
+  const [playlistsDialogOpen, setPlaylistsDialogOpen] = useState(false);
+  const [publicPlaylistsDialogOpen, setPublicPlaylistsDialogOpen] =
+    useState(false);
+
   const allSongsInputRef = useRef<HTMLInputElement>(null!);
   const savedSongsInputRef = useRef<HTMLInputElement>(null!);
   const allReleasesInputRef = useRef<HTMLInputElement>(null!);
@@ -657,50 +676,48 @@ export default function AudioPlayerWrapper({
   const playlistsInputRef = useRef<HTMLInputElement>(null!);
   const publicPlaylistsInputRef = useRef<HTMLInputElement>(null!);
 
-  // --- Refactor: create options for AudioComboBox ---
-  const allSongsOptions: AudioComboBoxOption[] = allSongs
+  // create options for SongListComboBox
+  const allSongsOptions: SongListComboBoxOption[] = allSongs
     .filter((song): song is Song => !!song && !!song.file_key)
     .map((song) => ({
       value: song.id,
       label: song.title,
     }));
 
-  const savedSongsOptions: AudioComboBoxOption[] = savedSongs
+  const savedSongsOptions: SongListComboBoxOption[] = savedSongs
     .filter((song): song is Song => !!song && !!song.file_key)
     .map((song) => ({
       value: song.id,
       label: song.title,
     }));
 
-  const allReleasesOptions: AudioComboBoxOption[] = Object.keys(allReleases).map(
-    (releaseTitle) => ({
-      value: releaseTitle,
-      label: releaseTitle,
-    })
-  );
+  const allReleasesOptions: SongListComboBoxOption[] = Object.keys(
+    allReleases
+  ).map((releaseTitle) => ({
+    value: releaseTitle,
+    label: releaseTitle,
+  }));
 
-  const savedReleasesOptions: AudioComboBoxOption[] = Object.keys(
+  const savedReleasesOptions: SongListComboBoxOption[] = Object.keys(
     savedReleases
   ).map((releaseTitle) => ({
     value: releaseTitle,
     label: releaseTitle,
   }));
 
-  const playlistsOptions: AudioComboBoxOption[] = Object.keys(
+  const playlistsOptions: SongListComboBoxOption[] = Object.keys(
     formattedPlaylists
   ).map((playlistTitle) => ({
     value: playlistTitle,
     label: playlistTitle,
   }));
 
-  const publicPlaylistsOptions: AudioComboBoxOption[] = Object.keys(
+  const publicPlaylistsOptions: SongListComboBoxOption[] = Object.keys(
     formattedPublicPlaylists
   ).map((playlistTitle) => ({
     value: playlistTitle,
     label: playlistTitle,
   }));
-
-  // --- End refactor ---
 
   return (
     <div className="flex flex-col">
@@ -714,27 +731,153 @@ export default function AudioPlayerWrapper({
         setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
         currentPlaylist={currentPlaylist ?? ""}
       />
-      <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 px-6 py-2 mb-4">
-        <Button 
-          // label="All Songs"
-          icon={<GiMusicSpell className="size-5" />}
-          // icon={<ImFileMusic className="size-5" />}
-          onClick={() => {
-            setCurrentSongs(
-              allSongs.filter((song): song is Song => !!song && !!song.file_key)
-            );
-            setCurrentPlaylist("All Songs");
-            setCurrentSongIndex(0);
-            setIsPlaying(true);
+      <div className="grid grid-cols-6 gap-4 px-6 py-2">
+        <SongListDialog
+          icon={<GiMusicSpell className="size-6" />}
+          label="All Songs"
+          open={allSongsDialogOpen}
+          setOpen={setAllSongsDialogOpen}
+          options={allSongsOptions}
+          value={selected?.id || null}
+          onChange={(songId) => {
+            const song = allSongs.find((s) => s.id === songId) || null;
+            setSelected(song);
+            if (song) {
+              setCurrentSongs(
+                allSongs.filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist("All Songs");
+              const index = allSongs.findIndex((s) => s.id === song.id);
+              setCurrentSongIndex(index >= 0 ? index : 0);
+              setIsPlaying(true);
+            }
           }}
+          query={allSongsQuery}
+          setQuery={setAllSongsQuery}
         />
-       
+        <SongListDialog
+          icon={<GiMusicalNotes className="size-6" />}
+          label="Saved Songs"
+          open={savedSongsDialogOpen}
+          setOpen={setSavedSongsDialogOpen}
+          options={savedSongsOptions}
+          value={selected?.id || null}
+          onChange={(songId) => {
+            const song = savedSongs.find((s) => s.id === songId) || null;
+            setSelected(song);
+            if (song) {
+              setCurrentSongs(
+                savedSongs.filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist("Your Saved Songs");
+              const index = savedSongs.findIndex((s) => s.id === song.id);
+              setCurrentSongIndex(index >= 0 ? index : 0);
+              setIsPlaying(true);
+            }
+          }}
+          query={savedSongsQuery}
+          setQuery={setSavedSongsQuery}
+        />
+        <SongListDialog
+          icon={<BsFillFileMusicFill className="size-6" />}
+          label="All Releases"
+          open={allReleasesDialogOpen}
+          setOpen={setAllReleasesDialogOpen}
+          options={allReleasesOptions}
+          value={selectedRelease}
+          onChange={(releaseTitle) => {
+            setSelectedRelease(releaseTitle);
+            if (releaseTitle) {
+              setCurrentSongs(
+                allReleases[releaseTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(releaseTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+          }}
+          query={allReleasesQuery}
+          setQuery={setAllReleasesQuery}
+        />
+        <SongListDialog
+          icon={<BsFillFileEarmarkMusicFill className="size-6" />}
+          label="Saved Releases"
+          open={savedReleasesDialogOpen}
+          setOpen={setSavedReleasesDialogOpen}
+          options={savedReleasesOptions}
+          value={selectedRelease}
+          onChange={(releaseTitle) => {
+            setSelectedRelease(releaseTitle);
+            if (releaseTitle) {
+              setCurrentSongs(
+                savedReleases[releaseTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(releaseTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+          }}
+          query={savedReleasesQuery}
+          setQuery={setSavedReleasesQuery}
+          />
+          <SongListDialog
+          icon={<RiPlayList2Line className="size-6" />}
+          label="Public Playlists"
+          open={publicPlaylistsDialogOpen}
+          setOpen={setPublicPlaylistsDialogOpen}
+          options={publicPlaylistsOptions}
+          value={selectedPlaylist}
+          onChange={(playlistTitle) => {
+            setSelectedPlaylist(playlistTitle);
+            if (playlistTitle) {
+              setCurrentSongs(
+                formattedPublicPlaylists[playlistTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(playlistTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+          }}
+          query={publicPlaylistsQuery}
+          setQuery={setPublicPlaylistsQuery}
+        />
+        <SongListDialog
+          icon={<RiPlayList2Fill className="size-6" />}
+          label="Your Playlists"
+          open={playlistsDialogOpen}
+          setOpen={setPlaylistsDialogOpen}
+          options={playlistsOptions}
+          value={selectedPlaylist}
+          onChange={(playlistTitle) => {
+            setSelectedPlaylist(playlistTitle);
+            if (playlistTitle) {
+              setCurrentSongs(
+                formattedPlaylists[playlistTitle].filter(
+                  (song): song is Song => !!song && !!song.file_key
+                )
+              );
+              setCurrentPlaylist(playlistTitle);
+              setCurrentSongIndex(0);
+              setIsPlaying(true);
+            }
+          }}
+          query={playlistsQuery}
+          setQuery={setPlaylistsQuery}
+        />
       </div>
 
-
-      <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 px-6 py-2 mb-4">
-        {/* --- Refactor: Use AudioComboBox for each combobox --- */}
-        <AudioComboBox
+      {/* <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 px-6 py-2 mb-4">
+        <SongListComboBox
           label="All Songs"
           options={allSongsOptions}
           value={selected?.id || null}
@@ -758,8 +901,7 @@ export default function AudioPlayerWrapper({
           setQuery={setAllSongsQuery}
           inputRef={allSongsInputRef}
         />
-
-        <AudioComboBox
+        <SongListComboBox
           label="Saved Songs"
           options={savedSongsOptions}
           value={selected?.id || null}
@@ -783,8 +925,7 @@ export default function AudioPlayerWrapper({
           setQuery={setSavedSongsQuery}
           inputRef={savedSongsInputRef}
         />
-
-        <AudioComboBox
+        <SongListComboBox
           label="All Releases"
           options={allReleasesOptions}
           value={selectedRelease}
@@ -806,8 +947,7 @@ export default function AudioPlayerWrapper({
           setQuery={setAllReleasesQuery}
           inputRef={allReleasesInputRef}
         />
-
-        <AudioComboBox
+        <SongListComboBox
           label="Saved Releases"
           options={savedReleasesOptions}
           value={selectedRelease}
@@ -829,8 +969,7 @@ export default function AudioPlayerWrapper({
           setQuery={setSavedReleasesQuery}
           inputRef={savedReleasesInputRef}
         />
-
-        <AudioComboBox
+        <SongListComboBox
           label="Your Playlists"
           options={playlistsOptions}
           value={selectedPlaylist}
@@ -852,8 +991,7 @@ export default function AudioPlayerWrapper({
           setQuery={setPlaylistsQuery}
           inputRef={playlistsInputRef}
         />
-
-        <AudioComboBox
+        <SongListComboBox
           label="Public Playlists"
           options={publicPlaylistsOptions}
           value={selectedPlaylist}
@@ -875,17 +1013,10 @@ export default function AudioPlayerWrapper({
           setQuery={setPublicPlaylistsQuery}
           inputRef={publicPlaylistsInputRef}
         />
-        {/* --- End refactor --- */}
-      </div>
+      </div> */}
     </div>
   );
 }
-
-
-
-
-
-
 
 {
   /* <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4"> */

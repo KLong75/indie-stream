@@ -1,6 +1,7 @@
 interface ButtonProps {
   icon?: React.ReactNode;
   label?: string;
+  title?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   autoFocus?: boolean;
@@ -16,6 +17,7 @@ interface ButtonProps {
 export default function Button({
   icon,
   label,
+  title,
   onClick,
   className = "",
   autoFocus = false,
@@ -28,6 +30,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
+      title={title}
       autoFocus={autoFocus}
       className={`cursor-pointer ${className}`}
       disabled={disabled}

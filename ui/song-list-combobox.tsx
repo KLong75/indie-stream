@@ -9,14 +9,14 @@ import { RxChevronDown, RxCheck } from "react-icons/rx";
 import clsx from "clsx";
 import { useRef } from "react";
 
-export type AudioComboBoxOption = {
+export type SongListComboBoxOption = {
   value: string;
   label: string;
 };
 
-type AudioComboBoxProps<T> = {
-  label: string;
-  options: AudioComboBoxOption[];
+type SongListComboBoxProps<T> = {
+  label?: string;
+  options: SongListComboBoxOption[];
   value: string | null;
   onChange: (value: string | null) => void;
   query: string;
@@ -25,7 +25,7 @@ type AudioComboBoxProps<T> = {
   className?: string;
 };
 
-export default function AudioComboBox({
+export default function SongListComboBox({
   label,
   options,
   value,
@@ -34,7 +34,7 @@ export default function AudioComboBox({
   setQuery,
   inputRef,
   className = "",
-}: AudioComboBoxProps<any>) {
+}: SongListComboBoxProps<any>) {
   const filteredOptions =
     query === ""
       ? options
@@ -69,7 +69,7 @@ export default function AudioComboBox({
           anchor="bottom"
           transition
           className={clsx(
-            "w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
+            "bg-gray-900 w-(--input-width) rounded-xl border border-white/5 bg-black/100 p-1 [--anchor-gap:--spacing(1)] empty:invisible ",
             "transition duration-100 ease-in data-leave:data-closed:opacity-0 outline-1 outline-white"
           )}>
           {filteredOptions.map((option) => (
