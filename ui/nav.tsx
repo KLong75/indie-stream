@@ -1,7 +1,7 @@
 "use client";
 
 import NavListItem from "./nav-list-item";
-import { signOutUser } from "../lib/actions";
+// import { signOutUser } from "../lib/actions";
 import { Session } from "next-auth";
 export default function Nav({
   navItems,
@@ -10,28 +10,26 @@ export default function Nav({
   navItems: {
     label: string;
     href: string;
-    htmlElement: string;
+    icon: string;
+  
   }[];
   session: Session | null;
 }) {
   const userId = session?.user?.id;
 
-  const handleSignOut = () => {
-    signOutUser();
-  };
+  // const handleSignOut = () => {
+  //   signOutUser();
+  // };
 
   return (
     <nav>
-      <ul className="flex space-x-4">
+      <ul className="flex justify-center space-x-6">
         {navItems.map((item) => (
           <NavListItem
             key={item.label}
             label={item.label}
-            href={
-              item.label === "Your Music" ? `/listeners/${userId}` : item.href
-            } // Replace placeholder with userId
-            htmlElement={item.htmlElement}
-            onClick={item.label === "Sign Out" ? handleSignOut : undefined} // Handle "Sign Out" action
+            href={item.label === "Home" ? `/listeners/${userId}` : item.href}
+            icon={item.icon}
           />
         ))}
       </ul>

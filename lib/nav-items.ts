@@ -13,30 +13,31 @@
 //   },
 // ];
 
-export const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  icon?: string;
+};
+
+export const navItems: NavItem[] = [
   {
-    label: "Playlists",
-    href: "/playlists",
-    htmlElement: "Link",
-  },
-  {
-    label: "Releases",
-    href: "/releases",
-    htmlElement: "Link",
+    label: "Home",
+    href: "/listeners/[id]",
+    icon: "home"
   },
   {
     label: "Artists",
     href: "/artists",
-    htmlElement: "Link",
+    icon: "artists"
   },
   {
-    label: "Your Music",
-    href: "/listeners/[id]", // Placeholder for dynamic userId
-    htmlElement: "Link",
+    label: "Releases",
+    href: "/releases",
+    icon: "releases"
   },
   {
-    label: "Sign Out",
-    href: "#",
-    htmlElement: "button",
+    label: "Playlists",
+    href: "/playlists",
+    icon: "playlists"
   },
 ];

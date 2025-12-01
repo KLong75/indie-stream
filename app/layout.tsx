@@ -55,7 +55,7 @@ export default async function RootLayout({
               {children}
               <AudioContainer />
             </main>
-            <Footer />
+            <Footer session={session} />
           </ThemeProvider>
         </PushNotificationContextProvider>
       </body>

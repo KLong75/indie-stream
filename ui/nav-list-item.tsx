@@ -3,43 +3,25 @@
 import Link from "next/link";
 // import { Button } from "@/components/ui/button"
 
+interface NavListItemProps {
+  label: string;
+  href: string;
+  icon?: string;
+  // onClick?: () => void;
+}
+
 export default function NavListItem({
   label,
   href,
-  htmlElement,
-  onClick,
-}: {
-  label: string;
-  href: string;
-  htmlElement: string;
-  onClick?: () => void;
-}) {
+  icon,
+}: NavListItemProps
+  ) {
   return (
     <li className="flex items-center ">
-      {htmlElement === "button" ? (
-        <button
-          // variant="secondary"
-          // size="lg"
-          onClick={onClick}
-          className=""
-        >
-          <span>{label}</span>
-        </button>
-      ) : (
-        <button
-          // asChild
-          // variant="secondary"  
-          // size="lg"
-          onClick={onClick}
-        >
-        <Link
-          href={href}
-          className="flex items-center space-x-2 "
-        >
-          <span>{label}</span>
-        </Link>
-        </button>
-      )}
+      <Link href={href} className="flex items-center space-x-2 ">
+        {icon && <span>{icon}</span>}
+        {label && <span>{label}</span>}
+      </Link>
     </li>
   );
 }
