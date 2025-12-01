@@ -13,7 +13,7 @@
 //   },
 // ];
 
-type NavItem = {
+export type NavItem = {
   label: string;
   href: string;
   icon?: string;
@@ -22,7 +22,7 @@ type NavItem = {
 export const navItems: NavItem[] = [
   {
     label: "Home",
-    href: "/listeners/[id]",
+    href: "/listeners/_id_",
     icon: "home"
   },
   {
