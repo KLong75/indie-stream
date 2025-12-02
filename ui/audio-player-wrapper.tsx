@@ -719,504 +719,177 @@ export default function AudioPlayerWrapper({
     label: playlistTitle,
   }));
 
-  return (
-    <div className="flex flex-col">
-      <AudioPlayer
-        songs={currentSongs}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        currentSongIndex={currentSongIndex}
-        setCurrentSongIndex={setCurrentSongIndex}
-        isAudioPlayerExpanded={isAudioPlayerExpanded}
-        setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
-        currentPlaylist={currentPlaylist ?? ""}
-      />
-      <div className="grid grid-cols-6 gap-4 p-2">
-        <SongListDialog
-          icon={<GiMusicSpell className="size-6" />}
-          label="All Songs"
-          open={allSongsDialogOpen}
-          setOpen={setAllSongsDialogOpen}
-          options={allSongsOptions}
-          value={selected?.id || null}
-          onChange={(songId) => {
-            const song = allSongs.find((s) => s.id === songId) || null;
-            setSelected(song);
-            if (song) {
-              setCurrentSongs(
-                allSongs.filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist("All Songs");
-              const index = allSongs.findIndex((s) => s.id === song.id);
-              setCurrentSongIndex(index >= 0 ? index : 0);
-              setIsPlaying(true);
-            }
-          }}
-          query={allSongsQuery}
-          setQuery={setAllSongsQuery}
-        />
-        <SongListDialog
-          icon={<GiMusicalNotes className="size-6" />}
-          label="Saved Songs"
-          open={savedSongsDialogOpen}
-          setOpen={setSavedSongsDialogOpen}
-          options={savedSongsOptions}
-          value={selected?.id || null}
-          onChange={(songId) => {
-            const song = savedSongs.find((s) => s.id === songId) || null;
-            setSelected(song);
-            if (song) {
-              setCurrentSongs(
-                savedSongs.filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist("Your Saved Songs");
-              const index = savedSongs.findIndex((s) => s.id === song.id);
-              setCurrentSongIndex(index >= 0 ? index : 0);
-              setIsPlaying(true);
-            }
-          }}
-          query={savedSongsQuery}
-          setQuery={setSavedSongsQuery}
-        />
-        <SongListDialog
-          icon={<BsFillFileMusicFill className="size-6" />}
-          label="All Releases"
-          open={allReleasesDialogOpen}
-          setOpen={setAllReleasesDialogOpen}
-          options={allReleasesOptions}
-          value={selectedRelease}
-          onChange={(releaseTitle) => {
-            setSelectedRelease(releaseTitle);
-            if (releaseTitle) {
-              setCurrentSongs(
-                allReleases[releaseTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(releaseTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-          }}
-          query={allReleasesQuery}
-          setQuery={setAllReleasesQuery}
-        />
-        <SongListDialog
-          icon={<BsFillFileEarmarkMusicFill className="size-6" />}
-          label="Saved Releases"
-          open={savedReleasesDialogOpen}
-          setOpen={setSavedReleasesDialogOpen}
-          options={savedReleasesOptions}
-          value={selectedRelease}
-          onChange={(releaseTitle) => {
-            setSelectedRelease(releaseTitle);
-            if (releaseTitle) {
-              setCurrentSongs(
-                savedReleases[releaseTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(releaseTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-          }}
-          query={savedReleasesQuery}
-          setQuery={setSavedReleasesQuery}
+  return isAudioPlayerExpanded ? (
+    <div className="absolute left-0 right-0 top-16 bottom-0 z-50 bg-black bg-opacity-80 flex items-center justify-center">
+      <div className="w-full max-w-2xl mx-auto">
+        <div className="flex flex-col">
+          <AudioPlayer
+            songs={currentSongs}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            currentSongIndex={currentSongIndex}
+            setCurrentSongIndex={setCurrentSongIndex}
+            isAudioPlayerExpanded={isAudioPlayerExpanded}
+            setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+            currentPlaylist={currentPlaylist ?? ""}
           />
-          <SongListDialog
-          icon={<RiPlayList2Line className="size-6" />}
-          label="Public Playlists"
-          open={publicPlaylistsDialogOpen}
-          setOpen={setPublicPlaylistsDialogOpen}
-          options={publicPlaylistsOptions}
-          value={selectedPlaylist}
-          onChange={(playlistTitle) => {
-            setSelectedPlaylist(playlistTitle);
-            if (playlistTitle) {
-              setCurrentSongs(
-                formattedPublicPlaylists[playlistTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(playlistTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-          }}
-          query={publicPlaylistsQuery}
-          setQuery={setPublicPlaylistsQuery}
-        />
-        <SongListDialog
-          icon={<RiPlayList2Fill className="size-6" />}
-          label="Your Playlists"
-          open={playlistsDialogOpen}
-          setOpen={setPlaylistsDialogOpen}
-          options={playlistsOptions}
-          value={selectedPlaylist}
-          onChange={(playlistTitle) => {
-            setSelectedPlaylist(playlistTitle);
-            if (playlistTitle) {
-              setCurrentSongs(
-                formattedPlaylists[playlistTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(playlistTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-          }}
-          query={playlistsQuery}
-          setQuery={setPlaylistsQuery}
-        />
+          <div className="grid grid-cols-6 gap-4 p-2">
+            <SongListDialog
+              icon={<GiMusicSpell className="size-6" />}
+              label="All Songs"
+              open={allSongsDialogOpen}
+              setOpen={setAllSongsDialogOpen}
+              options={allSongsOptions}
+              value={selected?.id || null}
+              onChange={(songId) => {
+                const song = allSongs.find((s) => s.id === songId) || null;
+                setSelected(song);
+                if (song) {
+                  setCurrentSongs(
+                    allSongs.filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist("All Songs");
+                  const index = allSongs.findIndex((s) => s.id === song.id);
+                  setCurrentSongIndex(index >= 0 ? index : 0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={allSongsQuery}
+              setQuery={setAllSongsQuery}
+            />
+            <SongListDialog
+              icon={<GiMusicalNotes className="size-6" />}
+              label="Saved Songs"
+              open={savedSongsDialogOpen}
+              setOpen={setSavedSongsDialogOpen}
+              options={savedSongsOptions}
+              value={selected?.id || null}
+              onChange={(songId) => {
+                const song = savedSongs.find((s) => s.id === songId) || null;
+                setSelected(song);
+                if (song) {
+                  setCurrentSongs(
+                    savedSongs.filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist("Your Saved Songs");
+                  const index = savedSongs.findIndex((s) => s.id === song.id);
+                  setCurrentSongIndex(index >= 0 ? index : 0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={savedSongsQuery}
+              setQuery={setSavedSongsQuery}
+            />
+            <SongListDialog
+              icon={<BsFillFileMusicFill className="size-6" />}
+              label="All Releases"
+              open={allReleasesDialogOpen}
+              setOpen={setAllReleasesDialogOpen}
+              options={allReleasesOptions}
+              value={selectedRelease}
+              onChange={(releaseTitle) => {
+                setSelectedRelease(releaseTitle);
+                if (releaseTitle) {
+                  setCurrentSongs(
+                    allReleases[releaseTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(releaseTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={allReleasesQuery}
+              setQuery={setAllReleasesQuery}
+            />
+            <SongListDialog
+              icon={<BsFillFileEarmarkMusicFill className="size-6" />}
+              label="Saved Releases"
+              open={savedReleasesDialogOpen}
+              setOpen={setSavedReleasesDialogOpen}
+              options={savedReleasesOptions}
+              value={selectedRelease}
+              onChange={(releaseTitle) => {
+                setSelectedRelease(releaseTitle);
+                if (releaseTitle) {
+                  setCurrentSongs(
+                    savedReleases[releaseTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(releaseTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={savedReleasesQuery}
+              setQuery={setSavedReleasesQuery}
+            />
+            <SongListDialog
+              icon={<RiPlayList2Line className="size-6" />}
+              label="Public Playlists"
+              open={publicPlaylistsDialogOpen}
+              setOpen={setPublicPlaylistsDialogOpen}
+              options={publicPlaylistsOptions}
+              value={selectedPlaylist}
+              onChange={(playlistTitle) => {
+                setSelectedPlaylist(playlistTitle);
+                if (playlistTitle) {
+                  setCurrentSongs(
+                    formattedPublicPlaylists[playlistTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(playlistTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={publicPlaylistsQuery}
+              setQuery={setPublicPlaylistsQuery}
+            />
+            <SongListDialog
+              icon={<RiPlayList2Fill className="size-6" />}
+              label="Your Playlists"
+              open={playlistsDialogOpen}
+              setOpen={setPlaylistsDialogOpen}
+              options={playlistsOptions}
+              value={selectedPlaylist}
+              onChange={(playlistTitle) => {
+                setSelectedPlaylist(playlistTitle);
+                if (playlistTitle) {
+                  setCurrentSongs(
+                    formattedPlaylists[playlistTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(playlistTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={playlistsQuery}
+              setQuery={setPlaylistsQuery}
+            />
+          </div>
+        </div>
       </div>
-
-      {/* <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4 px-6 py-2 mb-4">
-        <SongListComboBox
-          label="All Songs"
-          options={allSongsOptions}
-          value={selected?.id || null}
-          onChange={(songId) => {
-            const song = allSongs.find((s) => s.id === songId) || null;
-            setSelected(song);
-            if (song) {
-              setCurrentSongs(
-                allSongs.filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist("All Songs");
-              const index = allSongs.findIndex((s) => s.id === song.id);
-              setCurrentSongIndex(index >= 0 ? index : 0);
-              setIsPlaying(true);
-            }
-            allSongsInputRef.current?.blur();
-          }}
-          query={allSongsQuery}
-          setQuery={setAllSongsQuery}
-          inputRef={allSongsInputRef}
-        />
-        <SongListComboBox
-          label="Saved Songs"
-          options={savedSongsOptions}
-          value={selected?.id || null}
-          onChange={(songId) => {
-            const song = savedSongs.find((s) => s.id === songId) || null;
-            setSelected(song);
-            if (song) {
-              setCurrentSongs(
-                savedSongs.filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist("Your Saved Songs");
-              const index = savedSongs.findIndex((s) => s.id === song.id);
-              setCurrentSongIndex(index >= 0 ? index : 0);
-              setIsPlaying(true);
-            }
-            savedSongsInputRef.current?.blur();
-          }}
-          query={savedSongsQuery}
-          setQuery={setSavedSongsQuery}
-          inputRef={savedSongsInputRef}
-        />
-        <SongListComboBox
-          label="All Releases"
-          options={allReleasesOptions}
-          value={selectedRelease}
-          onChange={(releaseTitle) => {
-            setSelectedRelease(releaseTitle);
-            if (releaseTitle) {
-              setCurrentSongs(
-                allReleases[releaseTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(releaseTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-            allReleasesInputRef.current?.blur();
-          }}
-          query={allReleasesQuery}
-          setQuery={setAllReleasesQuery}
-          inputRef={allReleasesInputRef}
-        />
-        <SongListComboBox
-          label="Saved Releases"
-          options={savedReleasesOptions}
-          value={selectedRelease}
-          onChange={(releaseTitle) => {
-            setSelectedRelease(releaseTitle);
-            if (releaseTitle) {
-              setCurrentSongs(
-                savedReleases[releaseTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(releaseTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-            savedReleasesInputRef.current?.blur();
-          }}
-          query={savedReleasesQuery}
-          setQuery={setSavedReleasesQuery}
-          inputRef={savedReleasesInputRef}
-        />
-        <SongListComboBox
-          label="Your Playlists"
-          options={playlistsOptions}
-          value={selectedPlaylist}
-          onChange={(playlistTitle) => {
-            setSelectedPlaylist(playlistTitle);
-            if (playlistTitle) {
-              setCurrentSongs(
-                formattedPlaylists[playlistTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(playlistTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-            playlistsInputRef.current?.blur();
-          }}
-          query={playlistsQuery}
-          setQuery={setPlaylistsQuery}
-          inputRef={playlistsInputRef}
-        />
-        <SongListComboBox
-          label="Public Playlists"
-          options={publicPlaylistsOptions}
-          value={selectedPlaylist}
-          onChange={(playlistTitle) => {
-            setSelectedPlaylist(playlistTitle);
-            if (playlistTitle) {
-              setCurrentSongs(
-                formattedPublicPlaylists[playlistTitle].filter(
-                  (song): song is Song => !!song && !!song.file_key
-                )
-              );
-              setCurrentPlaylist(playlistTitle);
-              setCurrentSongIndex(0);
-              setIsPlaying(true);
-            }
-            publicPlaylistsInputRef.current?.blur();
-          }}
-          query={publicPlaylistsQuery}
-          setQuery={setPublicPlaylistsQuery}
-          inputRef={publicPlaylistsInputRef}
-        />
-      </div> */}
     </div>
+  ) : (
+    <AudioPlayer
+      songs={currentSongs}
+      isPlaying={isPlaying}
+      setIsPlaying={setIsPlaying}
+      currentSongIndex={currentSongIndex}
+      setCurrentSongIndex={setCurrentSongIndex}
+      isAudioPlayerExpanded={isAudioPlayerExpanded}
+      setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+      currentPlaylist={currentPlaylist ?? ""}
+    />
   );
-}
-
-{
-  /* <div className="flex grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 justify-center items-center w-full h-auto p-4"> */
-}
-{
-  /* <button onClick={handleAllSongsClick} className="p-4 cursor-pointer">
-          All Songs
-        </button> */
-}
-{
-  /* <button onClick={handleSavedSongsClick} className="p-4 cursor-pointer">
-          Saved Songs
-        </button> */
-}
-
-{
-  /* <div className=""> */
-}
-{
-  /* <button
-          onClick={toggleAllReleasesDropdown}
-          className="p-4 cursor-pointer">
-          All Releases
-        </button>
-        {allReleasesDropdownVisible && (
-          <div className="z-50  mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            <div className="flex justify-end">
-              <button
-                onClick={toggleAllReleasesDropdown}
-                className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                <RxCrossCircled size={18} />
-              </button>
-            </div>
-            <div
-              className="py-1"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu">
-              {Object.keys(allReleases).map((releaseKey) => (
-                <button
-                  key={releaseKey}
-                  onClick={() => {
-                    setCurrentSongs(
-                      allReleases[releaseKey].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(releaseKey);
-                    toggleAllReleasesDropdown(); // Close dropdown after selection
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                  {releaseKey}
-                </button>
-              ))}
-            </div>
-          </div>
-        )} */
-}
-{
-  /* </div> */
-}
-{
-  /* <div className=""> */
-}
-{
-  /* <button
-          onClick={toggleSavedReleasesDropdown}
-          className="p-4 cursor-pointer">
-          Saved Releases
-        </button>
-        {savedReleasesDropdownVisible && (
-          <div className=" mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            <div className="flex justify-end">
-              <button
-                onClick={toggleSavedReleasesDropdown}
-                className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                <RxCrossCircled size={18} />
-              </button>
-            </div>
-            <div
-              className="py-1"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu">
-              {Object.keys(savedReleases).map((releaseKey) => (
-                <button
-                  key={releaseKey}
-                  onClick={() => {
-                    setCurrentSongs(
-                      savedReleases[releaseKey].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(releaseKey);
-                    toggleSavedReleasesDropdown(); // Close dropdown after selection
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                  {releaseKey}
-                </button>
-              ))}
-            </div>
-          </div>
-        )} */
-}
-{
-  /* </div> */
-}
-
-{
-  /* <div className=""> */
-}
-{
-  /* <button
-          onClick={togglePlaylistsDropdown}
-          className="p-4 cursor-pointer">
-          Your Playlists
-        </button>
-        {playlistsDropdownVisible && (
-          <div className=" mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            <div className="flex justify-end">
-              <button
-                onClick={togglePlaylistsDropdown}
-                className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                <RxCrossCircled size={18} />
-              </button>
-            </div>
-            <div
-              className="py-1"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu">
-              {Object.keys(formattedPlaylists).map((playlistKey) => (
-                <button
-                  key={playlistKey}
-                  onClick={() => {
-                    setCurrentSongs(
-                      formattedPlaylists[playlistKey].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(playlistKey);
-                    togglePlaylistsDropdown(); // Close dropdown after selection
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                  {playlistKey}
-                </button>
-              ))}
-            </div>
-          </div>
-        )} */
-}
-{
-  /* </div> */
-}
-{
-  /* <div className=""> */
-}
-{
-  /* <button
-          onClick={togglePublicPlaylistsDropdown}
-          className="p-4 cursor-pointer">
-          Public Playlists
-        </button>
-        {publicPlaylistsDropdownVisible && (
-          <div className="mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-            <div className="flex justify-end">
-              <button
-                onClick={togglePublicPlaylistsDropdown}
-                className="block px-4 py-2 text-sm text-gray-700 hover:text-gray-900 cursor-pointer">
-                <RxCrossCircled size={18} />
-              </button>
-            </div>
-            <div
-              className="py-1"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu">
-              {Object.keys(formattedPublicPlaylists).map((playlistKey) => (
-                <button
-                  key={playlistKey}
-                  onClick={() => {
-                    setCurrentSongs(
-                      formattedPublicPlaylists[playlistKey].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(playlistKey);
-                    togglePublicPlaylistsDropdown(); // Close dropdown after selection
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left cursor-pointer">
-                  {playlistKey}
-                </button>
-              ))}
-            </div>
-          </div>
-        )} */
-}
-{
-  /* </div> */
-}
-{
-  /* </div> */
 }
