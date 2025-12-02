@@ -275,8 +275,8 @@ export default function AudioPlayer({
               ? releaseCurrentlyPlaying.cover_img_file_key
               : "9Dk0lBirZ3pQA66Rb9Bygdn5G8QFv0hfpWE7KZqxj3lTc9wC"
           }`}
-          width={isAudioPlayerExpanded ? 400 : 48}
-          height={isAudioPlayerExpanded ? 400 : 48}
+          width={isAudioPlayerExpanded ? 200 : 48}
+          height={isAudioPlayerExpanded ? 200 : 48}
           alt={`${releaseCurrentlyPlaying?.title || "cover image"}`}
           className={clsx(
             "rounded shadow",
