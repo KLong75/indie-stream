@@ -994,7 +994,7 @@ export default function AudioPlayerWrapper({
   // --- Refactor: Overlay only below header and above footer ---
   // Get height of header and footer (adjust these as needed)
   const headerHeight = "4rem"; // e.g. 64px
-  const footerHeight = "3.5rem"; // e.g. 64px
+  const footerHeight = "5rem"; // e.g. 64px
 
   return (
     <div
@@ -1027,7 +1027,7 @@ export default function AudioPlayerWrapper({
           />
           {/* Expanded controls only visible when expanded */}
           {isAudioPlayerExpanded && (
-            <div className="grid grid-cols-6 gap-4 p-2">
+            <div className="flex justify-around p-2 mt-6 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-14">
               <SongListDialog
                 icon={<GiMusicSpell className="size-6" />}
                 label="All Songs"

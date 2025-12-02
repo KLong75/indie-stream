@@ -246,7 +246,7 @@ export default function AudioPlayer({
       <button
         className={clsx(
           "ml-2 bg-gray-700 px-2 py-1 rounded-full",
-          isAudioPlayerExpanded ? "mt-2" : "mt-2"
+          isAudioPlayerExpanded ? "" : ""
         )}
         onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
         title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>
@@ -344,7 +344,7 @@ export default function AudioPlayer({
           className={clsx(
             "flex items-center",
             isAudioPlayerExpanded
-              ? "justify-center space-x-4 w-full"
+              ? "justify-around w-full"
               : "space-x-2 ml-auto"
           )}>
           {isAudioPlayerExpanded && (

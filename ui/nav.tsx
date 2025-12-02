@@ -14,7 +14,7 @@ export default function Nav({
 
   return (
     <nav>
-      <ul className="flex justify-center space-x-12">
+      <ul className="flex justify-around max-w-6xl mx-auto">
         {navItems.map((item) => {
           let href = item.href;
           if (item.label === "Home" && userId) {

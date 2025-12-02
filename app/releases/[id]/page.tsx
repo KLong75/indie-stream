@@ -29,9 +29,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   } else {
     return (
       <div>
-        <div className="p-2">
+        {/* <div className="p-2">
           <BackToLink href="/releases" label="All Releases" />
-        </div>
+        </div> */}
         <h1 className="p-4 text-center">{release.title}</h1>
 
         <h2 className="px-4">

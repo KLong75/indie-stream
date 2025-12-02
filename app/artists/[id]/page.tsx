@@ -40,9 +40,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   } else {
     return (
       <div>
-        <div className="p-2">
+        {/* <div className="p-2">
           <BackToLink href="/artists" label="Artists" />
-        </div>
+        </div> */}
         <h1 className="px-4">{artist.name}</h1>
         <h2 className="px-4">
           <Link

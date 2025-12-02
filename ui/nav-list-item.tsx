@@ -21,9 +21,9 @@ type IconKey = keyof typeof iconMap;
 export default function NavListItem({ item }: { item: NavItem }) {
   return (
     <li className="flex items-center" title={item.label}>
-      <Link href={item.href} className="flex items-center space-x-2 ">
+      <Link href={item.href} className="flex flex-col items-center">
         {item.icon && <span>{iconMap[item.icon]}</span>}
-        {/* {item.label && <span>{item.label}</span>} */}
+        {item.label && <span className="text-xs md:text-sm lg:text-base">{item.label}</span>}
       </Link>
     </li>
   );
