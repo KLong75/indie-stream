@@ -900,7 +900,6 @@
 import { useState, useRef } from "react";
 import AudioPlayer from "@/ui/audio-player";
 import { Song } from "@/lib/definitions";
-// icons
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
 import { BsFillFileMusicFill, BsFillFileEarmarkMusicFill } from "react-icons/bs";
 import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
@@ -992,14 +991,26 @@ export default function AudioPlayerWrapper({
     label: playlistTitle,
   }));
 
-  // --- Refactor: Overlay only below header, keep AudioPlayer mounted ---
+  // --- Refactor: Overlay only below header and above footer ---
+  // Get height of header and footer (adjust these as needed)
+  const headerHeight = "4rem"; // e.g. 64px
+  const footerHeight = "3.5rem"; // e.g. 64px
+
   return (
     <div
       className={clsx(
         isAudioPlayerExpanded
-          ? "absolute left-0 right-0 top-16 bottom-0 z-50 bg-black bg-opacity-80 flex items-center justify-center"
+          ? "absolute left-0 right-0 z-50 bg-black bg-opacity-80 flex items-center justify-center"
           : "relative"
       )}
+      style={
+        isAudioPlayerExpanded
+          ? {
+              top: headerHeight,
+              bottom: footerHeight,
+            }
+          : undefined
+      }
     >
       <div className="w-full max-w-2xl mx-auto">
         <div className="flex flex-col">

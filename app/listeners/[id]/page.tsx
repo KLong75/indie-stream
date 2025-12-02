@@ -112,7 +112,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   // );
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
       
       {/* <div className="p-2">
@@ -234,6 +234,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         />
       </div>
       <hr className="my-6" /> */}
-    </>
+    </div>
   );
 }

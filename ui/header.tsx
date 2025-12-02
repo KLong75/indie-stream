@@ -35,13 +35,13 @@ export default function Header({ session }: { session: Session | null }) {
         <h1 className="text-white text-2xl font-bold">indieStream</h1>
       </Link>
       <div className="flex items-center space-">
-        <div className="hidden md:flex mr-4">
+        {/* <div className="hidden md:flex mr-4">
           <Nav navItems={navItems} session={session} />
-        </div>
+        </div> */}
         {/* <div className="md:hidden">
           <MobileMenu session={session} navItems={navItems} />
         </div> */}
-        <HomeLink session={session}/>
+        {/* <HomeLink session={session}/> */}
         <div className="flex space-x-2">
         <PushNotificationSubscriptionManager renderedAs="icon" />
         {session && (
