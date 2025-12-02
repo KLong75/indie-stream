@@ -23,7 +23,7 @@ export default function NavListItem({ item }: { item: NavItem }) {
     <li className="flex items-center" title={item.label}>
       <Link href={item.href} className="flex flex-col items-center">
         {item.icon && <span>{iconMap[item.icon]}</span>}
-        {item.label && <span className="text-xs md:text-sm lg:text-base">{item.label}</span>}
+        {item.label && <span className="text-xs">{item.label}</span>}
       </Link>
     </li>
   );
