@@ -32,7 +32,7 @@ export default function Button({
     <button
       title={title}
       autoFocus={autoFocus}
-      className={`cursor-pointer ${className}`}
+      className={`cursor-pointer ${className} flex flex-col items-center justify-center px-2 py-1 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50`}
       disabled={disabled}
       form={form}
       name={name}
@@ -42,7 +42,7 @@ export default function Button({
       aria-label={ariaLabel}
     >
       {icon}
-      {label}
+      <span className="mt-1">{label}</span>
     </button>
   );
 }

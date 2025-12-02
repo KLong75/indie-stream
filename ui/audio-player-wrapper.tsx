@@ -1027,7 +1027,9 @@ export default function AudioPlayerWrapper({
           />
           {/* Expanded controls only visible when expanded */}
           {isAudioPlayerExpanded && (
-            <div className="flex justify-around p-2 mt-6 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-14">
+            <>
+            {/* <h2 className="text-center mt-2 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-14">Your Music</h2> */}
+            <div className="flex justify-around p-2 mt-2">
               <SongListDialog
                 icon={<GiMusicSpell className="size-6" />}
                 label="All Songs"
@@ -1171,9 +1173,14 @@ export default function AudioPlayerWrapper({
                 setQuery={setPlaylistsQuery}
               />
             </div>
+            </>
           )}
+          
         </div>
+        
       </div>
+      
     </div>
+    
   );
 }

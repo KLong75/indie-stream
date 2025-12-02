@@ -41,9 +41,10 @@ export default function SongListDialog({
     <>
       <Button
         title={label}
+        label={label}
         icon={icon}
         onClick={() => setOpen(true)}
-        className="mx-auto"
+        className="mx-auto text-xs"
         aria-label={label}
       />
       <Dialog
