@@ -949,12 +949,12 @@ export default function AudioPlayerWrapper({
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
 
-  const allSongsInputRef = useRef<HTMLInputElement>(null!);
-  const savedSongsInputRef = useRef<HTMLInputElement>(null!);
-  const allReleasesInputRef = useRef<HTMLInputElement>(null!);
-  const savedReleasesInputRef = useRef<HTMLInputElement>(null!);
-  const playlistsInputRef = useRef<HTMLInputElement>(null!);
-  const publicPlaylistsInputRef = useRef<HTMLInputElement>(null!);
+  // const allSongsInputRef = useRef<HTMLInputElement>(null!);
+  // const savedSongsInputRef = useRef<HTMLInputElement>(null!);
+  // const allReleasesInputRef = useRef<HTMLInputElement>(null!);
+  // const savedReleasesInputRef = useRef<HTMLInputElement>(null!);
+  // const playlistsInputRef = useRef<HTMLInputElement>(null!);
+  // const publicPlaylistsInputRef = useRef<HTMLInputElement>(null!);
 
   // ComboBox options
   const allSongsOptions: SongListComboBoxOption[] = allSongs
