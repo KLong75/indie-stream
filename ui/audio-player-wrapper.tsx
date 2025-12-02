@@ -894,10 +894,345 @@
 //   );
 // }
 
+// "use client";
+// import { useState, useEffect } from "react";
+// import { createPortal } from "react-dom";
+// import AudioPlayer from "@/ui/audio-player";
+// import { Song } from "@/lib/definitions";
+// import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
+// import {
+//   BsFillFileMusicFill,
+//   BsFillFileEarmarkMusicFill,
+// } from "react-icons/bs";
+// import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
+// import SongListDialog from "./song-list-dialog";
+// import { SongListComboBoxOption } from "./song-list-combobox";
+
+// export default function AudioPlayerWrapper({
+//   allSongs,
+//   savedSongs,
+//   allReleases,
+//   savedReleases,
+//   formattedPlaylists,
+//   formattedPublicPlaylists,
+// }: {
+//   allSongs: Song[];
+//   savedSongs: Song[];
+//   allReleases: { [key: string]: Song[] };
+//   savedReleases: { [key: string]: Song[] };
+//   formattedPlaylists: { [key: string]: Song[] };
+//   formattedPublicPlaylists: { [key: string]: Song[] };
+// }) {
+//   const [hasMounted, setHasMounted] = useState(false);
+//   useEffect(() => {
+//     setHasMounted(true);
+//   }, []);
+//   const [isAudioPlayerExpanded, setIsAudioPlayerExpanded] = useState(true);
+//   const [isPlaying, setIsPlaying] = useState(false);
+
+//   // Dialog and query states
+//   const [allSongsDialogOpen, setAllSongsDialogOpen] = useState(false);
+//   const [savedSongsDialogOpen, setSavedSongsDialogOpen] = useState(false);
+//   const [allReleasesDialogOpen, setAllReleasesDialogOpen] = useState(false);
+//   const [savedReleasesDialogOpen, setSavedReleasesDialogOpen] = useState(false);
+//   const [playlistsDialogOpen, setPlaylistsDialogOpen] = useState(false);
+//   const [publicPlaylistsDialogOpen, setPublicPlaylistsDialogOpen] =
+//     useState(false);
+
+//   const [allSongsQuery, setAllSongsQuery] = useState("");
+//   const [savedSongsQuery, setSavedSongsQuery] = useState("");
+//   const [allReleasesQuery, setAllReleasesQuery] = useState("");
+//   const [savedReleasesQuery, setSavedReleasesQuery] = useState("");
+//   const [playlistsQuery, setPlaylistsQuery] = useState("");
+//   const [publicPlaylistsQuery, setPublicPlaylistsQuery] = useState("");
+
+//   const [selected, setSelected] = useState<Song | null>(null);
+//   const [selectedRelease, setSelectedRelease] = useState<string | null>(null);
+//   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
+//   const [currentSongs, setCurrentSongs] = useState<Song[]>(
+//     savedSongs.length > 0 ? savedSongs : allSongs
+//   );
+//   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+//   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
+//     "Saved Songs"
+//   );
+
+//   // ComboBox options
+//   const allSongsOptions: SongListComboBoxOption[] = allSongs
+//     .filter((song): song is Song => !!song && !!song.file_key)
+//     .map((song) => ({
+//       value: song.id,
+//       label: song.title,
+//     }));
+
+//   const savedSongsOptions: SongListComboBoxOption[] = savedSongs
+//     .filter((song): song is Song => !!song && !!song.file_key)
+//     .map((song) => ({
+//       value: song.id,
+//       label: song.title,
+//     }));
+
+//   const allReleasesOptions: SongListComboBoxOption[] = Object.keys(
+//     allReleases
+//   ).map((releaseTitle) => ({
+//     value: releaseTitle,
+//     label: releaseTitle,
+//   }));
+
+//   const savedReleasesOptions: SongListComboBoxOption[] = Object.keys(
+//     savedReleases
+//   ).map((releaseTitle) => ({
+//     value: releaseTitle,
+//     label: releaseTitle,
+//   }));
+
+//   const playlistsOptions: SongListComboBoxOption[] = Object.keys(
+//     formattedPlaylists
+//   ).map((playlistTitle) => ({
+//     value: playlistTitle,
+//     label: playlistTitle,
+//   }));
+
+//   const publicPlaylistsOptions: SongListComboBoxOption[] = Object.keys(
+//     formattedPublicPlaylists
+//   ).map((playlistTitle) => ({
+//     value: playlistTitle,
+//     label: playlistTitle,
+//   }));
+
+//   // --- Refactor: Overlay only below header and above footer ---
+//   // Get height of header and footer (adjust these as needed)
+//   const headerHeight = "4rem"; // e.g. 64px
+//   const footerHeight = "4.5rem"; // e.g. 64px
+
+//   useEffect(() => {
+//     if (isAudioPlayerExpanded) {
+//       document.body.style.overflow = "hidden";
+//       document.body.style.height = "100vh";
+//       window.scrollTo(0, 0);
+//     } else {
+//       document.body.style.overflow = "";
+
+//       document.body.style.height = "";
+//     }
+//     return () => {
+//       document.body.style.overflow = "";
+//       document.body.style.height = "";
+//     };
+//   }, [isAudioPlayerExpanded]);
+
+//   // --- Marked: Overlay rendered in portal, covers only between header and footer ---
+//   // const expandedOverlay = typeof window !== "undefined" && isAudioPlayerExpanded
+//   const expandedOverlay =
+//     hasMounted && isAudioPlayerExpanded
+//       ? createPortal(
+//           <div
+//             className="fixed left-0 right-0 top-[4rem] bottom-[4.5rem] z-50 bg-black bg-opacity-80 flex items-center justify-center"
+//             style={{
+//               top: headerHeight,
+//               bottom: footerHeight,
+//             }}>
+//             <div className="w-full max-w-2xl mx-auto">
+//               <div className="flex flex-col ">
+//                 <AudioPlayer
+//                   songs={currentSongs}
+//                   isPlaying={isPlaying}
+//                   setIsPlaying={setIsPlaying}
+//                   currentSongIndex={currentSongIndex}
+//                   setCurrentSongIndex={setCurrentSongIndex}
+//                   isAudioPlayerExpanded={isAudioPlayerExpanded}
+//                   setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+//                   currentPlaylist={currentPlaylist ?? ""}
+//                 />
+//                 <div className="flex justify-around p-2">
+//                   <SongListDialog
+//                     icon={<GiMusicSpell className="size-6" />}
+//                     label="All Songs"
+//                     open={allSongsDialogOpen}
+//                     setOpen={setAllSongsDialogOpen}
+//                     options={allSongsOptions}
+//                     value={selected?.id || null}
+//                     onChange={(songId) => {
+//                       const song =
+//                         allSongs.find((s) => s.id === songId) || null;
+//                       setSelected(song);
+//                       if (song) {
+//                         setCurrentSongs(
+//                           allSongs.filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist("All Songs");
+//                         const index = allSongs.findIndex(
+//                           (s) => s.id === song.id
+//                         );
+//                         setCurrentSongIndex(index >= 0 ? index : 0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={allSongsQuery}
+//                     setQuery={setAllSongsQuery}
+//                   />
+//                   <SongListDialog
+//                     icon={<GiMusicalNotes className="size-6" />}
+//                     label="Saved Songs"
+//                     open={savedSongsDialogOpen}
+//                     setOpen={setSavedSongsDialogOpen}
+//                     options={savedSongsOptions}
+//                     value={selected?.id || null}
+//                     onChange={(songId) => {
+//                       const song =
+//                         savedSongs.find((s) => s.id === songId) || null;
+//                       setSelected(song);
+//                       if (song) {
+//                         setCurrentSongs(
+//                           savedSongs.filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist("Your Saved Songs");
+//                         const index = savedSongs.findIndex(
+//                           (s) => s.id === song.id
+//                         );
+//                         setCurrentSongIndex(index >= 0 ? index : 0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={savedSongsQuery}
+//                     setQuery={setSavedSongsQuery}
+//                   />
+//                   <SongListDialog
+//                     icon={<BsFillFileMusicFill className="size-6" />}
+//                     label="All Releases"
+//                     open={allReleasesDialogOpen}
+//                     setOpen={setAllReleasesDialogOpen}
+//                     options={allReleasesOptions}
+//                     value={selectedRelease}
+//                     onChange={(releaseTitle) => {
+//                       setSelectedRelease(releaseTitle);
+//                       if (releaseTitle) {
+//                         setCurrentSongs(
+//                           allReleases[releaseTitle].filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist(releaseTitle);
+//                         setCurrentSongIndex(0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={allReleasesQuery}
+//                     setQuery={setAllReleasesQuery}
+//                   />
+//                   <SongListDialog
+//                     icon={<BsFillFileEarmarkMusicFill className="size-6" />}
+//                     label="Saved Releases"
+//                     open={savedReleasesDialogOpen}
+//                     setOpen={setSavedReleasesDialogOpen}
+//                     options={savedReleasesOptions}
+//                     value={selectedRelease}
+//                     onChange={(releaseTitle) => {
+//                       setSelectedRelease(releaseTitle);
+//                       if (releaseTitle) {
+//                         setCurrentSongs(
+//                           savedReleases[releaseTitle].filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist(releaseTitle);
+//                         setCurrentSongIndex(0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={savedReleasesQuery}
+//                     setQuery={setSavedReleasesQuery}
+//                   />
+//                   <SongListDialog
+//                     icon={<RiPlayList2Line className="size-6" />}
+//                     label="Public Playlists"
+//                     open={publicPlaylistsDialogOpen}
+//                     setOpen={setPublicPlaylistsDialogOpen}
+//                     options={publicPlaylistsOptions}
+//                     value={selectedPlaylist}
+//                     onChange={(playlistTitle) => {
+//                       setSelectedPlaylist(playlistTitle);
+//                       if (playlistTitle) {
+//                         setCurrentSongs(
+//                           formattedPublicPlaylists[playlistTitle].filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist(playlistTitle);
+//                         setCurrentSongIndex(0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={publicPlaylistsQuery}
+//                     setQuery={setPublicPlaylistsQuery}
+//                   />
+//                   <SongListDialog
+//                     icon={<RiPlayList2Fill className="size-6" />}
+//                     label="Your Playlists"
+//                     open={playlistsDialogOpen}
+//                     setOpen={setPlaylistsDialogOpen}
+//                     options={playlistsOptions}
+//                     value={selectedPlaylist}
+//                     onChange={(playlistTitle) => {
+//                       setSelectedPlaylist(playlistTitle);
+//                       if (playlistTitle) {
+//                         setCurrentSongs(
+//                           formattedPlaylists[playlistTitle].filter(
+//                             (song): song is Song => !!song && !!song.file_key
+//                           )
+//                         );
+//                         setCurrentPlaylist(playlistTitle);
+//                         setCurrentSongIndex(0);
+//                         setIsPlaying(true);
+//                       }
+//                     }}
+//                     query={playlistsQuery}
+//                     setQuery={setPlaylistsQuery}
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>,
+//           document.body
+//         )
+//       : null;
+
+//   // --- Marked: Always render collapsed player inline ---
+//   return (
+//     <>
+//       {expandedOverlay /* Overlay rendered in portal when expanded */}
+//       {!isAudioPlayerExpanded && (
+//         <div
+//           className="fixed left-0 right-0 z-40 w-full"
+//           style={{ bottom: footerHeight }}
+//         >
+//           <div className="w-full max-w-2xl mx-auto">
+//             <div className="flex flex-col">
+//               <AudioPlayer
+//                 songs={currentSongs}
+//                 isPlaying={isPlaying}
+//                 setIsPlaying={setIsPlaying}
+//                 currentSongIndex={currentSongIndex}
+//                 setCurrentSongIndex={setCurrentSongIndex}
+//                 isAudioPlayerExpanded={isAudioPlayerExpanded}
+//                 setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+//                 currentPlaylist={currentPlaylist ?? ""}
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// }
 
 
 "use client";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import AudioPlayer from "@/ui/audio-player";
 import { Song } from "@/lib/definitions";
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
@@ -949,13 +1284,6 @@ export default function AudioPlayerWrapper({
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
 
-  // const allSongsInputRef = useRef<HTMLInputElement>(null!);
-  // const savedSongsInputRef = useRef<HTMLInputElement>(null!);
-  // const allReleasesInputRef = useRef<HTMLInputElement>(null!);
-  // const savedReleasesInputRef = useRef<HTMLInputElement>(null!);
-  // const playlistsInputRef = useRef<HTMLInputElement>(null!);
-  // const publicPlaylistsInputRef = useRef<HTMLInputElement>(null!);
-
   // ComboBox options
   const allSongsOptions: SongListComboBoxOption[] = allSongs
     .filter((song): song is Song => !!song && !!song.file_key)
@@ -991,196 +1319,198 @@ export default function AudioPlayerWrapper({
     label: playlistTitle,
   }));
 
-  // --- Refactor: Overlay only below header and above footer ---
-  // Get height of header and footer (adjust these as needed)
-  const headerHeight = "4rem"; // e.g. 64px
-  const footerHeight = "4.5rem"; // e.g. 64px
+  // --- Prevent page scroll when expanded ---
+  useEffect(() => {
+    if (isAudioPlayerExpanded) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.height = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.height = "";
+    };
+  }, [isAudioPlayerExpanded]);
+
+  // --- Only one AudioPlayer instance, position container based on expanded/collapsed ---
+  const headerHeight = "4rem"; // adjust to your header height
+  const footerHeight = "4.5rem"; // adjust to your footer height
 
   return (
     <div
       className={clsx(
         isAudioPlayerExpanded
-          ? "absolute left-0 right-0 z-50 bg-black bg-opacity-80 flex items-center justify-center"
-          : "relative"
+          ? "fixed left-0 right-0 z-50 bg-black bg-opacity-80 flex flex-col items-center justify-center"
+          : "fixed left-0 right-0 z-40"
       )}
       style={
         isAudioPlayerExpanded
-          ? {
-              top: headerHeight,
-              bottom: footerHeight,
-            }
-          : undefined
+          ? { top: headerHeight, bottom: footerHeight }
+          : { bottom: footerHeight }
       }
     >
       <div className="w-full max-w-2xl mx-auto">
-        <div className="flex flex-col ">
-          {/* Always render AudioPlayer so playback continues */}
-          <AudioPlayer
-            songs={currentSongs}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            currentSongIndex={currentSongIndex}
-            setCurrentSongIndex={setCurrentSongIndex}
-            isAudioPlayerExpanded={isAudioPlayerExpanded}
-            setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
-            currentPlaylist={currentPlaylist ?? ""}
-          />
-          {/* Expanded controls only visible when expanded */}
-          {isAudioPlayerExpanded && (
-            <>
-            {/* <h2 className="text-center mt-2 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-14">Your Music</h2> */}
-            <div className="flex justify-around p-2">
-              <SongListDialog
-                icon={<GiMusicSpell className="size-6" />}
-                label="All Songs"
-                open={allSongsDialogOpen}
-                setOpen={setAllSongsDialogOpen}
-                options={allSongsOptions}
-                value={selected?.id || null}
-                onChange={(songId) => {
-                  const song = allSongs.find((s) => s.id === songId) || null;
-                  setSelected(song);
-                  if (song) {
-                    setCurrentSongs(
-                      allSongs.filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist("All Songs");
-                    const index = allSongs.findIndex((s) => s.id === song.id);
-                    setCurrentSongIndex(index >= 0 ? index : 0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={allSongsQuery}
-                setQuery={setAllSongsQuery}
-              />
-              <SongListDialog
-                icon={<GiMusicalNotes className="size-6" />}
-                label="Saved Songs"
-                open={savedSongsDialogOpen}
-                setOpen={setSavedSongsDialogOpen}
-                options={savedSongsOptions}
-                value={selected?.id || null}
-                onChange={(songId) => {
-                  const song = savedSongs.find((s) => s.id === songId) || null;
-                  setSelected(song);
-                  if (song) {
-                    setCurrentSongs(
-                      savedSongs.filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist("Your Saved Songs");
-                    const index = savedSongs.findIndex((s) => s.id === song.id);
-                    setCurrentSongIndex(index >= 0 ? index : 0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={savedSongsQuery}
-                setQuery={setSavedSongsQuery}
-              />
-              <SongListDialog
-                icon={<BsFillFileMusicFill className="size-6" />}
-                label="All Releases"
-                open={allReleasesDialogOpen}
-                setOpen={setAllReleasesDialogOpen}
-                options={allReleasesOptions}
-                value={selectedRelease}
-                onChange={(releaseTitle) => {
-                  setSelectedRelease(releaseTitle);
-                  if (releaseTitle) {
-                    setCurrentSongs(
-                      allReleases[releaseTitle].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(releaseTitle);
-                    setCurrentSongIndex(0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={allReleasesQuery}
-                setQuery={setAllReleasesQuery}
-              />
-              <SongListDialog
-                icon={<BsFillFileEarmarkMusicFill className="size-6" />}
-                label="Saved Releases"
-                open={savedReleasesDialogOpen}
-                setOpen={setSavedReleasesDialogOpen}
-                options={savedReleasesOptions}
-                value={selectedRelease}
-                onChange={(releaseTitle) => {
-                  setSelectedRelease(releaseTitle);
-                  if (releaseTitle) {
-                    setCurrentSongs(
-                      savedReleases[releaseTitle].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(releaseTitle);
-                    setCurrentSongIndex(0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={savedReleasesQuery}
-                setQuery={setSavedReleasesQuery}
-              />
-              <SongListDialog
-                icon={<RiPlayList2Line className="size-6" />}
-                label="Public Playlists"
-                open={publicPlaylistsDialogOpen}
-                setOpen={setPublicPlaylistsDialogOpen}
-                options={publicPlaylistsOptions}
-                value={selectedPlaylist}
-                onChange={(playlistTitle) => {
-                  setSelectedPlaylist(playlistTitle);
-                  if (playlistTitle) {
-                    setCurrentSongs(
-                      formattedPublicPlaylists[playlistTitle].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(playlistTitle);
-                    setCurrentSongIndex(0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={publicPlaylistsQuery}
-                setQuery={setPublicPlaylistsQuery}
-              />
-              <SongListDialog
-                icon={<RiPlayList2Fill className="size-6" />}
-                label="Your Playlists"
-                open={playlistsDialogOpen}
-                setOpen={setPlaylistsDialogOpen}
-                options={playlistsOptions}
-                value={selectedPlaylist}
-                onChange={(playlistTitle) => {
-                  setSelectedPlaylist(playlistTitle);
-                  if (playlistTitle) {
-                    setCurrentSongs(
-                      formattedPlaylists[playlistTitle].filter(
-                        (song): song is Song => !!song && !!song.file_key
-                      )
-                    );
-                    setCurrentPlaylist(playlistTitle);
-                    setCurrentSongIndex(0);
-                    setIsPlaying(true);
-                  }
-                }}
-                query={playlistsQuery}
-                setQuery={setPlaylistsQuery}
-              />
-            </div>
-            </>
-          )}
-          
-        </div>
-        
+        <AudioPlayer
+          songs={currentSongs}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          currentSongIndex={currentSongIndex}
+          setCurrentSongIndex={setCurrentSongIndex}
+          isAudioPlayerExpanded={isAudioPlayerExpanded}
+          setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+          currentPlaylist={currentPlaylist ?? ""}
+        />
+        {/* Expanded controls only visible when expanded */}
+        {isAudioPlayerExpanded && (
+          <div className="flex justify-around p-2">
+            <SongListDialog
+              icon={<GiMusicSpell className="size-6" />}
+              label="All Songs"
+              open={allSongsDialogOpen}
+              setOpen={setAllSongsDialogOpen}
+              options={allSongsOptions}
+              value={selected?.id || null}
+              onChange={(songId) => {
+                const song = allSongs.find((s) => s.id === songId) || null;
+                setSelected(song);
+                if (song) {
+                  setCurrentSongs(
+                    allSongs.filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist("All Songs");
+                  const index = allSongs.findIndex((s) => s.id === song.id);
+                  setCurrentSongIndex(index >= 0 ? index : 0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={allSongsQuery}
+              setQuery={setAllSongsQuery}
+            />
+            <SongListDialog
+              icon={<GiMusicalNotes className="size-6" />}
+              label="Saved Songs"
+              open={savedSongsDialogOpen}
+              setOpen={setSavedSongsDialogOpen}
+              options={savedSongsOptions}
+              value={selected?.id || null}
+              onChange={(songId) => {
+                const song = savedSongs.find((s) => s.id === songId) || null;
+                setSelected(song);
+                if (song) {
+                  setCurrentSongs(
+                    savedSongs.filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist("Your Saved Songs");
+                  const index = savedSongs.findIndex((s) => s.id === song.id);
+                  setCurrentSongIndex(index >= 0 ? index : 0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={savedSongsQuery}
+              setQuery={setSavedSongsQuery}
+            />
+            <SongListDialog
+              icon={<BsFillFileMusicFill className="size-6" />}
+              label="All Releases"
+              open={allReleasesDialogOpen}
+              setOpen={setAllReleasesDialogOpen}
+              options={allReleasesOptions}
+              value={selectedRelease}
+              onChange={(releaseTitle) => {
+                setSelectedRelease(releaseTitle);
+                if (releaseTitle) {
+                  setCurrentSongs(
+                    allReleases[releaseTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(releaseTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={allReleasesQuery}
+              setQuery={setAllReleasesQuery}
+            />
+            <SongListDialog
+              icon={<BsFillFileEarmarkMusicFill className="size-6" />}
+              label="Saved Releases"
+              open={savedReleasesDialogOpen}
+              setOpen={setSavedReleasesDialogOpen}
+              options={savedReleasesOptions}
+              value={selectedRelease}
+              onChange={(releaseTitle) => {
+                setSelectedRelease(releaseTitle);
+                if (releaseTitle) {
+                  setCurrentSongs(
+                    savedReleases[releaseTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(releaseTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={savedReleasesQuery}
+              setQuery={setSavedReleasesQuery}
+            />
+            <SongListDialog
+              icon={<RiPlayList2Line className="size-6" />}
+              label="Public Playlists"
+              open={publicPlaylistsDialogOpen}
+              setOpen={setPublicPlaylistsDialogOpen}
+              options={publicPlaylistsOptions}
+              value={selectedPlaylist}
+              onChange={(playlistTitle) => {
+                setSelectedPlaylist(playlistTitle);
+                if (playlistTitle) {
+                  setCurrentSongs(
+                    formattedPublicPlaylists[playlistTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(playlistTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={publicPlaylistsQuery}
+              setQuery={setPublicPlaylistsQuery}
+            />
+            <SongListDialog
+              icon={<RiPlayList2Fill className="size-6" />}
+              label="Your Playlists"
+              open={playlistsDialogOpen}
+              setOpen={setPlaylistsDialogOpen}
+              options={playlistsOptions}
+              value={selectedPlaylist}
+              onChange={(playlistTitle) => {
+                setSelectedPlaylist(playlistTitle);
+                if (playlistTitle) {
+                  setCurrentSongs(
+                    formattedPlaylists[playlistTitle].filter(
+                      (song): song is Song => !!song && !!song.file_key
+                    )
+                  );
+                  setCurrentPlaylist(playlistTitle);
+                  setCurrentSongIndex(0);
+                  setIsPlaying(true);
+                }
+              }}
+              query={playlistsQuery}
+              setQuery={setPlaylistsQuery}
+            />
+          </div>
+        )}
       </div>
-      
     </div>
-    
   );
 }
