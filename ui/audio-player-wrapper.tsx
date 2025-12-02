@@ -905,7 +905,7 @@ import { BsFillFileMusicFill, BsFillFileEarmarkMusicFill } from "react-icons/bs"
 import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
 import clsx from "clsx";
 import SongListDialog from "./song-list-dialog";
-import SongListComboBox, { SongListComboBoxOption } from "./song-list-combobox";
+import { SongListComboBoxOption } from "./song-list-combobox";
 
 export default function AudioPlayerWrapper({
   allSongs,
