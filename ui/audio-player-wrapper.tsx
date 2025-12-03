@@ -1343,8 +1343,8 @@ export default function AudioPlayerWrapper({
     <div
       className={clsx(
         isAudioPlayerExpanded
-          ? "fixed left-0 right-0 z-50 bg-black bg-opacity-80 flex flex-col items-center justify-center"
-          : "fixed left-0 right-0 z-40"
+          ? "fixed left-0 right-0 z-50 bg-[black] flex flex-col items-center justify-center"
+          : "fixed left-0 right-0 z-40 bg-[black]"
       )}
       style={
         isAudioPlayerExpanded

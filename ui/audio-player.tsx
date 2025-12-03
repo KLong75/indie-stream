@@ -245,7 +245,7 @@ export default function AudioPlayer({
       ) : null}
       <button
         className={clsx(
-          "ml-2 bg-gray-700 px-2 py-1 rounded-full",
+          "mt-4 bg-gray-700 px-2 py-1 rounded-full",
           isAudioPlayerExpanded ? "" : ""
         )}
         onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
@@ -264,8 +264,8 @@ export default function AudioPlayer({
         className={clsx(
           "flex items-center w-full transition-all duration-300",
           isAudioPlayerExpanded
-            ? "justify-center h-auto p-4 flex-col space-y-4"
-            : "justify-center h-auto p-4 flex-row space-x-3"
+            ? "justify-center h-auto p-4 pt-2 flex-col space-y-4"
+            : "justify-center h-auto p-4 pt-2 flex-row space-x-3"
         )}>
         <Image
           priority

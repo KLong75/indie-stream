@@ -51,7 +51,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange>
             <Header session={session} />
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 flex flex-col pb-[13.875rem]">
               {children}
               <AudioContainer />
             </main>
