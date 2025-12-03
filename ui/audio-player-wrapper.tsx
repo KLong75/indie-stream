@@ -1282,7 +1282,10 @@ export default function AudioPlayerWrapper({
     savedSongs.length > 0 ? savedSongs : allSongs
   );
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
+  // const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
+  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
+  savedSongs.length > 0 ? "Saved Songs" : "All Songs"
+);
 
   // ComboBox options
   const allSongsOptions: SongListComboBoxOption[] = allSongs
