@@ -1230,7 +1230,6 @@
 //   );
 // }
 
-
 "use client";
 import { useState, useEffect } from "react";
 // import from next
@@ -1238,7 +1237,10 @@ import Image from "next/image";
 import AudioPlayer from "@/ui/audio-player";
 import { Song, Release } from "@/lib/definitions";
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
-import { BsFillFileMusicFill, BsFillFileEarmarkMusicFill } from "react-icons/bs";
+import {
+  BsFillFileMusicFill,
+  BsFillFileEarmarkMusicFill,
+} from "react-icons/bs";
 import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
 import clsx from "clsx";
 import SongListDialog from "./song-list-dialog";
@@ -1270,7 +1272,8 @@ export default function AudioPlayerWrapper({
   const [allReleasesDialogOpen, setAllReleasesDialogOpen] = useState(false);
   const [savedReleasesDialogOpen, setSavedReleasesDialogOpen] = useState(false);
   const [playlistsDialogOpen, setPlaylistsDialogOpen] = useState(false);
-  const [publicPlaylistsDialogOpen, setPublicPlaylistsDialogOpen] = useState(false);
+  const [publicPlaylistsDialogOpen, setPublicPlaylistsDialogOpen] =
+    useState(false);
 
   const [allSongsQuery, setAllSongsQuery] = useState("");
   const [savedSongsQuery, setSavedSongsQuery] = useState("");
@@ -1288,8 +1291,8 @@ export default function AudioPlayerWrapper({
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   // const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
-  savedSongs.length > 0 ? "Saved Songs" : "All Songs"
-);
+    savedSongs.length > 0 ? "Saved Songs" : "All Songs"
+  );
 
   // ComboBox options
   const allSongsOptions: SongListComboBoxOption[] = allSongs
@@ -1306,22 +1309,30 @@ export default function AudioPlayerWrapper({
       label: song.title,
     }));
 
-  const allReleasesOptions: SongListComboBoxOption[] = Object.keys(allReleases).map((releaseTitle) => ({
+  const allReleasesOptions: SongListComboBoxOption[] = Object.keys(
+    allReleases
+  ).map((releaseTitle) => ({
     value: releaseTitle,
     label: releaseTitle,
   }));
 
-  const savedReleasesOptions: SongListComboBoxOption[] = Object.keys(savedReleases).map((releaseTitle) => ({
+  const savedReleasesOptions: SongListComboBoxOption[] = Object.keys(
+    savedReleases
+  ).map((releaseTitle) => ({
     value: releaseTitle,
     label: releaseTitle,
   }));
 
-  const playlistsOptions: SongListComboBoxOption[] = Object.keys(formattedPlaylists).map((playlistTitle) => ({
+  const playlistsOptions: SongListComboBoxOption[] = Object.keys(
+    formattedPlaylists
+  ).map((playlistTitle) => ({
     value: playlistTitle,
     label: playlistTitle,
   }));
 
-  const publicPlaylistsOptions: SongListComboBoxOption[] = Object.keys(formattedPublicPlaylists).map((playlistTitle) => ({
+  const publicPlaylistsOptions: SongListComboBoxOption[] = Object.keys(
+    formattedPublicPlaylists
+  ).map((playlistTitle) => ({
     value: playlistTitle,
     label: playlistTitle,
   }));
@@ -1348,18 +1359,19 @@ export default function AudioPlayerWrapper({
   const headerHeight = "4rem"; // adjust to your header height
   const footerHeight = "4.5rem"; // adjust to your footer height
 
-    // Get the current song
+  // Get the current song
   const currentSong = currentSongs[currentSongIndex];
   console.log("Current Song:", currentSong);
   const currentReleaseTitle = Object.keys(allReleases).find((release) =>
     allReleases[release].some((song) => song.id === currentSong?.id)
   );
-  const currentRelease = allReleasesRaw.find((release) => release.title === currentReleaseTitle);
+  const currentRelease = allReleasesRaw.find(
+    (release) => release.title === currentReleaseTitle
+  );
   const currentReleaseImageKey = currentRelease?.cover_img_file_key || null;
 
-console.log("Current Release:", currentRelease);
-console.log("Current Release Image Key:", currentReleaseImageKey);
-
+  console.log("Current Release:", currentRelease);
+  console.log("Current Release Image Key:", currentReleaseImageKey);
 
   return (
     <div
@@ -1372,9 +1384,15 @@ console.log("Current Release Image Key:", currentReleaseImageKey);
         isAudioPlayerExpanded
           ? { top: headerHeight, bottom: footerHeight }
           : { bottom: footerHeight }
-      }
-    >
-      <div className="w-full max-w-2xl mx-auto">
+      }>
+      <Image
+        alt={`Background image for ${currentReleaseTitle ?? "Unknown Album"}`}
+        src={`https://4ykxjgur5y.ufs.sh/f/${currentReleaseImageKey}`}
+        fill
+        className="object-cover opacity-20 absolute inset-0 z-0 pointer-events-none"
+        priority
+      />
+      <div className="w-full max-w-2xl mx-auto z-50">
         <AudioPlayer
           songs={currentSongs}
           isPlaying={isPlaying}
@@ -1387,7 +1405,7 @@ console.log("Current Release Image Key:", currentReleaseImageKey);
         />
         {/* Expanded controls only visible when expanded */}
         {isAudioPlayerExpanded && (
-          <div className="flex justify-around p-2">
+          <div className="flex justify-around p-2 z-40">
             <SongListDialog
               icon={<GiMusicSpell className="size-6" />}
               label="All Songs"
