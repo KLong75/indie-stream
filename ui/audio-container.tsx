@@ -41,6 +41,7 @@ export default async function AudioContainer() {
   );
   // all releases
   const allReleases = await getAllReleases();
+  console.log("allReleases", allReleases);
   const allReleasesAlphabeticalOrder = allReleases.sort((a, b) =>
     a.title.localeCompare(b.title)
   );
@@ -55,6 +56,7 @@ export default async function AudioContainer() {
         });
       })
   );
+  console.log("formattedAllReleases", formattedAllReleases);
   // saved artists
   // const savedArtists = (
   //   await Promise.all((user.saved_artists || []).map((id) => getArtistById(id)))

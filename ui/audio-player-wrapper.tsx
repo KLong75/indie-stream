@@ -1233,6 +1233,8 @@
 
 "use client";
 import { useState, useEffect } from "react";
+// import from next
+import Image from "next/image";
 import AudioPlayer from "@/ui/audio-player";
 import { Song } from "@/lib/definitions";
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
@@ -1322,6 +1324,8 @@ export default function AudioPlayerWrapper({
     label: playlistTitle,
   }));
 
+  console.log("allReleases", allReleases);
+
   // --- Prevent page scroll when expanded ---
   useEffect(() => {
     if (isAudioPlayerExpanded) {
@@ -1341,6 +1345,17 @@ export default function AudioPlayerWrapper({
   // --- Only one AudioPlayer instance, position container based on expanded/collapsed ---
   const headerHeight = "4rem"; // adjust to your header height
   const footerHeight = "4.5rem"; // adjust to your footer height
+
+    // Get the current song
+  const currentSong = currentSongs[currentSongIndex];
+  console.log("Current Song:", currentSong);
+  const currentReleaseTitle = Object.keys(allReleases).find((release) =>
+    allReleases[release].some((song) => song.id === currentSong?.id)
+  );
+  const currentRelease = currentReleaseTitle ? allReleases[currentReleaseTitle] : null;
+
+console.log("Current Release:", currentRelease);
+
 
   return (
     <div
