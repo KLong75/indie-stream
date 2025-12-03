@@ -245,8 +245,8 @@ export default function AudioPlayer({
       ) : null}
       <button
         className={clsx(
-          "mt-4 bg-gray-700 px-2 py-1 rounded-full",
-          isAudioPlayerExpanded ? "" : ""
+          " left-4 top-4  bg-gray-700 px-2 py-1 rounded-full",
+          isAudioPlayerExpanded ? "absolute" : "mt-4"
         )}
         onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
         title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>

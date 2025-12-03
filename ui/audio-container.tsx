@@ -111,19 +111,17 @@ export default async function AudioContainer() {
       })
   );
   return (
-    <div>
-      <AudioPlayerWrapper
-        allSongs={allSongsAlphabeticalOrder.filter(
-          (song): song is Song => !!song && !!song.file_key
-        )}
-        savedSongs={savedSongsAlphabeticalOrder.filter(
-          (song): song is Song => song !== null
-        )}
-        allReleases={formattedAllReleases}
-        savedReleases={formattedSavedReleases}
-        formattedPlaylists={formattedPlaylists}
-        formattedPublicPlaylists={formattedPublicPlaylists}
-      />
-    </div>
+    <AudioPlayerWrapper
+      allSongs={allSongsAlphabeticalOrder.filter(
+        (song): song is Song => !!song && !!song.file_key
+      )}
+      savedSongs={savedSongsAlphabeticalOrder.filter(
+        (song): song is Song => song !== null
+      )}
+      allReleases={formattedAllReleases}
+      savedReleases={formattedSavedReleases}
+      formattedPlaylists={formattedPlaylists}
+      formattedPublicPlaylists={formattedPublicPlaylists}
+    />
   );
 }
