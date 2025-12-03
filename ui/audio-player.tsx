@@ -257,7 +257,11 @@ export default function AudioPlayer({
           )}
         />
       </button>
-      <div className="flex justify-center">
+      <div
+        className={clsx(
+          "flex justify-center",
+          isAudioPlayerExpanded ? "mb-6" : "-mt-2"
+        )}>
         {`Current playlist: ${currentPlaylist}`}
       </div>
       <div
@@ -289,13 +293,13 @@ export default function AudioPlayer({
             isAudioPlayerExpanded ? "w-full text-center" : ""
           )}>
           {/* <Link href={`/songs/${songs[currentSongIndex]?.id}`}> */}
-            <div
-              className={clsx(
-                "truncate font-medium",
-                isAudioPlayerExpanded ? "text-lg" : "text-sm"
-              )}>
-              {songs[currentSongIndex]?.title || "No song selected"}
-            </div>
+          <div
+            className={clsx(
+              "truncate font-medium",
+              isAudioPlayerExpanded ? "text-lg" : "text-sm"
+            )}>
+            {songs[currentSongIndex]?.title || "No song selected"}
+          </div>
           {/* </Link> */}
           <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
             <div
