@@ -120,6 +120,7 @@ export default async function AudioContainer() {
       savedSongs={savedSongsAlphabeticalOrder.filter(
         (song): song is Song => song !== null
       )}
+      allReleasesRaw={allReleases}
       allReleases={formattedAllReleases}
       savedReleases={formattedSavedReleases}
       formattedPlaylists={formattedPlaylists}

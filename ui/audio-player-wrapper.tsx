@@ -1236,7 +1236,7 @@ import { useState, useEffect } from "react";
 // import from next
 import Image from "next/image";
 import AudioPlayer from "@/ui/audio-player";
-import { Song } from "@/lib/definitions";
+import { Song, Release } from "@/lib/definitions";
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
 import { BsFillFileMusicFill, BsFillFileEarmarkMusicFill } from "react-icons/bs";
 import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
@@ -1247,6 +1247,7 @@ import { SongListComboBoxOption } from "./song-list-combobox";
 export default function AudioPlayerWrapper({
   allSongs,
   savedSongs,
+  allReleasesRaw,
   allReleases,
   savedReleases,
   formattedPlaylists,
@@ -1254,6 +1255,7 @@ export default function AudioPlayerWrapper({
 }: {
   allSongs: Song[];
   savedSongs: Song[];
+  allReleasesRaw: Release[];
   allReleases: { [key: string]: Song[] };
   savedReleases: { [key: string]: Song[] };
   formattedPlaylists: { [key: string]: Song[] };
@@ -1352,9 +1354,11 @@ export default function AudioPlayerWrapper({
   const currentReleaseTitle = Object.keys(allReleases).find((release) =>
     allReleases[release].some((song) => song.id === currentSong?.id)
   );
-  const currentRelease = currentReleaseTitle ? allReleases[currentReleaseTitle] : null;
+  const currentRelease = allReleasesRaw.find((release) => release.title === currentReleaseTitle);
+  const currentReleaseImageKey = currentRelease?.cover_img_file_key || null;
 
 console.log("Current Release:", currentRelease);
+console.log("Current Release Image Key:", currentReleaseImageKey);
 
 
   return (

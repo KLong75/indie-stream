@@ -231,207 +231,185 @@ export default function AudioPlayer({
   return (
     <div
       className={clsx(
-      "p-4 tracking-wide transition-all duration-300 relative overflow-hidden",
-      isAudioPlayerExpanded ? "py-0" : "py-0"
-      )}
-    >
+        "p-4 tracking-wide transition-all duration-300 relative overflow-hidden",
+        isAudioPlayerExpanded ? "py-0" : "py-0"
+      )}>
       {/* Background image with opacity-60 */}
       {releaseCurrentlyPlaying?.cover_img_file_key && (
-      <Image
-        alt={`Background image for ${releaseCurrentlyPlaying?.title ?? "Unknown Album"}`}
-        src={`https://4ykxjgur5y.ufs.sh/f/${releaseCurrentlyPlaying.cover_img_file_key}`}
-        fill
-        className="object-cover opacity-20 absolute inset-0 z-0"
-        priority
-      />
+        <Image
+          alt={`Background image for ${
+            releaseCurrentlyPlaying?.title ?? "Unknown Album"
+          }`}
+          src={`https://4ykxjgur5y.ufs.sh/f/${releaseCurrentlyPlaying.cover_img_file_key}`}
+          fill
+          className="object-cover opacity-20 absolute inset-0 z-0"
+          priority
+        />
       )}
 
       {/* Foreground content */}
       <div className="relative z-10">
-      {/* <Image
-        alt={`Cover image for ${releaseCurrentlyPlaying?.title ?? "Unknown Album"}`}
-        width={200}
-        height={200}
-        src={`https://4ykxjgur5y.ufs.sh/f/${
-        releaseCurrentlyPlaying?.cover_img_file_key ?? "default_cover_img_file_key"
-        }`}
-      /> */}
-
-      {/* Always render the audio element */}
-      {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
-        <audio
-        ref={audioRef}
-        src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
-        controls={false}
-        style={{ display: "none" }}
-        />
-      ) : null}
-      <button
-        className={clsx(
-        " left-4 top-4  bg-gray-700 px-2 py-1 rounded-full",
-        isAudioPlayerExpanded ? "absolute" : "mt-4"
-        )}
-        onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
-        title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}
-      >
-        <RxChevronDown
-        className={clsx(
-          "transition-transform duration-200",
-          isAudioPlayerExpanded ? "" : "rotate-180"
-        )}
-        />
-      </button>
-      <div
-        className={clsx(
-        "flex justify-center",
-        isAudioPlayerExpanded ? "mb-6" : "-mt-2"
-        )}
-      >
-        {`Current playlist: ${currentPlaylist}`}
-      </div>
-      <div
-        className={clsx(
-        "flex items-center w-full transition-all duration-300",
-        isAudioPlayerExpanded
-          ? "justify-center h-auto p-4 pt-2 flex-col space-y-4"
-          : "justify-center h-auto p-4 pt-2 flex-row space-x-3"
-        )}
-      >
-        <Image
-        priority
-        fetchPriority="high"
-        src={`https://4ykxjgur5y.ufs.sh/f/${
-          releaseCurrentlyPlaying
-          ? releaseCurrentlyPlaying.cover_img_file_key
-          : "9Dk0lBirZ3pQA66Rb9Bygdn5G8QFv0hfpWE7KZqxj3lTc9wC"
-        }`}
-        width={isAudioPlayerExpanded ? 200 : 48}
-        height={isAudioPlayerExpanded ? 200 : 48}
-        alt={`${releaseCurrentlyPlaying?.title || "cover image"}`}
-        className={clsx(
-          "rounded shadow border border-gray-600",
-          isAudioPlayerExpanded ? "rounded-lg shadow-2xl" : ""
-        )}
-        />
-        <div
-        className={clsx(
-          "flex-1 min-w-0",
-          isAudioPlayerExpanded ? "w-full text-center" : ""
-        )}
-        >
-        {/* <Link href={`/songs/${songs[currentSongIndex]?.id}`}> */}
-        <div
-          className={clsx(
-          "truncate font-medium",
-          isAudioPlayerExpanded ? "text-lg" : "text-sm"
-          )}
-        >
-          {songs[currentSongIndex]?.title || "No song selected"}
-        </div>
-        {/* </Link> */}
-        <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
-          <div
-          className={clsx(
-            "truncate text-gray-400",
-            isAudioPlayerExpanded ? "text-base" : "text-xs"
-          )}
-          >
-          {artistCurrentlyPlaying?.name || "Unknown Artist"}
-          </div>
-        </Link>
-        <Link href={`/releases/${releaseCurrentlyPlaying?.id}`}>
-          <div
-          className={clsx(
-            "truncate text-gray-400",
-            isAudioPlayerExpanded ? "text-base" : "text-xs"
-          )}
-          >
-          {releaseCurrentlyPlaying?.title || "Unknown Album"}
-          </div>
-        </Link>
-        </div>
-
-        {/* Progress bar and time, only in expanded mode */}
-        {isAudioPlayerExpanded && (
-        <div className="w-full">
-          <input
-          className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
-          type="range"
-          max="100"
-          value={progress}
-          onChange={handleSeek}
+        {/* Always render the audio element */}
+        {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
+          <audio
+            ref={audioRef}
+            src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
+            controls={false}
+            style={{ display: "none" }}
           />
-          <div className="flex justify-between text-xs text-gray-400 px-2">
-          <div>{formatTime(audioRef.current?.currentTime || 0)}</div>
-          <div>
-            {formatTime(
-            (audioRef.current?.duration || 0) -
-              (audioRef.current?.currentTime || 0)
+        ) : null}
+        <button
+          className={clsx(
+            " left-4 top-4  bg-gray-700 px-2 py-1 rounded-full",
+            isAudioPlayerExpanded ? "absolute" : "mt-4"
+          )}
+          onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}
+          title={isAudioPlayerExpanded ? "Collapse Player" : "Expand Player"}>
+          <RxChevronDown
+            className={clsx(
+              "transition-transform duration-200",
+              isAudioPlayerExpanded ? "" : "rotate-180"
             )}
-          </div>
-          </div>
-        </div>
-        )}
-
-        {/* Controls */}
+          />
+        </button>
         <div
-        className={clsx(
-          "flex items-center",
-          isAudioPlayerExpanded
-          ? "justify-around w-full"
-          : "space-x-2 ml-auto"
-        )}
-        >
-        {isAudioPlayerExpanded && (
-          <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={handleShuffle}
-          title="Shuffle"
-          >
-          {shuffle ? <RxArrowRight /> : <RxShuffle />}
-          </button>
-        )}
-        <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={handlePrev}
-          title="Previous"
-        >
-          <RxTrackPrevious />
-        </button>
-        {isAudioPlayerExpanded && (
-          <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={rewind}
-          title="Rewind 10s"
-          >
-          <MdOutlineReplay10 />
-          </button>
-        )}
-        <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={handlePlayPause}
-          title={isPlaying ? "Pause" : "Play"}
-        >
-          {isPlaying ? <RxPause /> : <RxPlay />}
-        </button>
-        {isAudioPlayerExpanded && (
-          <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={fastForward}
-          title="Forward 10s"
-          >
-          <MdOutlineForward10 />
-          </button>
-        )}
-        <button
-          className="bg-blue-600 px-2 py-1 rounded-full"
-          onClick={handleNext}
-          title="Next"
-        >
-          <RxTrackNext />
-        </button>
+          className={clsx(
+            "flex justify-center",
+            isAudioPlayerExpanded ? "mb-6" : "-mt-2"
+          )}>
+          {`Current playlist: ${currentPlaylist}`}
         </div>
-      </div>
+        <div
+          className={clsx(
+            "flex items-center w-full transition-all duration-300",
+            isAudioPlayerExpanded
+              ? "justify-center h-auto p-4 pt-2 flex-col space-y-4"
+              : "justify-center h-auto p-4 pt-2 flex-row space-x-3"
+          )}>
+          <Image
+            priority
+            fetchPriority="high"
+            src={`https://4ykxjgur5y.ufs.sh/f/${
+              releaseCurrentlyPlaying
+                ? releaseCurrentlyPlaying.cover_img_file_key
+                : "9Dk0lBirZ3pQA66Rb9Bygdn5G8QFv0hfpWE7KZqxj3lTc9wC"
+            }`}
+            width={isAudioPlayerExpanded ? 200 : 48}
+            height={isAudioPlayerExpanded ? 200 : 48}
+            alt={`${releaseCurrentlyPlaying?.title || "cover image"}`}
+            className={clsx(
+              "rounded shadow border border-gray-600",
+              isAudioPlayerExpanded ? "rounded-lg shadow-2xl" : ""
+            )}
+          />
+          <div
+            className={clsx(
+              "flex-1 min-w-0",
+              isAudioPlayerExpanded ? "w-full text-center" : ""
+            )}>
+            {/* <Link href={`/songs/${songs[currentSongIndex]?.id}`}> */}
+            <div
+              className={clsx(
+                "truncate font-medium",
+                isAudioPlayerExpanded ? "text-lg" : "text-sm"
+              )}>
+              {songs[currentSongIndex]?.title || "No song selected"}
+            </div>
+            {/* </Link> */}
+            <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
+              <div
+                className={clsx(
+                  "truncate text-gray-400",
+                  isAudioPlayerExpanded ? "text-base" : "text-xs"
+                )}>
+                {artistCurrentlyPlaying?.name || "Unknown Artist"}
+              </div>
+            </Link>
+            <Link href={`/releases/${releaseCurrentlyPlaying?.id}`}>
+              <div
+                className={clsx(
+                  "truncate text-gray-400",
+                  isAudioPlayerExpanded ? "text-base" : "text-xs"
+                )}>
+                {releaseCurrentlyPlaying?.title || "Unknown Album"}
+              </div>
+            </Link>
+          </div>
+
+          {/* Progress bar and time, only in expanded mode */}
+          {isAudioPlayerExpanded && (
+            <div className="w-full">
+              <input
+                className="w-full h-2 bg-gray-700 rounded overflow-hidden appearance-none my-progress"
+                type="range"
+                max="100"
+                value={progress}
+                onChange={handleSeek}
+              />
+              <div className="flex justify-between text-xs text-gray-400 px-2">
+                <div>{formatTime(audioRef.current?.currentTime || 0)}</div>
+                <div>
+                  {formatTime(
+                    (audioRef.current?.duration || 0) -
+                      (audioRef.current?.currentTime || 0)
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Controls */}
+          <div
+            className={clsx(
+              "flex items-center",
+              isAudioPlayerExpanded
+                ? "justify-around w-full"
+                : "space-x-2 ml-auto"
+            )}>
+            {isAudioPlayerExpanded && (
+              <button
+                className="bg-blue-600 px-2 py-1 rounded-full"
+                onClick={handleShuffle}
+                title="Shuffle">
+                {shuffle ? <RxArrowRight /> : <RxShuffle />}
+              </button>
+            )}
+            <button
+              className="bg-blue-600 px-2 py-1 rounded-full"
+              onClick={handlePrev}
+              title="Previous">
+              <RxTrackPrevious />
+            </button>
+            {isAudioPlayerExpanded && (
+              <button
+                className="bg-blue-600 px-2 py-1 rounded-full"
+                onClick={rewind}
+                title="Rewind 10s">
+                <MdOutlineReplay10 />
+              </button>
+            )}
+            <button
+              className="bg-blue-600 px-2 py-1 rounded-full"
+              onClick={handlePlayPause}
+              title={isPlaying ? "Pause" : "Play"}>
+              {isPlaying ? <RxPause /> : <RxPlay />}
+            </button>
+            {isAudioPlayerExpanded && (
+              <button
+                className="bg-blue-600 px-2 py-1 rounded-full"
+                onClick={fastForward}
+                title="Forward 10s">
+                <MdOutlineForward10 />
+              </button>
+            )}
+            <button
+              className="bg-blue-600 px-2 py-1 rounded-full"
+              onClick={handleNext}
+              title="Next">
+              <RxTrackNext />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
