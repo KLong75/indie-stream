@@ -302,7 +302,9 @@ export default function AudioPlayer({
             {songs[currentSongIndex]?.title || "No song selected"}
           </div>
           {/* </Link> */}
-          <Link href={`/artists/${artistCurrentlyPlaying?.id}`}>
+          <Link href={`/artists/${artistCurrentlyPlaying?.id}`}
+          onClick={() => setIsAudioPlayerExpanded(false)}
+          >
             <div
               className={clsx(
                 "truncate text-gray-400",
@@ -311,7 +313,10 @@ export default function AudioPlayer({
               {artistCurrentlyPlaying?.name || "Unknown Artist"}
             </div>
           </Link>
-          <Link href={`/releases/${releaseCurrentlyPlaying?.id}`}>
+          <Link 
+            href={`/releases/${releaseCurrentlyPlaying?.id}`}
+            onClick={() => setIsAudioPlayerExpanded(false)}
+          >
             <div
               className={clsx(
                 "truncate text-gray-400",
