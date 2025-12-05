@@ -1,6 +1,9 @@
 "use client";
 
+// import from next
 import Link from "next/link";
+// import context
+import { useAudioPlayerExpanded } from "@/context/audio-player-expanded-context-provider";
 import { RiHome2Fill } from "react-icons/ri";
 import { IoMdPerson } from "react-icons/io";
 import { FaRecordVinyl } from "react-icons/fa";
@@ -19,9 +22,14 @@ type IconKey = keyof typeof iconMap;
 
 
 export default function NavListItem({ item }: { item: NavItem }) {
+  const { setIsAudioPlayerExpanded } = useAudioPlayerExpanded();
   return (
     <li className="flex items-center" title={item.label}>
-      <Link href={item.href} className="flex flex-col items-center">
+      <Link 
+        href={item.href} 
+        className="flex flex-col items-center"
+        onClick={() => setIsAudioPlayerExpanded(false)}
+      >
         {item.icon && <span>{iconMap[item.icon]}</span>}
         {item.label && <span className="text-xs">{item.label}</span>}
       </Link>

@@ -9,6 +9,7 @@ import { ourFileRouter } from "../app/api/uploadthing/core";
 import { ThemeProvider } from "@/themes/theme-provider";
 // import context
 import { PushNotificationContextProvider } from "@/context/push-notification-context-provider";
+import { AudioPlayerExpandedContextProvider } from "@/context/audio-player-expanded-context-provider";
 // import components
 import Header from "@/ui/header";
 import Footer from "@/ui/footer";
@@ -50,12 +51,14 @@ export default async function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-            <Header session={session} />
-            <main className="flex-1 flex flex-col pb-[13.875rem]">
-              {children}
-              <AudioContainer />
-            </main>
-            <Footer session={session} />
+            <AudioPlayerExpandedContextProvider>
+              <Header session={session} />
+              <main className="flex-1 flex flex-col pb-[13.875rem]">
+                {children}
+                <AudioContainer />
+              </main>
+              <Footer session={session} />
+            </AudioPlayerExpandedContextProvider>
           </ThemeProvider>
         </PushNotificationContextProvider>
       </body>

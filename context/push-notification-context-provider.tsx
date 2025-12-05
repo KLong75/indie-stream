@@ -35,7 +35,7 @@ export function PushNotificationContextProvider({ children }: { children: React.
 }
 
 export function usePushNotification() {
-  const ctx = useContext(PushNotificationContext);
-  if (!ctx) throw new Error("usePushNotification must be used within PushNotificationProvider");
-  return ctx;
+  const context = useContext(PushNotificationContext);
+  if (!context) throw new Error("usePushNotification must be used within PushNotificationProvider");
+  return context;
 }

@@ -1234,6 +1234,8 @@
 import { useState, useEffect } from "react";
 // import from next
 import Image from "next/image";
+// import context
+import { useAudioPlayerExpanded } from "@/context/audio-player-expanded-context-provider";
 import AudioPlayer from "@/ui/audio-player";
 import { Song, Release } from "@/lib/definitions";
 import { GiMusicSpell, GiMusicalNotes } from "react-icons/gi";
@@ -1263,7 +1265,9 @@ export default function AudioPlayerWrapper({
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
-  const [isAudioPlayerExpanded, setIsAudioPlayerExpanded] = useState(true);
+  // const [isAudioPlayerExpanded, setIsAudioPlayerExpanded] = useState(true);
+  const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } =
+    useAudioPlayerExpanded();
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Dialog and query states
@@ -1399,8 +1403,8 @@ export default function AudioPlayerWrapper({
           setIsPlaying={setIsPlaying}
           currentSongIndex={currentSongIndex}
           setCurrentSongIndex={setCurrentSongIndex}
-          isAudioPlayerExpanded={isAudioPlayerExpanded}
-          setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
+          // isAudioPlayerExpanded={isAudioPlayerExpanded}
+          // setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
           currentPlaylist={currentPlaylist ?? ""}
         />
         {/* Expanded controls only visible when expanded */}

@@ -2,12 +2,15 @@
 // import from next
 import Image from "next/image";
 import Link from "next/link";
+// import from react
+import { useState, useRef, useEffect } from "react";
 // import clsx
 import clsx from "clsx";
 // import definitions
 import { Song, Release } from "../lib/definitions";
-// import from react
-import { useState, useRef, useEffect } from "react";
+// import context
+import { useAudioPlayerExpanded } from "@/context/audio-player-expanded-context-provider";
+// import icons
 // import { PiPlayPauseBold } from "react-icons/pi";
 import { RxTrackPrevious } from "react-icons/rx";
 import { RxTrackNext } from "react-icons/rx";
@@ -36,8 +39,8 @@ export default function AudioPlayer({
   setIsPlaying,
   currentSongIndex,
   setCurrentSongIndex,
-  isAudioPlayerExpanded,
-  setIsAudioPlayerExpanded,
+  // isAudioPlayerExpanded,
+  // setIsAudioPlayerExpanded,
   currentPlaylist,
 }: {
   songs: Song[];
@@ -45,10 +48,11 @@ export default function AudioPlayer({
   setIsPlaying: (isPlaying: boolean) => void;
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
-  isAudioPlayerExpanded: boolean;
-  setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
+  // isAudioPlayerExpanded: boolean;
+  // setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
   currentPlaylist: string;
 }) {
+  const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } = useAudioPlayerExpanded();
   // console.log("currentPlaylist in AudioPlayer:", currentPlaylist);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
@@ -145,24 +149,6 @@ export default function AudioPlayer({
     }
     fetchReleaseAndArtist();
   }, [currentSongIndex, songs]);
-
-  // useEffect hook to handle shuffle activation and pick a new random song ---
-  // useEffect(() => {
-  //   if (shuffle && songs.length > 1) {
-  //     let newIndex = currentSongIndex;
-  //     while (newIndex === currentSongIndex) {
-  //       newIndex = Math.floor(Math.random() * songs.length);
-  //     }
-  //     setCurrentSongIndex(newIndex);
-  //     setIsPlaying(true);
-  //   }
-  // }, [
-  //   shuffle,
-  //   songs.length,
-  //   currentSongIndex,
-  //   setCurrentSongIndex,
-  //   setIsPlaying,
-  // ]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
