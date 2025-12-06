@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 //import components
-import BackToLink from "@/ui/back-to-link";
+// import BackToLink from "@/ui/back-to-link";
 
 // import { Button } from "@/components/ui/button";
 // import from react icons

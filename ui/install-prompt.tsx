@@ -60,16 +60,19 @@ export default function InstallPrompt() {
       {deferredPrompt && (
         <button
           onClick={handleInstallClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md border border-gray-300 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer"
-        >
-          Install App
+          className="bg-blue-600 text-white px-2 py-2 rounded-md border border-gray-300 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer whitespace-nowrap">
+          Install indieStream on your device for the best experience
         </button>
       )}
-     {!deferredPrompt && !isStandalone && (
-  <p className="mx-auto p-6 max-w-2xl">
-    App installation is not available in this browser mode. If you are using private or incognito browsing, try switching to a regular window. Otherwise, you can add this app to your home screen manually using your browser&apos;s menu (look for “Add to Home Screen” or similar).
-  </p>
-)}
+      {!deferredPrompt && !isStandalone && (
+        <p className="mx-auto p-6 max-w-2xl">
+          App installation is not available in this browser mode. If you are
+          using private or incognito browsing, try switching to a regular
+          window. Otherwise, you can add this app to your home screen manually
+          using your browser&apos;s menu (look for “Add to Home Screen” or
+          similar).
+        </p>
+      )}
 
       {isIOS && (
         <p>

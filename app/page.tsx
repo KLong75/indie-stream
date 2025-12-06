@@ -18,8 +18,11 @@ export default async function Home() {
     redirect(`/listeners/${session.user.id}`);
   }
   return (
-    <>
-      <div className="flex flex-col items-center justify-center min-h-screen p-24">
+    <div className="">
+      <div className=" flex justify-center p-6">
+        <InstallPrompt />
+      </div>
+      <div className="flex flex-col items-center justify-center ">
         <GiMusicalNotes className="absolute top-1/5 left-1/2 transform -translate-x-1/2 -z-10 text-gray-300 text-[14rem] home-page-icon" />
         <h1 className="text-4xl font-bold absolute top-1/4 left-1/2 transform -translate-x-1/2 text-center">
           indieStream
@@ -36,12 +39,8 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="p-6">
-        <InstallPrompt />
-      </div>
-
-      <UploadButtonContainer file_route="audioUploader" />
-      <UploadButtonContainer file_route="imageUploader" />
-    </>
+      {/* <UploadButtonContainer file_route="audioUploader" /> */}
+      {/* <UploadButtonContainer file_route="imageUploader" /> */}
+    </div>
   );
 }
