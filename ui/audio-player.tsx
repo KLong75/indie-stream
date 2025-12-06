@@ -45,6 +45,7 @@ export default function AudioPlayer({
   // isAudioPlayerExpanded,
   // setIsAudioPlayerExpanded,
   currentPlaylist,
+  setCurrentPlaylist,
 }: {
   songs: Song[];
   isPlaying: boolean;
@@ -54,6 +55,7 @@ export default function AudioPlayer({
   // isAudioPlayerExpanded: boolean;
   // setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
   currentPlaylist: string;
+  setCurrentPlaylist: (playlist: string) => void;
 }) {
   const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } =
     useAudioPlayerExpanded();
@@ -69,9 +71,6 @@ export default function AudioPlayer({
   } | null>(null);
   const [releaseCurrentlyPlaying, setReleaseCurrentlyPlaying] =
     useState<Release | null>(null);
-  // const handleShuffle = () => {
-  //   setShuffle((wasShuffle) => !wasShuffle);
-  // };
 
   const handleShuffle = () => {
     const turningOn = !shuffle;
@@ -186,32 +185,50 @@ export default function AudioPlayer({
   ]);
 
   useEffect(() => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
-    const updateProgress = () => {
-      const { currentTime, duration } = audioElement;
-      setProgress((currentTime / duration) * 100 || 0);
-    };
-    audioElement.addEventListener("timeupdate", updateProgress);
-    return () => {
-      audioElement.removeEventListener("timeupdate", updateProgress);
-    };
-  }, []);
+  const audioElement = audioRef.current;
+  if (!audioElement) return;
+  const updateProgress = () => {
+    const { currentTime, duration } = audioElement;
+    const newProgress = (currentTime / duration) * 100 || 0;
+    setProgress(newProgress);
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
-    audioElement.load();
-    const handleCanPlay = () => {
-      if (isPlaying) {
-        audioElement.play();
-      }
+    // --- CHANGED: Save latest progress to localStorage immediately ---
+    const state = {
+      currentSongIndex,
+      currentPlaylist,
+      isPlaying,
+      progress: newProgress,
+      isMuted,
+      shuffle,
     };
-    audioElement.addEventListener("canplay", handleCanPlay);
-    return () => {
-      audioElement.removeEventListener("canplay", handleCanPlay);
-    };
-  }, [currentSongIndex]);
+    localStorage.setItem("audioPlayerState", JSON.stringify(state));
+  };
+  audioElement.addEventListener("timeupdate", updateProgress);
+  return () => {
+    audioElement.removeEventListener("timeupdate", updateProgress);
+  };
+}, [
+  currentSongIndex,
+  currentPlaylist,
+  isPlaying,
+  isMuted,
+  shuffle,
+]);
+
+  // useEffect(() => {
+  //   const audioElement = audioRef.current;
+  //   if (!audioElement) return;
+  //   audioElement.load();
+  //   const handleCanPlay = () => {
+  //     if (isPlaying) {
+  //       audioElement.play();
+  //     }
+  //   };
+  //   audioElement.addEventListener("canplay", handleCanPlay);
+  //   return () => {
+  //     audioElement.removeEventListener("canplay", handleCanPlay);
+  //   };
+  // }, [currentSongIndex]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -224,6 +241,46 @@ export default function AudioPlayer({
       audioElement.removeEventListener("loadedmetadata", updateDuration);
     };
   }, [currentSongIndex]);
+
+  useEffect(() => {
+  const audioElement = audioRef.current;
+  if (!audioElement) return;
+
+  const saved = localStorage.getItem("audioPlayerState");
+  console.log("Saved audio player state:", saved);
+  if (!saved) return;
+  const state = JSON.parse(saved);
+  console.log("Restored audio player state:", state);
+
+  function setAudioPositionAndPlay() {
+    if (
+      state.progress !== undefined &&
+      audioElement &&
+      audioElement.duration
+    ) {
+      audioElement.currentTime =
+        (state.progress / 100) * audioElement.duration;
+      setProgress(state.progress);
+
+      // Optionally resume playback if was playing before
+      if (state.isPlaying) {
+        audioElement.play();
+        setIsPlaying(true);
+      }
+    }
+  }
+
+  audioElement.addEventListener("loadedmetadata", setAudioPositionAndPlay);
+
+  // If metadata is already loaded, set position immediately
+  if (audioElement.duration) {
+    setAudioPositionAndPlay();
+  }
+
+  return () => {
+    audioElement.removeEventListener("loadedmetadata", setAudioPositionAndPlay);
+  };
+}, [currentSongIndex, currentPlaylist]);
 
   return (
     <div
@@ -397,12 +454,12 @@ export default function AudioPlayer({
             <RxTrackNext />
           </button>
           {isAudioPlayerExpanded && (
-          <button
-            className="bg-blue-600 px-2 py-1 rounded-full"
-            onClick={() => setIsMuted((m) => !m)}
-            title={isMuted ? "Unmute" : "Mute"}>
-            {isMuted ? <RxSpeakerLoud /> : <RxSpeakerOff />}
-          </button>
+            <button
+              className="bg-blue-600 px-2 py-1 rounded-full"
+              onClick={() => setIsMuted((m) => !m)}
+              title={isMuted ? "Unmute" : "Mute"}>
+              {isMuted ? <RxSpeakerLoud /> : <RxSpeakerOff />}
+            </button>
           )}
           {/* <button
             className={clsx(

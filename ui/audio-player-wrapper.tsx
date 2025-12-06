@@ -1231,7 +1231,7 @@
 // }
 
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // import from next
 import Image from "next/image";
 // import context
@@ -1247,6 +1247,56 @@ import { RiPlayList2Fill, RiPlayList2Line } from "react-icons/ri";
 import clsx from "clsx";
 import SongListDialog from "./song-list-dialog";
 import { SongListComboBoxOption } from "./song-list-combobox";
+
+// --- Refactored: Helper to get initial state from localStorage ---
+function getInitialPlayerState(
+  allSongs: Song[],
+  savedSongs: Song[],
+  allReleases: { [key: string]: Song[] },
+  savedReleases: { [key: string]: Song[] },
+  formattedPlaylists: { [key: string]: Song[] }
+) {
+  if (typeof window === "undefined") {
+    // SSR fallback
+    return {
+      songs: savedSongs.length > 0 ? savedSongs : allSongs,
+      songIndex: 0,
+      playlist: savedSongs.length > 0 ? "Saved Songs" : "All Songs",
+    };
+  }
+  const saved = localStorage.getItem("audioPlayerState");
+  if (saved) {
+    const state = JSON.parse(saved);
+    let songs = savedSongs.length > 0 ? savedSongs : allSongs;
+    if (state.currentPlaylist && formattedPlaylists[state.currentPlaylist]) {
+      songs = formattedPlaylists[state.currentPlaylist];
+    } else if (state.currentPlaylist && allReleases[state.currentPlaylist]) {
+      songs = allReleases[state.currentPlaylist];
+    } else if (state.currentPlaylist && savedReleases[state.currentPlaylist]) {
+      songs = savedReleases[state.currentPlaylist];
+    } else if (
+      state.currentPlaylist === "Saved Songs" &&
+      savedSongs.length > 0
+    ) {
+      songs = savedSongs;
+    } else if (state.currentPlaylist === "All Songs" && allSongs.length > 0) {
+      songs = allSongs;
+    }
+    return {
+      songs,
+      songIndex:
+        typeof state.currentSongIndex === "number" ? state.currentSongIndex : 0,
+      playlist:
+        state.currentPlaylist ||
+        (savedSongs.length > 0 ? "Saved Songs" : "All Songs"),
+    };
+  }
+  return {
+    songs: savedSongs.length > 0 ? savedSongs : allSongs,
+    songIndex: 0,
+    playlist: savedSongs.length > 0 ? "Saved Songs" : "All Songs",
+  };
+}
 
 export default function AudioPlayerWrapper({
   allSongs,
@@ -1265,10 +1315,29 @@ export default function AudioPlayerWrapper({
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
-  // const [isAudioPlayerExpanded, setIsAudioPlayerExpanded] = useState(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const [hasMounted, setHasMounted] = useState(false);
+
   const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } =
     useAudioPlayerExpanded();
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // --- Refactored: Use initial state from localStorage ---
+  const initialState = getInitialPlayerState(
+    allSongs,
+    savedSongs,
+    allReleases,
+    savedReleases,
+    formattedPlaylists
+  );
+  const [currentSongs, setCurrentSongs] = useState<Song[]>(initialState.songs); // <-- refactored
+  const [currentSongIndex, setCurrentSongIndex] = useState(
+    initialState.songIndex
+  ); // <-- refactored
+  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
+    initialState.playlist
+  ); // <-- refactored
 
   // Dialog and query states
   const [allSongsDialogOpen, setAllSongsDialogOpen] = useState(false);
@@ -1289,14 +1358,14 @@ export default function AudioPlayerWrapper({
   const [selected, setSelected] = useState<Song | null>(null);
   const [selectedRelease, setSelectedRelease] = useState<string | null>(null);
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
-  const [currentSongs, setCurrentSongs] = useState<Song[]>(
-    savedSongs.length > 0 ? savedSongs : allSongs
-  );
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  // const [currentSongs, setCurrentSongs] = useState<Song[]>(
+  //   savedSongs.length > 0 ? savedSongs : allSongs
+  // );
+  // const [currentSongIndex, setCurrentSongIndex] = useState(0);
   // const [currentPlaylist, setCurrentPlaylist] = useState<string | null>("Saved Songs");
-  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
-    savedSongs.length > 0 ? "Saved Songs" : "All Songs"
-  );
+  // const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(
+  //   savedSongs.length > 0 ? "Saved Songs" : "All Songs"
+  // );
 
   // ComboBox options
   const allSongsOptions: SongListComboBoxOption[] = allSongs
@@ -1341,7 +1410,20 @@ export default function AudioPlayerWrapper({
     label: playlistTitle,
   }));
 
-  console.log("allReleases", allReleases);
+  // --- Only one AudioPlayer instance, position container based on expanded/collapsed ---
+  const headerHeight = "4rem"; // adjust to your header height
+  const footerHeight = "4.5rem"; // adjust to your footer height
+
+  // Get the current song
+  const currentSong = currentSongs[currentSongIndex];
+  console.log("Current Song:", currentSong);
+  const currentReleaseTitle = Object.keys(allReleases).find((release) =>
+    allReleases[release].some((song) => song.id === currentSong?.id)
+  );
+  const currentRelease = allReleasesRaw.find(
+    (release) => release.title === currentReleaseTitle
+  );
+  const currentReleaseImageKey = currentRelease?.cover_img_file_key || null;
 
   // --- Prevent page scroll when expanded ---
   useEffect(() => {
@@ -1359,24 +1441,13 @@ export default function AudioPlayerWrapper({
     };
   }, [isAudioPlayerExpanded]);
 
-  // --- Only one AudioPlayer instance, position container based on expanded/collapsed ---
-  const headerHeight = "4rem"; // adjust to your header height
-  const footerHeight = "4.5rem"; // adjust to your footer height
-
-  // Get the current song
-  const currentSong = currentSongs[currentSongIndex];
-  console.log("Current Song:", currentSong);
-  const currentReleaseTitle = Object.keys(allReleases).find((release) =>
-    allReleases[release].some((song) => song.id === currentSong?.id)
-  );
-  const currentRelease = allReleasesRaw.find(
-    (release) => release.title === currentReleaseTitle
-  );
-  const currentReleaseImageKey = currentRelease?.cover_img_file_key || null;
-
-  console.log("Current Release:", currentRelease);
-  console.log("Current Release Image Key:", currentReleaseImageKey);
-
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  if (!hasMounted) {
+    return null; // or a loading spinner, or some placeholder
+  }
+  
   return (
     <div
       className={clsx(
@@ -1406,6 +1477,7 @@ export default function AudioPlayerWrapper({
           // isAudioPlayerExpanded={isAudioPlayerExpanded}
           // setIsAudioPlayerExpanded={setIsAudioPlayerExpanded}
           currentPlaylist={currentPlaylist ?? ""}
+          setCurrentPlaylist={setCurrentPlaylist}
         />
         {/* Expanded controls only visible when expanded */}
         {isAudioPlayerExpanded && (
