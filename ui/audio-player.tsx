@@ -16,6 +16,9 @@ import { RxTrackPrevious } from "react-icons/rx";
 import { RxTrackNext } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";
 import { RxPause } from "react-icons/rx";
+import { RxSpeakerLoud } from "react-icons/rx";
+import { RxSpeakerOff } from "react-icons/rx";
+// import { RxStop } from "react-icons/rx";
 import { RxShuffle } from "react-icons/rx";
 import { RxArrowRight } from "react-icons/rx";
 import { RxChevronDown } from "react-icons/rx";
@@ -52,12 +55,14 @@ export default function AudioPlayer({
   // setIsAudioPlayerExpanded: (isExpanded: boolean) => void;
   currentPlaylist: string;
 }) {
-  const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } = useAudioPlayerExpanded();
+  const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } =
+    useAudioPlayerExpanded();
   // console.log("currentPlaylist in AudioPlayer:", currentPlaylist);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [shuffle, setShuffle] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [artistCurrentlyPlaying, setArtistCurrentlyPlaying] = useState<{
     id: string;
     name: string;
@@ -82,14 +87,20 @@ export default function AudioPlayer({
       setIsPlaying(true);
     }
   };
+
   const handlePlayPause = () => {
     const audioElement = audioRef.current;
+    console.log("audioElement:", audioElement);
     if (!audioElement) return;
     if (isPlaying) {
       audioElement.pause();
+      const currentTime = audioElement.currentTime;
+      console.log("Paused at:", currentTime);
       setIsPlaying(false);
     } else {
       audioElement.play();
+      const currentTime = audioElement.currentTime;
+      console.log("Playing from:", currentTime);
       setIsPlaying(true);
     }
   };
@@ -200,7 +211,7 @@ export default function AudioPlayer({
     return () => {
       audioElement.removeEventListener("canplay", handleCanPlay);
     };
-  }, [currentSongIndex, isPlaying]);
+  }, [currentSongIndex]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -220,7 +231,6 @@ export default function AudioPlayer({
         "p-4 tracking-wide transition-all duration-300",
         isAudioPlayerExpanded ? "py-0" : "py-0"
       )}>
-        
       {/* Always render the audio element */}
       {songs[currentSongIndex] && songs[currentSongIndex].file_key ? (
         <audio
@@ -228,6 +238,7 @@ export default function AudioPlayer({
           src={`https://4ykxjgur5y.ufs.sh/f/${songs[currentSongIndex].file_key}`}
           controls={false}
           style={{ display: "none" }}
+          muted={isMuted}
         />
       ) : null}
       <button
@@ -288,9 +299,9 @@ export default function AudioPlayer({
             {songs[currentSongIndex]?.title || "No song selected"}
           </div>
           {/* </Link> */}
-          <Link href={`/artists/${artistCurrentlyPlaying?.id}`}
-          onClick={() => setIsAudioPlayerExpanded(false)}
-          >
+          <Link
+            href={`/artists/${artistCurrentlyPlaying?.id}`}
+            onClick={() => setIsAudioPlayerExpanded(false)}>
             <div
               className={clsx(
                 "truncate text-gray-400",
@@ -299,10 +310,9 @@ export default function AudioPlayer({
               {artistCurrentlyPlaying?.name || "Unknown Artist"}
             </div>
           </Link>
-          <Link 
+          <Link
             href={`/releases/${releaseCurrentlyPlaying?.id}`}
-            onClick={() => setIsAudioPlayerExpanded(false)}
-          >
+            onClick={() => setIsAudioPlayerExpanded(false)}>
             <div
               className={clsx(
                 "truncate text-gray-400",
@@ -341,13 +351,13 @@ export default function AudioPlayer({
             "flex items-center",
             isAudioPlayerExpanded
               ? "justify-around w-full"
-              : "space-x-2 ml-auto"
+              : "space-x-4 ml-auto absolute right-8"
           )}>
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
               onClick={handleShuffle}
-              title="Shuffle">
+              title={shuffle ? "Disable Shuffle" : "Enable Shuffle"}>
               {shuffle ? <RxArrowRight /> : <RxShuffle />}
             </button>
           )}
@@ -366,11 +376,12 @@ export default function AudioPlayer({
             </button>
           )}
           <button
-            className="bg-blue-600 px-2 py-1 rounded-full"
+            className="bg-blue-600 px-3 py-2 rounded-full"
             onClick={handlePlayPause}
             title={isPlaying ? "Pause" : "Play"}>
-            {isPlaying ? <RxPause /> : <RxPlay />}
+            {isPlaying ? <RxPause size={20} /> : <RxPlay size={20} />}
           </button>
+
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
@@ -385,6 +396,14 @@ export default function AudioPlayer({
             title="Next">
             <RxTrackNext />
           </button>
+          {isAudioPlayerExpanded && (
+          <button
+            className="bg-blue-600 px-2 py-1 rounded-full"
+            onClick={() => setIsMuted((m) => !m)}
+            title={isMuted ? "Unmute" : "Mute"}>
+            {isMuted ? <RxSpeakerLoud /> : <RxSpeakerOff />}
+          </button>
+          )}
           {/* <button
             className={clsx(
               "ml-1 bg-gray-700 px-2 py-1 rounded-full",

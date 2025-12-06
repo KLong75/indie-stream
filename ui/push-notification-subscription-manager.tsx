@@ -223,14 +223,6 @@ export default function PushNotificationSubscriptionManager({ renderedAs }: Push
     }
   }
 
-  // async function sendTestNotification() {
-  //   if (subscription) {
-  //     await sendNotification(message, url);
-  //     setMessage("");
-  //     setUrl("");
-  //   }
-  // }
-
   if (!isSupported) {
     return <p>Push notifications are not supported in this browser.</p>;
   }
@@ -265,19 +257,5 @@ export default function PushNotificationSubscriptionManager({ renderedAs }: Push
         )
       )}
     </div>
-
-    // <div>
-    //   {subscription ? (
-    //     <div>
-    //       <p>You are subscribed to push notifications.</p>
-    //       <button onClick={unsubscribeFromPush}>Unsubscribe</button>
-    //     </div>
-    //   ) : (
-    //     <div>
-    //       <p>You are not subscribed to push notifications.</p>
-    //       <button onClick={subscribeToPush} className="cursor-pointer">Subscribe</button>
-    //     </div>
-    //   )}
-    // </div>
   );
 }
