@@ -238,33 +238,41 @@ export default function AudioPlayer({
     if (!saved) return;
     const state = JSON.parse(saved);
 
-    function setAudioPositionAndPlay() {
+    function setAudioPosition() {
       const songId = songs[currentSongIndex]?.id;
       const songProgress = state.songProgress?.[songId];
       if (songProgress !== undefined && audioElement && audioElement.duration) {
         audioElement.currentTime = (songProgress / 100) * audioElement.duration;
         setProgress(songProgress);
-
-        if (state.isPlaying) {
-          // audioElement.play();
-          setIsPlaying(false);
-        }
+        // --- REMOVED: Do not set isPlaying or call play() here ---
       }
     }
 
-    audioElement.addEventListener("loadedmetadata", setAudioPositionAndPlay);
+    audioElement.addEventListener("loadedmetadata", setAudioPosition);
 
     if (audioElement.duration) {
-      setAudioPositionAndPlay();
+      setAudioPosition();
     }
 
     return () => {
       audioElement.removeEventListener(
         "loadedmetadata",
-        setAudioPositionAndPlay
+        setAudioPosition
       );
     };
   }, [currentSongIndex, currentPlaylist, songs]);
+
+   // --- ADDED: Sync isPlaying state with audio element ---
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+    if (isPlaying) {
+      audioElement.play().catch(() => {});
+    } else {
+      audioElement.pause();
+    }
+  }, [isPlaying]);
+  // --- END ADDED ---
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -275,6 +283,14 @@ export default function AudioPlayer({
       audioElement.removeEventListener("loadedmetadata", updateDuration);
     };
   }, [currentSongIndex, songs]);
+
+  useEffect(() => {
+  const audioElement = audioRef.current;
+  if (!audioElement) return;
+  if (isPlaying) {
+    audioElement.play().catch(() => {});
+  }
+}, [isPlaying, currentSongIndex]);
 
   return (
     <div
@@ -402,8 +418,9 @@ export default function AudioPlayer({
             "flex items-center",
             isAudioPlayerExpanded
               ? "justify-around w-full"
-              : "space-x-4 ml-auto absolute right-8"
-          )}>
+              : "space-x-3 absolute right-4 "
+          )}
+        >
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
@@ -427,7 +444,7 @@ export default function AudioPlayer({
             </button>
           )}
           <button
-            className="bg-blue-600 px-3 py-2 rounded-full"
+            className={`bg-blue-600 ${isAudioPlayerExpanded ? "px-3 py-2" : "px-2 py-1"} rounded-full`}
             onClick={handlePlayPause}
             title={isPlaying ? "Pause" : "Play"}>
             {isPlaying ? <RxPause size={20} /> : <RxPlay size={20} />}

@@ -1447,7 +1447,7 @@ export default function AudioPlayerWrapper({
   if (!hasMounted) {
     return null; // or a loading spinner, or some placeholder
   }
-  
+
   return (
     <div
       className={clsx(
@@ -1501,6 +1501,17 @@ export default function AudioPlayerWrapper({
                   setCurrentPlaylist("All Songs");
                   const index = allSongs.findIndex((s) => s.id === song.id);
                   setCurrentSongIndex(index >= 0 ? index : 0);
+
+                  // --- Reset progress in localStorage ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  state.songProgress[song.id] = 0;
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
+
                   setIsPlaying(true);
                 }
               }}
@@ -1526,6 +1537,15 @@ export default function AudioPlayerWrapper({
                   setCurrentPlaylist("Your Saved Songs");
                   const index = savedSongs.findIndex((s) => s.id === song.id);
                   setCurrentSongIndex(index >= 0 ? index : 0);
+                  // --- Reset progress in localStorage ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  state.songProgress[song.id] = 0;
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
                   setIsPlaying(true);
                 }
               }}
@@ -1542,13 +1562,25 @@ export default function AudioPlayerWrapper({
               onChange={(releaseTitle) => {
                 setSelectedRelease(releaseTitle);
                 if (releaseTitle) {
-                  setCurrentSongs(
-                    allReleases[releaseTitle].filter(
-                      (song): song is Song => !!song && !!song.file_key
-                    )
+                  const songsInRelease = allReleases[releaseTitle].filter(
+                    (song): song is Song => !!song && !!song.file_key
                   );
+                  setCurrentSongs(songsInRelease);
                   setCurrentPlaylist(releaseTitle);
                   setCurrentSongIndex(0);
+
+                  // --- Reset progress for all songs in this release ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  songsInRelease.forEach((song) => {
+                    state.songProgress[song.id] = 0;
+                  });
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
+
                   setIsPlaying(true);
                 }
               }}
@@ -1565,13 +1597,25 @@ export default function AudioPlayerWrapper({
               onChange={(releaseTitle) => {
                 setSelectedRelease(releaseTitle);
                 if (releaseTitle) {
-                  setCurrentSongs(
-                    savedReleases[releaseTitle].filter(
-                      (song): song is Song => !!song && !!song.file_key
-                    )
+                  const songsInRelease = allReleases[releaseTitle].filter(
+                    (song): song is Song => !!song && !!song.file_key
                   );
+                  setCurrentSongs(songsInRelease);
                   setCurrentPlaylist(releaseTitle);
                   setCurrentSongIndex(0);
+
+                  // --- Reset progress for all songs in this release ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  songsInRelease.forEach((song) => {
+                    state.songProgress[song.id] = 0;
+                  });
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
+
                   setIsPlaying(true);
                 }
               }}
@@ -1588,13 +1632,25 @@ export default function AudioPlayerWrapper({
               onChange={(playlistTitle) => {
                 setSelectedPlaylist(playlistTitle);
                 if (playlistTitle) {
-                  setCurrentSongs(
-                    formattedPublicPlaylists[playlistTitle].filter(
-                      (song): song is Song => !!song && !!song.file_key
-                    )
-                  );
+                  const songsInPlaylist = formattedPlaylists[
+                    playlistTitle
+                  ].filter((song): song is Song => !!song && !!song.file_key);
+                  setCurrentSongs(songsInPlaylist);
                   setCurrentPlaylist(playlistTitle);
                   setCurrentSongIndex(0);
+
+                  // --- Reset progress for all songs in this playlist ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  songsInPlaylist.forEach((song) => {
+                    state.songProgress[song.id] = 0;
+                  });
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
+
                   setIsPlaying(true);
                 }
               }}
@@ -1611,13 +1667,25 @@ export default function AudioPlayerWrapper({
               onChange={(playlistTitle) => {
                 setSelectedPlaylist(playlistTitle);
                 if (playlistTitle) {
-                  setCurrentSongs(
-                    formattedPlaylists[playlistTitle].filter(
-                      (song): song is Song => !!song && !!song.file_key
-                    )
-                  );
+                  const songsInPlaylist = formattedPlaylists[
+                    playlistTitle
+                  ].filter((song): song is Song => !!song && !!song.file_key);
+                  setCurrentSongs(songsInPlaylist);
                   setCurrentPlaylist(playlistTitle);
                   setCurrentSongIndex(0);
+
+                  // --- Reset progress for all songs in this playlist ---
+                  const saved = localStorage.getItem("audioPlayerState");
+                  let state = saved ? JSON.parse(saved) : {};
+                  state.songProgress = state.songProgress || {};
+                  songsInPlaylist.forEach((song) => {
+                    state.songProgress[song.id] = 0;
+                  });
+                  localStorage.setItem(
+                    "audioPlayerState",
+                    JSON.stringify(state)
+                  );
+
                   setIsPlaying(true);
                 }
               }}
