@@ -104,20 +104,52 @@ export default function AudioPlayer({
     }
   };
 
-  const handleNext = () => {
-    if (shuffle) {
-      const randomIndex = Math.floor(Math.random() * songs.length);
-      setCurrentSongIndex(randomIndex);
-    } else {
-      setCurrentSongIndex((currentSongIndex + 1) % songs.length);
-    }
+  // const handlePrev = () => {
+  //   setCurrentSongIndex(
+  //     currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1
+  //   );
+  //   setIsPlaying(true);
+  // };
+
+  // const handleNext = () => {
+  //   if (shuffle) {
+  //     const randomIndex = Math.floor(Math.random() * songs.length);
+  //     setCurrentSongIndex(randomIndex);
+  //   } else {
+  //     setCurrentSongIndex((currentSongIndex + 1) % songs.length);
+  //   }
+  //   setIsPlaying(true);
+  // };
+
+  const handlePrev = () => {
+    let prevIndex = currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1;
+    // --- Reset progress for the previous song ---
+    const prevSongId = songs[prevIndex]?.id;
+    const saved = localStorage.getItem("audioPlayerState");
+    let state = saved ? JSON.parse(saved) : {};
+    state.songProgress = state.songProgress || {};
+    state.songProgress[prevSongId] = 0;
+    localStorage.setItem("audioPlayerState", JSON.stringify(state));
+    setCurrentSongIndex(prevIndex);
     setIsPlaying(true);
   };
 
-  const handlePrev = () => {
-    setCurrentSongIndex(
-      currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1
-    );
+  const handleNext = () => {
+    let nextIndex;
+    if (shuffle) {
+      nextIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      nextIndex = (currentSongIndex + 1) % songs.length;
+    }
+
+    // --- Reset progress for the next song ---
+    const nextSongId = songs[nextIndex]?.id;
+    const saved = localStorage.getItem("audioPlayerState");
+    let state = saved ? JSON.parse(saved) : {};
+    state.songProgress = state.songProgress || {};
+    state.songProgress[nextSongId] = 0;
+    localStorage.setItem("audioPlayerState", JSON.stringify(state));
+    setCurrentSongIndex(nextIndex);
     setIsPlaying(true);
   };
 
@@ -255,14 +287,11 @@ export default function AudioPlayer({
     }
 
     return () => {
-      audioElement.removeEventListener(
-        "loadedmetadata",
-        setAudioPosition
-      );
+      audioElement.removeEventListener("loadedmetadata", setAudioPosition);
     };
   }, [currentSongIndex, currentPlaylist, songs]);
 
-   // --- ADDED: Sync isPlaying state with audio element ---
+  // --- ADDED: Sync isPlaying state with audio element ---
   useEffect(() => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
@@ -285,12 +314,12 @@ export default function AudioPlayer({
   }, [currentSongIndex, songs]);
 
   useEffect(() => {
-  const audioElement = audioRef.current;
-  if (!audioElement) return;
-  if (isPlaying) {
-    audioElement.play().catch(() => {});
-  }
-}, [isPlaying, currentSongIndex]);
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+    if (isPlaying) {
+      audioElement.play().catch(() => {});
+    }
+  }, [isPlaying, currentSongIndex]);
 
   return (
     <div
@@ -419,8 +448,7 @@ export default function AudioPlayer({
             isAudioPlayerExpanded
               ? "justify-around w-full"
               : "space-x-3 absolute right-4 "
-          )}
-        >
+          )}>
           {isAudioPlayerExpanded && (
             <button
               className="bg-blue-600 px-2 py-1 rounded-full"
@@ -444,7 +472,9 @@ export default function AudioPlayer({
             </button>
           )}
           <button
-            className={`bg-blue-600 ${isAudioPlayerExpanded ? "px-3 py-2" : "px-2 py-1"} rounded-full`}
+            className={`bg-blue-600 ${
+              isAudioPlayerExpanded ? "px-3 py-2" : "px-2 py-1"
+            } rounded-full`}
             onClick={handlePlayPause}
             title={isPlaying ? "Pause" : "Play"}>
             {isPlaying ? <RxPause size={20} /> : <RxPlay size={20} />}
