@@ -1262,6 +1262,7 @@ function getInitialPlayerState(
       songs: savedSongs.length > 0 ? savedSongs : allSongs,
       songIndex: 0,
       playlist: savedSongs.length > 0 ? "Saved Songs" : "All Songs",
+      isPlaying: false,
     };
   }
   const saved = localStorage.getItem("audioPlayerState");
@@ -1289,12 +1290,14 @@ function getInitialPlayerState(
       playlist:
         state.currentPlaylist ||
         (savedSongs.length > 0 ? "Saved Songs" : "All Songs"),
+        isPlaying: false,
     };
   }
   return {
     songs: savedSongs.length > 0 ? savedSongs : allSongs,
     songIndex: 0,
     playlist: savedSongs.length > 0 ? "Saved Songs" : "All Songs",
+    isPlaying: false,
   };
 }
 
@@ -1315,15 +1318,22 @@ export default function AudioPlayerWrapper({
   formattedPlaylists: { [key: string]: Song[] };
   formattedPublicPlaylists: { [key: string]: Song[] };
 }) {
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // const audioRef = useRef<HTMLAudioElement>(null);
 
   const [hasMounted, setHasMounted] = useState(false);
 
   const { isAudioPlayerExpanded, setIsAudioPlayerExpanded } =
     useAudioPlayerExpanded();
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
   // --- Refactored: Use initial state from localStorage ---
+  // const initialState = getInitialPlayerState(
+  //   allSongs,
+  //   savedSongs,
+  //   allReleases,
+  //   savedReleases,
+  //   formattedPlaylists
+  // );
   const initialState = getInitialPlayerState(
     allSongs,
     savedSongs,
@@ -1331,6 +1341,7 @@ export default function AudioPlayerWrapper({
     savedReleases,
     formattedPlaylists
   );
+const [isPlaying, setIsPlaying] = useState(initialState.isPlaying);
   const [currentSongs, setCurrentSongs] = useState<Song[]>(initialState.songs); // <-- refactored
   const [currentSongIndex, setCurrentSongIndex] = useState(
     initialState.songIndex
@@ -1441,6 +1452,13 @@ export default function AudioPlayerWrapper({
     };
   }, [isAudioPlayerExpanded]);
 
+//   useEffect(() => {
+//   // Only auto-play if currentSongs or currentSongIndex changes due to selection
+//   if (currentSongs.length > 0 && currentSongIndex === 0) {
+//     setIsPlaying(true);
+//   }
+// }, [currentSongs, currentSongIndex]);
+
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -1511,7 +1529,6 @@ export default function AudioPlayerWrapper({
                     "audioPlayerState",
                     JSON.stringify(state)
                   );
-
                   setIsPlaying(true);
                 }
               }}
@@ -1562,6 +1579,7 @@ export default function AudioPlayerWrapper({
               onChange={(releaseTitle) => {
                 setSelectedRelease(releaseTitle);
                 if (releaseTitle) {
+                  setIsPlaying(false);
                   const songsInRelease = allReleases[releaseTitle].filter(
                     (song): song is Song => !!song && !!song.file_key
                   );
@@ -1580,8 +1598,8 @@ export default function AudioPlayerWrapper({
                     "audioPlayerState",
                     JSON.stringify(state)
                   );
-
-                  setIsPlaying(true);
+                  // setIsPlaying(true);
+                  setTimeout(() => setIsPlaying(true), 0);
                 }
               }}
               query={allReleasesQuery}
@@ -1597,6 +1615,7 @@ export default function AudioPlayerWrapper({
               onChange={(releaseTitle) => {
                 setSelectedRelease(releaseTitle);
                 if (releaseTitle) {
+                  setIsPlaying(false);
                   const songsInRelease = allReleases[releaseTitle].filter(
                     (song): song is Song => !!song && !!song.file_key
                   );
@@ -1615,8 +1634,8 @@ export default function AudioPlayerWrapper({
                     "audioPlayerState",
                     JSON.stringify(state)
                   );
-
-                  setIsPlaying(true);
+                  // setIsPlaying(true);
+                  setTimeout(() => setIsPlaying(true), 0);
                 }
               }}
               query={savedReleasesQuery}
@@ -1632,6 +1651,7 @@ export default function AudioPlayerWrapper({
               onChange={(playlistTitle) => {
                 setSelectedPlaylist(playlistTitle);
                 if (playlistTitle) {
+                  setIsPlaying(false);
                   const songsInPlaylist = formattedPlaylists[
                     playlistTitle
                   ].filter((song): song is Song => !!song && !!song.file_key);
@@ -1650,8 +1670,8 @@ export default function AudioPlayerWrapper({
                     "audioPlayerState",
                     JSON.stringify(state)
                   );
-
-                  setIsPlaying(true);
+                  // setIsPlaying(true);
+                  setTimeout(() => setIsPlaying(true), 0);
                 }
               }}
               query={publicPlaylistsQuery}
@@ -1667,6 +1687,7 @@ export default function AudioPlayerWrapper({
               onChange={(playlistTitle) => {
                 setSelectedPlaylist(playlistTitle);
                 if (playlistTitle) {
+                  setIsPlaying(false);
                   const songsInPlaylist = formattedPlaylists[
                     playlistTitle
                   ].filter((song): song is Song => !!song && !!song.file_key);
@@ -1685,8 +1706,8 @@ export default function AudioPlayerWrapper({
                     "audioPlayerState",
                     JSON.stringify(state)
                   );
-
-                  setIsPlaying(true);
+                  // setIsPlaying(true);
+                  setTimeout(() => setIsPlaying(true), 0);
                 }
               }}
               query={playlistsQuery}
