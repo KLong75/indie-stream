@@ -49,7 +49,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <ul className="p-6">
             {songs.map((song, index) => (
               <li key={index} className="p-2">
-                {song ? song.title : "Unknown Song"}
+                <Link href={`/songs/${song?.id}`}>
+                <span>{song ? song.title : "Unknown Song"}</span>
+                </Link>
                 <br />
                 <span className="text-gray-500 text-xs">
                   by{" "}

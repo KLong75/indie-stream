@@ -201,14 +201,35 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               <ul>
                 {userSavedSongs.map((song) => (
                   <li key={song.id} className="p-2 flex flex-col">
-                    <Link href={`/songs/${song.id}`}>{song.title}</Link>
-          
-                    <Link href={`/artists/${song.artist}`} className="text-sm text-gray-500 px-2">
+                    <Link 
+                      href={`/songs/${song.id}`}
+                    >
+                      <span>
+                        {song.title}
+                      </span>
+                    </Link>
+                    <Link
+                      href={`/artists/${song.artist}`}
+                      className="text-sm text-gray-500 ">
+                        <span>by </span>
                       {
                         allArtists.find((artist) => artist.id === song.artist)
                           ?.name
                       }
                     </Link>
+                    <span className="text-gray-500 text-xs">
+                      from the{" "}
+                      {
+                        allReleases.find(
+                          (release) => release.id === song.release
+                        )?.type
+                      }{" "}
+                      {
+                        allReleases.find(
+                          (release) => release.id === song.release
+                        )?.title
+                      }
+                    </span>
                   </li>
                 ))}
               </ul>
