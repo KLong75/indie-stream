@@ -11,7 +11,9 @@ import {
 // import Image from "next/image";
 import Link from "next/link";
 // import components
-import BackToLink from "@/ui/back-to-link";
+// import BackToLink from "@/ui/back-to-link";
+import SongList from "@/ui/song-list";
+import { Song, Artist, Release } from "@/lib/definitions";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -40,7 +42,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   } else {
     return (
       <div>
-        <BackToLink href="/playlists" label="Playlists" />
+        {/* <BackToLink href="/playlists" label="Playlists" /> */}
         <h1 className="p-4 text-center">{playlist.title}</h1>
         <p className="px-4">Created by: {playlistAuthor.user_name}</p>
         <h2 className="p-4">Description</h2>
@@ -50,7 +52,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             {songs.map((song, index) => (
               <li key={index} className="p-2">
                 <Link href={`/songs/${song?.id}`}>
-                <span>{song ? song.title : "Unknown Song"}</span>
+                  <span>{song ? song.title : "Unknown Song"}</span>
                 </Link>
                 <br />
                 <span className="text-gray-500 text-xs">
@@ -81,6 +83,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="p-4">
+          <SongList
+            songs={songs.filter((song): song is Song => song !== null)}
+            artists={artist.filter(
+              (artist): artist is Artist => artist !== null
+            )}
+            releases={release.filter(
+              (release): release is Release => release !== null
+            )}
+          />
         </div>
       </div>
     );
