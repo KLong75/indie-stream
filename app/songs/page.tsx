@@ -1,15 +1,21 @@
 // import data
-import { getAllSongs } from "@/lib/data";
-// import SongList from "@/components/SongList";
+import { 
+  getAllSongs, 
+  getAllArtists, 
+  getAllReleases 
+} from "@/lib/data";
+import SongList from "@/ui/song-list";
 
 export default async function Page() {
   const songs = await getAllSongs();
+  const artists = await getAllArtists();
+  const releases = await getAllReleases();
 
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">All Songs</h1>
-      {/* <SongList songs={songs} /> */}
-      <pre>{JSON.stringify(songs, null, 2)}</pre>
+      <SongList songs={songs} artists={artists} releases={releases} />
+      {/* <pre>{JSON.stringify(songs, null, 2)}</pre> */}
     </div>
   );
 }

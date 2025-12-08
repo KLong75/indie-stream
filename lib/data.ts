@@ -77,7 +77,7 @@ export async function getUsers(): Promise<User[]> {
 
 export async function getAllArtists(): Promise<Artist[]> {
   try {
-    return await sql<Artist[]>`SELECT * FROM artists`;
+    return await sql<Artist[]>`SELECT * FROM artists ORDER BY name ASC`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('An error occurred while fetching artist data');
@@ -86,7 +86,7 @@ export async function getAllArtists(): Promise<Artist[]> {
 
 export async function getAllSongs(): Promise<Song[]> {
   try {
-    return await sql<Song[]>`SELECT * FROM songs`;
+    return await sql<Song[]>`SELECT * FROM songs ORDER BY title ASC`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('An error occurred while fetching song data');
@@ -95,7 +95,7 @@ export async function getAllSongs(): Promise<Song[]> {
 
 export async function getAllReleases(): Promise<Release[]> {
   try {
-    return await sql<Release[]>`SELECT * FROM releases`;
+    return await sql<Release[]>`SELECT * FROM releases ORDER BY title ASC`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('An error occurred while fetching release data');
@@ -104,7 +104,7 @@ export async function getAllReleases(): Promise<Release[]> {
 
 export async function getAllPlaylists(): Promise<Playlist[]> {
   try {
-    return await sql<Playlist[]>`SELECT * FROM playlists`;
+    return await sql<Playlist[]>`SELECT * FROM playlists ORDER BY title ASC`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('An error occurred while fetching playlist data');
@@ -113,7 +113,7 @@ export async function getAllPlaylists(): Promise<Playlist[]> {
 
 export async function getAllPublicPlaylists(): Promise<Playlist[]> {
   try {
-    return await sql<Playlist[]>`SELECT * FROM playlists WHERE public = true`;
+    return await sql<Playlist[]>`SELECT * FROM playlists WHERE public = true ORDER BY title ASC`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('An error occurred while fetching public playlist data');
