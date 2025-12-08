@@ -122,7 +122,8 @@ export default function AudioPlayer({
   // };
 
   const handlePrev = () => {
-    let prevIndex = currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1;
+    let prevIndex =
+      currentSongIndex - 1 < 0 ? songs.length - 1 : currentSongIndex - 1;
     // --- Reset progress for the previous song ---
     const prevSongId = songs[prevIndex]?.id;
     const saved = localStorage.getItem("audioPlayerState");
@@ -353,7 +354,7 @@ export default function AudioPlayer({
       </button>
       <div
         className={clsx(
-          "flex justify-center",
+          "flex justify-center text-xs",
           isAudioPlayerExpanded ? "mb-6" : "mt-4"
         )}>
         {`Current playlist: ${currentPlaylist}`}
@@ -392,7 +393,9 @@ export default function AudioPlayer({
               "truncate font-medium",
               isAudioPlayerExpanded ? "text-lg" : "text-sm"
             )}>
-            {songs[currentSongIndex]?.title || "No song selected"}
+            {(songs[currentSongIndex]?.title?.length ?? 0) > 24
+              ? songs[currentSongIndex].title.slice(0, 24) + "…"
+              : songs[currentSongIndex]?.title || "No song selected"}
           </div>
           {/* </Link> */}
           <Link
@@ -446,8 +449,8 @@ export default function AudioPlayer({
           className={clsx(
             "flex items-center",
             isAudioPlayerExpanded
-              ? "justify-around w-full"
-              : "space-x-3 absolute right-4 "
+              ? "justify-around space-x-4 w-full"
+              : "space-x-3 absolute right-4"
           )}>
           {isAudioPlayerExpanded && (
             <button
@@ -461,7 +464,7 @@ export default function AudioPlayer({
             className="bg-blue-600 px-2 py-1 rounded-full"
             onClick={handlePrev}
             title="Previous">
-            <RxTrackPrevious />
+            <RxTrackPrevious size={isAudioPlayerExpanded ? 16 : 14} />
           </button>
           {isAudioPlayerExpanded && (
             <button
@@ -473,11 +476,11 @@ export default function AudioPlayer({
           )}
           <button
             className={`bg-blue-600 ${
-              isAudioPlayerExpanded ? "px-3 py-2" : "px-2 py-1"
+              isAudioPlayerExpanded ? "px-2 py-2" : "px-2 py-2"
             } rounded-full`}
             onClick={handlePlayPause}
             title={isPlaying ? "Pause" : "Play"}>
-            {isPlaying ? <RxPause size={20} /> : <RxPlay size={20} />}
+            {isPlaying ? <RxPause size={isAudioPlayerExpanded ? 22 : 18} /> : <RxPlay size={isAudioPlayerExpanded ? 22 : 18} />}
           </button>
 
           {isAudioPlayerExpanded && (
@@ -492,7 +495,7 @@ export default function AudioPlayer({
             className="bg-blue-600 px-2 py-1 rounded-full"
             onClick={handleNext}
             title="Next">
-            <RxTrackNext />
+            <RxTrackNext size={isAudioPlayerExpanded ? 16 : 14} />
           </button>
           {isAudioPlayerExpanded && (
             <button
