@@ -1,14 +1,15 @@
 export const dynamic = "force-dynamic";
 // import from next
 import { redirect } from "next/navigation";
-// import Link from "next/link";
+import Link from "next/link";
+import Image from "next/image";
 // get data
 import {
   getUserById,
-  // getArtistById,
+  getArtistById,
   // getSongById,
   // getReleaseById,
-  // getPlaylistById,
+  getPlaylistById,
   getAllSongs,
   getAllPublicPlaylists,
   getAllArtists,
@@ -25,17 +26,50 @@ import {
 // import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
-
   const { id } = await props.params;
   const user = await getUserById(id);
+  console.log("user", user);
   if (!user) {
     return redirect("/");
   }
+
+  const allArtists = await getAllArtists();
+  const userSavedArtistsIds = user.saved_artists || [];
+  console.log("userSavedArtistsIds", userSavedArtistsIds);
+  const userSavedArtists = allArtists.filter((artist) =>
+    userSavedArtistsIds.includes(artist.id)
+  );
+  console.log("userSavedArtists", userSavedArtists);
+
+  const allSongs = await getAllSongs();
+  const userSavedSongsIds = user.saved_songs || [];
+  console.log("userSavedSongsIds", userSavedSongsIds);
+  const userSavedSongs = allSongs.filter((song) =>
+    userSavedSongsIds.includes(song.id)
+  );
+  console.log("userSavedSongs", userSavedSongs);
+
+  const allReleases = await getAllReleases();
+  const userSavedReleasesIds = user.saved_releases || [];
+  console.log("userSavedReleasesIds", userSavedReleasesIds);
+  const userSavedReleases = allReleases.filter((release) =>
+    userSavedReleasesIds.includes(release.id)
+  );
+  console.log("userSavedReleases", userSavedReleases);
+
+  const userPlaylistsIds = user.playlists || [];
+  console.log("userPlaylistsIds", userPlaylistsIds);
+  const userPlaylists = await Promise.all(
+    userPlaylistsIds.map((id) => getPlaylistById(id))
+  );
+  console.log("userPlaylists", userPlaylists);
   // all artists
-  // const allArtists = await getAllArtists();
+
   // const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
-  //   a.name.localeCompare(b.name)
+  // a.name.localeCompare(b.name)
   // );
+  // console.log("allArtists", allArtistsAlphabeticalOrder);
+
   // all songs
   // const allSongs = await getAllSongs();
   // console.log("allSongs", allSongs);
@@ -114,11 +148,79 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <div className="flex flex-col flex-grow">
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
-      
+
+      <div>
+        <h3 className="px-4">Your saved artists</h3>
+        <div className="p-4">
+          {userSavedArtists.length === 0 ? (
+            <p className="px-4">You have no saved artists.</p>
+          ) : (
+            <ul>
+              {userSavedArtists.map((artist) => (
+                <li key={artist.id}>
+                  <Link href={`/artists/${artist.id}`}>{artist.name}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+      <div>
+        <h3 className="px-4">Your saved releases</h3>
+        <div className="p-4">
+          {userSavedReleases.length === 0 ? (
+            <p className="px-4">You have no saved releases.</p>
+          ) : (
+            <ul className="grid grid-cols-3">
+              {userSavedReleases.map((release) => (
+                <li key={release.id}>
+                  <Link href={`/releases/${release.id}`}>
+                    <div className="flex flex-col items-center">
+                      {release.cover_img_file_key && (
+                        <Image
+                          src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
+                          alt={release.title}
+                          width={50}
+                          height={50}
+                        />
+                      )}
+                      {release.title}
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div>
+          <h3 className="px-4">Your saved songs</h3>
+          <div className="px-4">
+            {userSavedSongs.length === 0 ? (
+              <p className="px-4">You have no saved songs.</p>
+            ) : (
+              <ul>
+                {userSavedSongs.map((song) => (
+                  <li key={song.id} className="p-2 flex flex-col">
+                    <Link href={`/songs/${song.id}`}>{song.title}</Link>
+          
+                    <Link href={`/artists/${song.artist}`} className="text-sm text-gray-500 px-2">
+                      {
+                        allArtists.find((artist) => artist.id === song.artist)
+                          ?.name
+                      }
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* <div className="p-2">
         <SubscriptionContextClientContainer renderedAs="button" />
       </div> */}
-      
+
       {/* <h3 className="px-4">Your saved music</h3> */}
       {/* <div> */}
       {/* {user.saved_artists && (
