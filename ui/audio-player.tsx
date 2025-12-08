@@ -77,9 +77,17 @@ export default function AudioPlayer({
     setShuffle(turningOn);
     if (turningOn && songs.length > 1) {
       let newIndex = currentSongIndex;
+      
       while (newIndex === currentSongIndex) {
         newIndex = Math.floor(Math.random() * songs.length);
       }
+      // reset progress
+      const newSongId = songs[newIndex]?.id;
+      const saved = localStorage.getItem("audioPlayerState");
+      let state = saved ? JSON.parse(saved) : {};
+      state.songProgress = state.songProgress || {};
+      state.songProgress[newSongId] = 0;
+      localStorage.setItem("audioPlayerState", JSON.stringify(state));
       setCurrentSongIndex(newIndex);
       if (!isPlaying) setIsPlaying(true);
     } else if (turningOn && songs.length === 1 && !isPlaying) {
