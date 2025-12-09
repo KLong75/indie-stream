@@ -16,3 +16,4 @@ An indie music streaming platform built with Next.js, Tailwind CSS, and TypeScri
 ### Contact
 
 <kevin@rhythmcodestudio.tech>
+[Rhythm Code Studio](https://rhythmcodestudio.tech)
