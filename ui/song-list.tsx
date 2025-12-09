@@ -22,6 +22,8 @@ export default function SongList({ songs, artists, releases }: SongListProps) {
 
   const getArtistName = (id: string) => artists.find(a => a.id === id)?.name || id;
   const getReleaseTitle = (id: string) => releases.find(r => r.id === id)?.title || id;
+  const getReleaseYear = (id: string) => releases.find(r => r.id === id)?.year || "";
+  const getReleaseType = (id: string) => releases.find(r => r.id === id)?.type || "";
 
   return (
     <div>
@@ -41,6 +43,7 @@ export default function SongList({ songs, artists, releases }: SongListProps) {
             <Link href={`/artists/${song.artist}`}>
               <p>Artist: {getArtistName(song.artist)}</p>
             </Link>
+            <p>from the {getReleaseYear(song.release)} {getReleaseType(song.release)}</p>
             <Link href={`/releases/${song.release}`}>
               <p>Release: {getReleaseTitle(song.release)}</p>
             </Link>
