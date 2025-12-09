@@ -43,10 +43,10 @@ export default function SongList({ songs, artists, releases }: SongListProps) {
             <Link href={`/artists/${song.artist}`}>
               <p>Artist: {getArtistName(song.artist)}</p>
             </Link>
-            <p>from the {getReleaseYear(song.release)} {getReleaseType(song.release)}</p>
-            <Link href={`/releases/${song.release}`}>
-              <p>Release: {getReleaseTitle(song.release)}</p>
-            </Link>
+             <p> from the {getReleaseType(song.release)} <Link href={`/releases/${song.release}`}>
+              {getReleaseTitle(song.release)}
+            </Link></p>
+            <p>{getReleaseYear(song.release)}</p>
             {/* ...other fields... */}
           </li>
         ))}

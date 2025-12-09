@@ -1,18 +1,3 @@
-// export const navItems = [
-//   {
-//     name: "Playlists",
-//     href: "/playlists",
-//   },
-//   {
-//     name: "Releases",
-//     href: "/releases",
-//   },
-//   {
-//     name: "Artists",
-//     href: "/artists",
-//   },
-// ];
-
 export type NavItem = {
   label: string;
   href: string;
@@ -29,6 +14,11 @@ export const navItems: NavItem[] = [
     label: "Artists",
     href: "/artists",
     icon: "artists"
+  },
+  {
+    label: "Songs",
+    href: "/songs",
+    icon: "songs"
   },
   {
     label: "Releases",

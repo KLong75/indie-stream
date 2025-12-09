@@ -20,12 +20,7 @@ export default function Nav({
           if (item.label === "Home" && userId) {
             href = `/listeners/${userId}`;
           }
-          return (
-            <NavListItem
-              key={item.label}
-              item={{ ...item, href }}
-            />
-          );
+          return <NavListItem key={item.label} item={{ ...item, href }} />;
         })}
       </ul>
     </nav>

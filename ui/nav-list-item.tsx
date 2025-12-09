@@ -8,12 +8,14 @@ import { RiHome2Fill } from "react-icons/ri";
 import { IoMdPerson } from "react-icons/io";
 import { FaRecordVinyl } from "react-icons/fa";
 import { PiPlaylistFill } from "react-icons/pi";
+import { BsMusicNoteList } from "react-icons/bs";
 import { NavItem } from "@/lib/nav-items";
 import { JSX } from "react";
 
 const iconMap: Record<string, JSX.Element> = {
   home: <RiHome2Fill size={24} />,
   artists: <IoMdPerson size={24} />,
+  songs: <BsMusicNoteList size={24} />,
   releases: <FaRecordVinyl size={24} />,
   playlists: <PiPlaylistFill size={24} />,
 };
