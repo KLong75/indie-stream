@@ -4,7 +4,7 @@ import { getReleaseById, getSongById, getArtistById } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 // import components
-import BackToLink from "@/ui/back-to-link";
+// import BackToLink from "@/ui/back-to-link";
 // import icons
 import { RxPlus } from "react-icons/rx";
 import { RxPlay } from "react-icons/rx";
@@ -71,7 +71,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               <li key={index}>
                 {song ? (
                   <span>
-                    {index + 1}. {song.title}
+                    {index + 1}. 
+                    <Link href={`/songs/${song.id}`} className="underline">
+                      {song.title}
+                    </Link>
                   </span>
                 ) : (
                   <span>Unknown Song</span>

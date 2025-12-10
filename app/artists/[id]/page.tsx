@@ -12,6 +12,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 //import components
+import SongList from "@/ui/song-list";
+import { Song, Artist, Release } from "@/lib/definitions";
 // import BackToLink from "@/ui/back-to-link";
 
 // import { Button } from "@/components/ui/button";
@@ -92,17 +94,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
         <div className="p-4">
-          <ul>Songs</ul>
-          {artistSongs.map(
-            (song, index) =>
-              song && (
-                <li key={index}>
-                  {/* <Link href={`/songs/${song.id}`}> */}
-                    {song.title}
-                  {/* </Link> */}
-                </li>
-              )
-          )}
+          <SongList songs={artistSongs.filter(Boolean) as Song[]} artists={[artist as Artist]} releases={artistReleases.filter(Boolean) as Release[]} />
         </div>
       </div>
     );

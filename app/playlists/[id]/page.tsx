@@ -43,11 +43,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return (
       <div>
         {/* <BackToLink href="/playlists" label="Playlists" /> */}
-        <h1 className="p-4 text-center">{playlist.title}</h1>
+        <h2 className="p-4 text-center">{playlist.title}</h2>
         <p className="px-4">Created by: {playlistAuthor.user_name}</p>
-        <h2 className="p-4">Description</h2>
-        <p className="px-4">{playlist.description}</p>
-        <div>
+        <h3 className="pt-4 px-4">Description:</h3>
+        <p className="px-6 text-sm">{playlist.description}</p>
+        {/* <div>
           <ul className="p-6">
             {songs.map((song, index) => (
               <li key={index} className="p-2">
@@ -83,7 +83,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
         <div className="p-4">
           <SongList
             songs={songs.filter((song): song is Song => song !== null)}

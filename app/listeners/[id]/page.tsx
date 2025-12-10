@@ -18,8 +18,9 @@ import {
 // import context
 // import { usePushNotification } from "../../../context/push-notification-context-provider";
 // import definitions
-// import { Song } from "@/lib/definitions";
+import { Song, Artist, Release } from "@/lib/definitions";
 // import components
+import SongList from "@/ui/song-list";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
@@ -148,7 +149,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <div className="flex flex-col flex-grow">
       <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
-
       <div>
         <h3 className="px-4">Your saved artists</h3>
         <div className="p-4">
@@ -193,46 +193,54 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           )}
         </div>
         <div>
-          <h3 className="px-4">Your saved songs</h3>
+          <h3 className="px-4">Your saved songs:</h3>
           <div className="px-4">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
             ) : (
-              <ul>
-                {userSavedSongs.map((song) => (
-                  <li key={song.id} className="p-2 flex flex-col">
-                    <Link 
-                      href={`/songs/${song.id}`}
-                    >
-                      <span>
-                        {song.title}
-                      </span>
-                    </Link>
-                    <Link
-                      href={`/artists/${song.artist}`}
-                      className="text-sm text-gray-500 ">
-                        <span>by </span>
-                      {
-                        allArtists.find((artist) => artist.id === song.artist)
-                          ?.name
-                      }
-                    </Link>
-                    <span className="text-gray-500 text-xs">
-                      from the{" "}
-                      {
-                        allReleases.find(
-                          (release) => release.id === song.release
-                        )?.type
-                      }{" "}
-                      {
-                        allReleases.find(
-                          (release) => release.id === song.release
-                        )?.title
-                      }
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              // <ul>
+              //   {userSavedSongs.map((song) => (
+              //     <li key={song.id} className="p-2 flex flex-col">
+              //       <Link 
+              //         href={`/songs/${song.id}`}
+              //       >
+              //         <span>
+              //           {song.title}
+              //         </span>
+              //       </Link>
+              //       <Link
+              //         href={`/artists/${song.artist}`}
+              //         className="text-sm text-gray-500 ">
+              //           <span>by </span>
+              //         {
+              //           allArtists.find((artist) => artist.id === song.artist)
+              //             ?.name
+              //         }
+              //       </Link>
+              //       <span className="text-gray-500 text-xs">
+              //         from the{" "}
+              //         {
+              //           allReleases.find(
+              //             (release) => release.id === song.release
+              //           )?.type
+              //         }{" "}
+              //         {
+              //           allReleases.find(
+              //             (release) => release.id === song.release
+              //           )?.title
+              //         }
+              //       </span>
+              //     </li>
+              //   ))}
+              // </ul>
+              <SongList
+                songs={userSavedSongs.filter(
+                  (song): song is Song => song !== null
+                )}
+                artists={allArtists}
+                releases={allReleases}
+                placeholder="Search your saved songs..."
+              />
             )}
           </div>
         </div>
