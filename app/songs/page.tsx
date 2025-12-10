@@ -14,8 +14,12 @@ export default async function Page() {
   return (
     <div className="p-8">
       <h2 className="text-xl font-bold mb-4 text-center">All Songs</h2>
-      <SongList songs={songs} artists={artists} releases={releases} />
-      {/* <pre>{JSON.stringify(songs, null, 2)}</pre> */}
+      <SongList 
+      songs={songs} 
+      artists={artists} 
+      releases={releases} 
+      placeholder="Search all songs on indieStream..."
+      />
     </div>
   );
 }

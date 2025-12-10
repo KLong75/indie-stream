@@ -93,6 +93,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             releases={release.filter(
               (release): release is Release => release !== null
             )}
+            placeholder={`Search ${playlist.title}...`}
           />
         </div>
       </div>

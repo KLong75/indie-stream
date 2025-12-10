@@ -94,7 +94,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul>
         </div>
         <div className="p-4">
-          <SongList songs={artistSongs.filter(Boolean) as Song[]} artists={[artist as Artist]} releases={artistReleases.filter(Boolean) as Release[]} />
+          <SongList 
+            songs={artistSongs.filter(Boolean) as Song[]} 
+            artists={[artist as Artist]} 
+            releases={artistReleases.filter(Boolean) as Release[]} 
+            placeholder={`Search ${artist.name}'s songs...`}
+          />
         </div>
       </div>
     );
