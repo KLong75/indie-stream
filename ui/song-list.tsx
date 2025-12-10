@@ -16,7 +16,12 @@ interface SongListProps {
   typeOfList?: "songs" | "playlist";
 }
 
-export default function SongList({ songs, artists, releases, placeholder = "Search songs..." }: SongListProps) {
+export default function SongList({
+  songs,
+  artists,
+  releases,
+  placeholder = "Search songs...",
+}: SongListProps) {
   const [query, setQuery] = useState("");
 
   const filteredSongs = useMemo(() => {
@@ -36,62 +41,61 @@ export default function SongList({ songs, artists, releases, placeholder = "Sear
     releases.find((r) => r.id === id)?.type || "";
 
   return (
-    <div>
-      <div className="relative mb-4">
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="p-2 border border-gray-500 rounded w-full pl-10"
-        aria-label="Search songs"
-        aria-describedby="search-icon"
-      />
-      <span
-        id="search-icon"
-        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-      >
-        <MdOutlineSearch size={20} />
-      </span>
+    <div className="flex flex-col">
+      <div className="relative mb-6 mx-auto w-full max-w-md">
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="p-2 border border-gray-500 rounded w-full pl-10"
+          aria-label="Search songs"
+          aria-describedby="search-icon"
+        />
+        <span
+          id="search-icon"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+          <MdOutlineSearch size={20} />
+        </span>
       </div>
-      <ul>
-      {filteredSongs.map((song) => (
-        <li key={song.id} className="mb-2 px-2">
-        <Link href={`/songs/${song.id}`}>
-          <h2 className="font-semibold underline">{song.title}</h2>
-        </Link>
-        <div className="text-gray-500 text-sm">
-          <p>
-          by{" "}
-          <Link href={`/artists/${song.artist}`} className="underline">
-            {getArtistName(song.artist)}
-          </Link>
-          </p>
-          <p>
-          from the {getReleaseType(song.release)}{" "}
-          <Link href={`/releases/${song.release}`} className="underline">
-            {getReleaseTitle(song.release)}
-          </Link>
-          </p>
-          <p>released in {getReleaseYear(song.release)}</p>
-          {/* ...other fields... */}
-        </div>
-        <div className="flex space-x-2 text-sm">
-          <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
-          <RxPlay />
-          Play
-          </button>
-          <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
-          <RxPlus />
-          Add to Playlist
-          </button>
-          <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
-          <CiSaveDown2 />
-          Save
-          </button>
-        </div>
-        </li>
-      ))}
+      <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-2 md:gap-4">
+        {filteredSongs.map((song) => (
+          <li key={song.id} className="mb-2 px-2">
+            <Link href={`/songs/${song.id}`}>
+              <h2 className="font-semibold underline">{song.title}</h2>
+            </Link>
+            <div className="text-gray-500 text-sm">
+              <p>
+                by{" "}
+                <Link href={`/artists/${song.artist}`} className="underline">
+                  {getArtistName(song.artist)}
+                </Link>
+              </p>
+              <p>
+                from the {getReleaseType(song.release)}{" "}
+                <Link href={`/releases/${song.release}`} className="underline">
+                  {getReleaseTitle(song.release)}
+                </Link>
+              </p>
+              <p>released in {getReleaseYear(song.release)}</p>
+              {/* ...other fields... */}
+            </div>
+            <div className="flex space-x-2 text-sm">
+              <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                <RxPlay />
+                Play
+              </button>
+              <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                <RxPlus />
+                Add to Playlist
+              </button>
+              <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
+                <CiSaveDown2 />
+                Save
+              </button>
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );
