@@ -58,7 +58,7 @@ export default function SongList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-2 md:gap-4">
+      <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-6 gap-2 md:gap-4 max-h-[12rem] overflow-y-auto">
         {filteredSongs.map((song) => (
           <li key={song.id} className="mb-2 px-2">
             <Link href={`/songs/${song.id}`}>

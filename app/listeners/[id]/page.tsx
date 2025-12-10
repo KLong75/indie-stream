@@ -193,7 +193,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           )}
         </div>
         <div>
-          <h3 className="px-4">Your saved songs:</h3>
+          <h3 className="px-4 text-lg text-center">Your saved songs:</h3>
           <div className="p-4">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
