@@ -42,7 +42,7 @@ export default function SongList({
 
   return (
     <div className="flex flex-col">
-      <div className="relative mb-6 mx-auto w-full max-w-md">
+      <div className="relative mb-2 mx-auto w-full max-w-md">
         <input
           type="text"
           placeholder={placeholder}

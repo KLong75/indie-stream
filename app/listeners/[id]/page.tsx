@@ -20,6 +20,7 @@ import {
 // import definitions
 import { Song, Artist, Release } from "@/lib/definitions";
 // import components
+import ArtistList from "@/ui/artist-list";
 import SongList from "@/ui/song-list";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
@@ -155,13 +156,26 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           {userSavedArtists.length === 0 ? (
             <p className="px-4">You have no saved artists.</p>
           ) : (
-            <ul>
+            <>
+            {/* <ul>
               {userSavedArtists.map((artist) => (
-                <li key={artist.id}>
-                  <Link href={`/artists/${artist.id}`}>{artist.name}</Link>
+                <li 
+                  key={artist.id}
+                  className="p-1">
+                  <Link 
+                    href={`/artists/${artist.id}`}
+                    className="underline"
+                  >
+                    {artist.name}
+                  </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
+            <ArtistList
+              artists={userSavedArtists}
+              placeholder="Search your saved artists..."
+            />
+          </>
           )}
         </div>
       </div>
@@ -198,41 +212,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
             ) : (
-              // <ul>
-              //   {userSavedSongs.map((song) => (
-              //     <li key={song.id} className="p-2 flex flex-col">
-              //       <Link 
-              //         href={`/songs/${song.id}`}
-              //       >
-              //         <span>
-              //           {song.title}
-              //         </span>
-              //       </Link>
-              //       <Link
-              //         href={`/artists/${song.artist}`}
-              //         className="text-sm text-gray-500 ">
-              //           <span>by </span>
-              //         {
-              //           allArtists.find((artist) => artist.id === song.artist)
-              //             ?.name
-              //         }
-              //       </Link>
-              //       <span className="text-gray-500 text-xs">
-              //         from the{" "}
-              //         {
-              //           allReleases.find(
-              //             (release) => release.id === song.release
-              //           )?.type
-              //         }{" "}
-              //         {
-              //           allReleases.find(
-              //             (release) => release.id === song.release
-              //           )?.title
-              //         }
-              //       </span>
-              //     </li>
-              //   ))}
-              // </ul>
               <SongList
                 songs={userSavedSongs.filter(
                   (song): song is Song => song !== null
