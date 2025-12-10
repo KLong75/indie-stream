@@ -22,6 +22,7 @@ import { Song, Artist, Release } from "@/lib/definitions";
 // import components
 import ArtistList from "@/ui/artist-list";
 import SongList from "@/ui/song-list";
+import ReleaseList from "@/ui/release-list";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
@@ -185,30 +186,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           {userSavedReleases.length === 0 ? (
             <p className="px-4">You have no saved releases.</p>
           ) : (
-            <ul className="grid grid-cols-3">
-              {userSavedReleases.map((release) => (
-                <li key={release.id}>
-                  <Link href={`/releases/${release.id}`}>
-                    <div className="flex flex-col items-center">
-                      {release.cover_img_file_key && (
-                        <Image
-                          src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
-                          alt={release.title}
-                          width={50}
-                          height={50}
-                        />
-                      )}
-                      {release.title}
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <ReleaseList
+              releases={userSavedReleases}
+              placeholder="Search your saved releases..."
+            />
           )}
         </div>
         <div>
           <h3 className="px-4">Your saved songs:</h3>
-          <div className="px-4">
+          <div className="p-4">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
             ) : (
@@ -224,126 +210,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </div>
       </div>
-
-      {/* <div className="p-2">
-        <SubscriptionContextClientContainer renderedAs="button" />
-      </div> */}
-
-      {/* <h3 className="px-4">Your saved music</h3> */}
-      {/* <div> */}
-      {/* {user.saved_artists && (
-          <div className="p-4">
-            <h4>Saved Artists</h4>
-            <Combobox
-              options={savedArtists.map((artist) => ({
-                value: artist?.id || "",
-                option_label: artist?.name || "Unknown Artist",
-                href: `/artists/${artist?.id}`, // Precompute the href here
-              }))}
-              list_label={"Saved Artists"}
-              hasLink={true}
-            />
-          </div>
-        )} */}
-
-      {/* {user.saved_songs && (
-          <div className="p-4">
-            <h4>Saved Songs</h4>
-            <Combobox
-              options={savedSongs.map((song) => ({
-                value: song?.id || "",
-                option_label: song?.title || "Unknown Song",
-                href: `/songs/${song?.id}`, // Precompute the href here
-              }))}
-              list_label={"Saved Songs"}
-              hasLink={true}
-            />
-          </div>
-        )} */}
-
-      {/* {user.saved_releases && (
-          <div className="p-4">
-            <h4>Saved Releases</h4>
-            <Combobox
-              options={savedReleases.map((release) => ({
-                value: release?.id || "",
-                option_label: release?.title || "Unknown Release",
-                href: `/releases/${release?.id}`, // Precompute the href here
-              }))}
-              list_label={"Saved Releases"}
-              hasLink={true}
-            />
-          </div>
-        )} */}
-
-      {/* {user.playlists && (
-          <div className="p-4">
-            <h4>Your Playlists</h4>
-            <Combobox
-              options={playlists.map((playlist) => ({
-                value: playlist?.id || "",
-                option_label: playlist?.title || "Unknown Playlist",
-                href: `/playlists/${playlist?.id}`, // Precompute the href here
-              }))}
-              list_label={"Your Playlists"}
-              hasLink={true}
-            />
-          </div>
-        )} */}
-      {/* </div> */}
-      {/* <hr className="my-6" />
-      <h3 className="px-4">Explore music</h3>
-      <div className="p-4">
-        <h4>All Artists</h4>
-        <Combobox
-          options={allArtistsAlphabeticalOrder.map((artist) => ({
-            value: artist.id,
-            option_label: artist.name,
-            href: `/artists/${artist.id}`, // Add href property
-          }))}
-          list_label={"All Artists"}
-          hasLink={true}
-        />
-      </div> */}
-
-      {/* <div className="p-4">
-        <h4>All Songs</h4>
-        <Combobox
-          options={allSongsAlphabeticalOrder.map((song) => ({
-            value: song.id,
-            option_label: song.title,
-            href: `/songs/${song.id}`, // Add href property
-          }))}
-          list_label={"All Songs"}
-          hasLink={true}
-        />
-      </div> */}
-
-      {/* <div className="p-4">
-        <h4>All Releases</h4>
-        <Combobox
-          options={allReleasesAlphabeticalOrder.map((release) => ({
-            value: release.id,
-            option_label: release.title,
-            href: `/releases/${release.id}`, // Add href property
-          }))}
-          list_label={"All Releases"}
-          hasLink={true}
-        />
-      </div> */}
-      {/* <div className="p-4">
-        <h4>Public Playlists</h4>
-        <Combobox
-          options={publicPlaylists.map((playlist) => ({
-            value: playlist.id,
-            option_label: playlist.title,
-            href: `/playlists/${playlist.id}`, // Add href property
-          }))}
-          list_label={"Public Playlists"}
-          hasLink={true}
-        />
-      </div>
-      <hr className="my-6" /> */}
     </div>
   );
 }

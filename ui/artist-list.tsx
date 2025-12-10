@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useMemo } from "react";
-import { Artist, Release, Song } from "@/lib/definitions";
+import { Artist } from "@/lib/definitions";
 // import icons
 import { MdOutlineSearch } from "react-icons/md";
 

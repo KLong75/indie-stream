@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 //import components
+import ReleaseList from "@/ui/release-list";
 import SongList from "@/ui/song-list";
 import { Song, Artist, Release } from "@/lib/definitions";
 // import BackToLink from "@/ui/back-to-link";
@@ -74,7 +75,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <p className="p-4">{artist.bio}</p>
         <div className="p-4">
           <p>Releases</p>
-          <ul>
+          {/* <ul>
             {artistReleases.map((release, index) => (
               // console.log("release", release),
               <li key={index}>
@@ -91,7 +92,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 )}
               </li>
             ))}
-          </ul>
+          </ul> */}
+          <ReleaseList
+            releases={artistReleases.filter(Boolean) as Release[]}
+            placeholder={`Search ${artist.name}'s releases...`}
+          />
         </div>
         <div className="p-4">
           <SongList 

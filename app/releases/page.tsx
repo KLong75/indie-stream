@@ -1,35 +1,38 @@
 // import from next
 import Link from "next/link";
-
 // get data
 import { getAllReleases } from "@/lib/data";
-import { getArtistById } from "@/lib/data";
+// import { getArtistById } from "@/lib/data";
+// import definitions
+// import { Release } from "@/lib/definitions";
+// import components
+import ReleaseList from "@/ui/release-list";
 
 export default async function Page() {
   const releases = await getAllReleases();
-  // console.log("releases", releases);
+  console.log("releases", releases);
   if (!releases) {
     return <div>No releases found</div>;
   }
-  const releasesAlphabetical = releases.sort((a, b) =>
-    a.title.localeCompare(b.title)
-  );
+  // const releasesAlphabetical = releases.sort((a, b) =>
+  //   a.title.localeCompare(b.title)
+  // );
 
-  const releasesWithArtists = await Promise.all(
-    releasesAlphabetical.map(async (release) => {
-      const artistId =
-        release && typeof release.artist === "string" ? release.artist : "";
-      const artist = await getArtistById(artistId);
-      return { ...release, artist };
-    })
-  );
+  // const releasesWithArtists = await Promise.all(
+  //   releasesAlphabetical.map(async (release) => {
+  //     const artistId =
+  //       release && typeof release.artist === "string" ? release.artist : "";
+  //     const artist = await getArtistById(artistId);
+  //     return { ...release, artist };
+  //   })
+  // );
   // console.log("Releases with artists: ", releasesWithArtists);
 
   return (
     <div className="flex-grow">
       <h1 className="p-4 text-center">Releases</h1>
       <ul className="px-4">
-        {releasesWithArtists.map((release) => (
+        {/* {releasesWithArtists.map((release) => (
           <li key={release.id} className="p-2">
             <Link href={`/releases/${release.id}`}>{release.title}</Link>
             <br />
@@ -39,7 +42,8 @@ export default async function Page() {
               {release.artist ? `${release.artist.name}` : "Unknown Artist"}
             </Link>
           </li>
-        ))}
+        ))} */}
+        <ReleaseList releases={releases} placeholder="Search all releases..." />
       </ul>
     </div>
   );
