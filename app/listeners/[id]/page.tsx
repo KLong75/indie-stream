@@ -151,9 +151,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   return (
     <div className="flex flex-col flex-grow">
-      <h2 className="mx-auto my-2">Welcome back {user.user_name}</h2>
+      <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
       <div>
-        <h3 className="px-4">Your saved artists</h3>
+        <h3 className="px-4 text-center text-lg">Your saved artists</h3>
         <div className="p-4">
           {userSavedArtists.length === 0 ? (
             <p className="px-4">You have no saved artists.</p>
@@ -182,7 +182,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
       </div>
       <div>
-        <h3 className="px-4">Your saved releases</h3>
+        <h3 className="px-4 text-center text-lg">Your saved releases</h3>
         <div className="p-4">
           {userSavedReleases.length === 0 ? (
             <p className="px-4">You have no saved releases.</p>

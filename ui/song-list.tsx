@@ -41,8 +41,8 @@ export default function SongList({
     releases.find((r) => r.id === id)?.type || "";
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="relative mb-2 w-full max-w-md">
+    <div className="w-full max-w-md mx-auto">
+  <div className="relative mb-2 w-full">
         <input
           type="text"
           placeholder={placeholder}

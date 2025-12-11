@@ -7,9 +7,6 @@ import {
   getUserById,
 } from "@/lib/data";
 
-// import from next
-// import Image from "next/image";
-import Link from "next/link";
 // import components
 // import BackToLink from "@/ui/back-to-link";
 import SongList from "@/ui/song-list";
@@ -47,43 +44,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <p className="px-4">Created by: {playlistAuthor.user_name}</p>
         <h3 className="pt-4 px-4">Description:</h3>
         <p className="px-6 text-sm text-gray-400">{playlist.description}</p>
-        {/* <div>
-          <ul className="p-6">
-            {songs.map((song, index) => (
-              <li key={index} className="p-2">
-                <Link href={`/songs/${song?.id}`}>
-                  <span>{song ? song.title : "Unknown Song"}</span>
-                </Link>
-                <br />
-                <span className="text-gray-500 text-xs">
-                  by{" "}
-                  {artist[index] ? (
-                    <Link href={`/artists/${artist[index].id}`}>
-                      {artist[index].name}
-                    </Link>
-                  ) : (
-                    "Unknown Artist"
-                  )}
-                </span>
-                <br />
-                <span className="text-gray-500 text-xs">
-                  from the {release[index]?.type}{" "}
-                  {release[index] ? (
-                    <Link href={`/releases/${release[index].id}`}>
-                      {release[index].title}
-                    </Link>
-                  ) : (
-                    "Unknown Release"
-                  )}
-                </span>
-                <br />
-                <span className="text-gray-500 text-xs">
-                  released in {release[index]?.year}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div> */}
         <div className="p-4">
           <SongList
             songs={songs.filter((song): song is Song => song !== null)}
