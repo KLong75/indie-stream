@@ -8,7 +8,7 @@ import {
   getUserById,
   getArtistById,
   getSongById,
-  // getReleaseById,
+  getReleaseById,
   getPlaylistById,
   getAllSongs,
   getAllPublicPlaylists,
@@ -25,10 +25,16 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   if (!song) {
     return <div>Song not found</div>;
   } 
+  const songArtist = await getArtistById(song.artist);
+  const songRelease = await getReleaseById(song.release);
+  const releaseType = songRelease?.type;
 
   return (
     <div>
       <h2 className="p-4 text-center">{song.title}</h2>
+      <h3 className="p-4 text-center">from the {releaseType} {songRelease?.title}</h3>
+      <h3 className="p-4 text-center">by {songArtist?.name}</h3>
+      
       
     </div>
   );
