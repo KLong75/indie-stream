@@ -1,22 +1,41 @@
 // import from next
 import Link from "next/link";
+// import auth
+import { auth } from "@/auth";
 // get data
-import { getAllPlaylists } from "@/lib/data";
+import {
+  getUserById,
+  getAllUserPlaylists,
+  getAllPublicPlaylists,
+} from "@/lib/data";
+// import components
+import PlaylistList from "@/ui/playlist-list";
 
 export default async function Page() {
-  const playlists = await getAllPlaylists();
+  const session = await auth();
+  const userId = session?.user?.id || "";
+  const user = await getUserById(userId);
+  if (!user) {
+    return null;
+  }
+  const userPlaylists = await getAllUserPlaylists(userId);
+  const publicPlaylists = await getAllPublicPlaylists();
   // console.log("playlists", playlists);
 
   return (
-    <div className="flex flex-grow">
-      <h1 className="p-4">Playlists</h1>
-      <ul className="p-4">
-        {playlists.map((playlist) => (
-          <li key={playlist.id} className="p-4 cursor-pointer">
-            <Link href={`/playlists/${playlist.id}`}>{playlist.title}</Link>
-          </li>
-        ))}
-      </ul>
+    <div className="p-8 space-y-8 mx-auto max-w-4xl">
+      <div>
+        <h2 className="text-lg font-bold mb-4 text-center">
+          All User Playlists
+        </h2>
+        <PlaylistList playlists={userPlaylists} />
+      </div>
+      <div>
+        <h2 className="text-lg font-bold mb-4 text-center">
+          All Public Playlists
+        </h2>
+        <PlaylistList playlists={publicPlaylists} />
+      </div>
     </div>
   );
 }

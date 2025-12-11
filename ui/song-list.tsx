@@ -41,8 +41,8 @@ export default function SongList({
     releases.find((r) => r.id === id)?.type || "";
 
   return (
-    <div className="flex flex-col">
-      <div className="relative mb-2 mx-auto w-full max-w-md">
+    <div className="flex flex-col justify-center items-center">
+      <div className="relative mb-2 w-full max-w-md">
         <input
           type="text"
           placeholder={placeholder}
@@ -58,7 +58,7 @@ export default function SongList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-6 gap-2 md:gap-4 max-h-[12rem] overflow-y-auto">
+      <ul className="grid grid-cols-1">
         {filteredSongs.map((song) => (
           <li key={song.id} className="mb-2 px-2">
             <Link href={`/songs/${song.id}`}>

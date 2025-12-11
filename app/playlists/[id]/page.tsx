@@ -46,7 +46,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <h2 className="p-4 text-center">{playlist.title}</h2>
         <p className="px-4">Created by: {playlistAuthor.user_name}</p>
         <h3 className="pt-4 px-4">Description:</h3>
-        <p className="px-6 text-sm">{playlist.description}</p>
+        <p className="px-6 text-sm text-gray-400">{playlist.description}</p>
         {/* <div>
           <ul className="p-6">
             {songs.map((song, index) => (

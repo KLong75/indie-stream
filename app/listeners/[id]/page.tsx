@@ -23,6 +23,7 @@ import { Song, Artist, Release } from "@/lib/definitions";
 import ArtistList from "@/ui/artist-list";
 import SongList from "@/ui/song-list";
 import ReleaseList from "@/ui/release-list";
+import PlaylistList from "@/ui/playlist-list";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
@@ -205,6 +206,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 artists={allArtists}
                 releases={allReleases}
                 placeholder="Search your saved songs..."
+              />
+            )}
+          </div>
+        </div>
+        <div>
+          <h3 className="px-4">Your playlists</h3>
+          <div className="p-4">
+            {userPlaylists.length === 0 ? (
+              <p className="px-4">You have no playlists.</p>
+            ) : (
+              <PlaylistList
+                playlists={userPlaylists.filter(
+                  (pl): pl is NonNullable<typeof pl> => pl !== null
+                )}
+                placeholder="Search your playlists..."
               />
             )}
           </div>
