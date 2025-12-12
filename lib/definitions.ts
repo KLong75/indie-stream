@@ -12,7 +12,6 @@ export type User = {
 };
 
 export type Musician = {
-  id: string;
   name: string;
   instrument: string[];
 };

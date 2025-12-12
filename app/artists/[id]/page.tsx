@@ -14,7 +14,7 @@ import Link from "next/link";
 //import components
 import ReleaseList from "@/ui/release-list";
 import SongList from "@/ui/song-list";
-import { Song, Artist, Release } from "@/lib/definitions";
+import { Song, Artist, Release, Musician } from "@/lib/definitions";
 // import BackToLink from "@/ui/back-to-link";
 
 // import { Button } from "@/components/ui/button";
@@ -68,7 +68,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <h2 className="p-2">Members</h2>
         <ul className="p-4">
           {artist.members.map((member) => (
-            <li key={member}>{member}</li>
+            <li key={typeof member === "string" ? member : member.name}>
+              {typeof member === "string" ? member : member.name}
+            </li>
           ))}
         </ul>
         <h2 className="p-2">Bio</h2>
