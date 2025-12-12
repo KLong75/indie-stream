@@ -23,7 +23,7 @@ export default function PlaylistList({
   }, [playlists, query]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mx-auto w-full max-w-md">
       <div className="relative mb-2 mx-auto w-full max-w-md">
         <input
           type="text"

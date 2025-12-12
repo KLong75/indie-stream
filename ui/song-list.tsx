@@ -41,8 +41,8 @@ export default function SongList({
     releases.find((r) => r.id === id)?.type || "";
 
   return (
-    <div className="w-full max-w-md mx-auto">
-  <div className="relative mb-2 w-full">
+    <div className="w-full  mx-auto">
+      <div className="relative mb-2 w-full max-w-md mx-auto">
         <input
           type="text"
           placeholder={placeholder}
@@ -58,9 +58,9 @@ export default function SongList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="grid grid-cols-1">
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-4xl mx-auto">
         {filteredSongs.map((song) => (
-          <li key={song.id} className="mb-2 px-2">
+          <li key={song.id} className="mb-2 px-2 text-center">
             <Link href={`/songs/${song.id}`}>
               <h2 className="font-semibold underline">{song.title}</h2>
             </Link>
@@ -80,7 +80,7 @@ export default function SongList({
               <p>released in {getReleaseYear(song.release)}</p>
               {/* ...other fields... */}
             </div>
-            <div className="flex space-x-2 text-sm">
+            <div className="flex space-x-2 text-sm justify-center mt-2">
               <button className="p-1 text-gray-500 hover:text-gray-700 flex flex-col items-center">
                 <RxPlay />
                 Play

@@ -25,7 +25,7 @@ export default function ReleaseList({
   }, [releases, query]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mx-auto w-full max-w-4xl">
       <div className="relative mb-4 mx-auto w-full max-w-md">
         <input
           type="text"
@@ -42,7 +42,7 @@ export default function ReleaseList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="flex grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <ul className="flex grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
         {filteredReleases.map((release) => (
           <li key={release.id}>
             <Link href={`/releases/${release.id}`}>

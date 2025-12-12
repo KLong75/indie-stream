@@ -24,7 +24,7 @@ export default function ArtistList({
   }, [artists, query]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full max-w-md mx-auto">
       <div className="relative mb-2 mx-auto w-full max-w-md">
         <input
           type="text"

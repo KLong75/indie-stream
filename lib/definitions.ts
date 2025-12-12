@@ -4,24 +4,30 @@ export type User = {
   email: string;
   password: string;
   profile_picture: string;
-  saved_songs: [string];
-  saved_releases: [string];
-  saved_artists: [string];
-  playlists: [string];
-  saved_public_playlists: [string];
+  saved_songs: string[];
+  saved_releases: string[];
+  saved_artists: string[];
+  playlists: string[];
+  saved_public_playlists: string[];
+};
+
+export type Musician = {
+  id: string;
+  name: string;
+  instrument: string[];
 };
 
 export type Artist = {
   bio: string;
   city: string;
   id: string;
-  genre: [string];
-  members: [string];
+  genre: string[];
+  members: Musician[];
   name: string;
   number_of_saves: number;
   picture: string;
-  releases: [string];
-  songs: [string];
+  releases: string[];
+  songs: string[];
   state: string;
   website: string;
 };
@@ -32,21 +38,23 @@ export type Song = {
   artist: string;
   release: string;
   track_number: number;
-  genre: [string];
+  genre: string[];
   year: number;
   number_of_saves: number;
   number_of_plays: number;
   file_key: string;
+  musicians?: Musician[];
+  lyrics?: string[];
 };
 
 export type Release = {
   id: string;
   title: string;
   artist: Artist;
-  genre: [string];
+  genre: string[];
   year: number;
   cover_img_file_key: string;
-  songs: [string];
+  songs: string[];
   type: "album" | "single" | "ep";
   number_of_saves: number;
 };
@@ -54,7 +62,7 @@ export type Release = {
 export type Playlist = {
   id: string;
   title: string;
-  songs: [string];
+  songs: string[];
   public: boolean;
   description: string;
   created_by: string;
