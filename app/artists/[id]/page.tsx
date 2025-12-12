@@ -25,6 +25,7 @@ import { Song, Artist, Release, Musician } from "@/lib/definitions";
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const artist = await getArtistById(id);
+  console.log("artist.members", artist?.members);
   const artistWebsiteShortUrl = artist?.website
     .replace("https://", "")
     .replace("www.", "")
@@ -66,13 +67,16 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           />
         </div>
         <h2 className="p-2">Members</h2>
-        <ul className="p-4">
-          {artist.members.map((member) => (
-            <li key={typeof member === "string" ? member : member.name}>
-              {typeof member === "string" ? member : member.name}
-            </li>
-          ))}
-        </ul>
+<ul className="p-4">
+  {artist.members.map((member: Musician, index: number) => (
+    <li key={index}>
+      {member.name}
+      {member.instrument && member.instrument.length > 0 && (
+        <span>: {member.instrument.join(", ")}</span>
+      )}
+    </li>
+  ))}
+</ul>
         <h2 className="p-2">Bio</h2>
         <p className="p-4">{artist.bio}</p>
         <div className="p-4">

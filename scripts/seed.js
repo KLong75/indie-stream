@@ -61,7 +61,7 @@ async function seedArtists() {
       songs UUID[],
       releases UUID[],
       genre TEXT[],
-      members TEXT[],
+      members JSONB,
       city TEXT,
       state TEXT,
       number_of_saves INT DEFAULT 0,
