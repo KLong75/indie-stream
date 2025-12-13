@@ -134,3 +134,44 @@ a {
 button {
   cursor: url("/cursor/devil-horns.cur"), auto;
 }
+
+.my-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #fff; /* <-- match border to fill */
+  margin-top: -4px;
+  border: 2px solid #fff;     /* <-- match border to fill */
+}
+.my-progress::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    #fff 0%,
+    #fff calc(var(--progress, 0) * 1% + 2%), /* <-- increase overlap */
+    #444 calc(var(--progress, 0) * 1% + 2%),
+    #444 100%
+  );
+}
+
+.my-progress::-moz-range-thumb {
+  appearance: none;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #444;
+}
+
+.my-progress::-ms-thumb {
+  appearance: none;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #444;
+}
