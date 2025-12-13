@@ -77,7 +77,7 @@ export default function AudioPlayer({
     setShuffle(turningOn);
     if (turningOn && songs.length > 1) {
       let newIndex = currentSongIndex;
-      
+
       while (newIndex === currentSongIndex) {
         newIndex = Math.floor(Math.random() * songs.length);
       }
@@ -395,17 +395,20 @@ export default function AudioPlayer({
             "flex-1 min-w-0",
             isAudioPlayerExpanded ? "w-full text-center" : ""
           )}>
-          {/* <Link href={`/songs/${songs[currentSongIndex]?.id}`}> */}
-          <div
-            className={clsx(
-              "truncate font-medium",
-              isAudioPlayerExpanded ? "text-lg" : "text-sm"
-            )}>
-            {(songs[currentSongIndex]?.title?.length ?? 0) > 24
-              ? songs[currentSongIndex].title.slice(0, 24) + "…"
-              : songs[currentSongIndex]?.title || "No song selected"}
-          </div>
-          {/* </Link> */}
+          <Link 
+            href={`/songs/${songs[currentSongIndex]?.id}`}
+            onClick={() => setIsAudioPlayerExpanded(false)}
+          >
+            <div
+              className={clsx(
+                "truncate font-medium",
+                isAudioPlayerExpanded ? "text-lg" : "text-sm"
+              )}>
+              {(songs[currentSongIndex]?.title?.length ?? 0) > 24
+                ? songs[currentSongIndex].title.slice(0, 24) + "…"
+                : songs[currentSongIndex]?.title || "No song selected"}
+            </div>
+          </Link>
           <Link
             href={`/artists/${artistCurrentlyPlaying?.id}`}
             onClick={() => setIsAudioPlayerExpanded(false)}>
@@ -488,7 +491,11 @@ export default function AudioPlayer({
             } rounded-full`}
             onClick={handlePlayPause}
             title={isPlaying ? "Pause" : "Play"}>
-            {isPlaying ? <RxPause size={isAudioPlayerExpanded ? 22 : 18} /> : <RxPlay size={isAudioPlayerExpanded ? 22 : 18} />}
+            {isPlaying ? (
+              <RxPause size={isAudioPlayerExpanded ? 22 : 18} />
+            ) : (
+              <RxPlay size={isAudioPlayerExpanded ? 22 : 18} />
+            )}
           </button>
 
           {isAudioPlayerExpanded && (
