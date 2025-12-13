@@ -162,6 +162,11 @@ export async function saveArtist(userId: string, artistId: string) {
       SET saved_artists = array_append(saved_artists, ${artistId})
       WHERE id = ${userId}
     `;
+    await sql`
+      UPDATE artists
+      SET number_of_saves = number_of_saves + 1
+      WHERE id = ${artistId}
+    `;
     console.log("Artist saved successfully");
     return { success: true };
   } catch (error) {
@@ -170,29 +175,103 @@ export async function saveArtist(userId: string, artistId: string) {
   }
 }
 // save song
+export async function saveSong(userId: string, songId: string) {
+  if (!userId || !songId) {
+    throw new Error("Missing userId or songId");
+  }
+  try {
+    await sql`
+      UPDATE users
+      SET saved_songs = array_append(saved_songs, ${songId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE songs
+      SET number_of_saves = number_of_saves + 1
+      WHERE id = ${songId}
+    `;
+    console.log("Song saved successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error saving song:", error);
+    throw new Error("Failed to save song");
+  }
+}
 // save release
+export async function saveRelease(userId: string, releaseId: string) {
+  if (!userId || !releaseId) {
+    throw new Error("Missing userId or releaseId");
+  }
+
+  try {
+    await sql`
+      UPDATE users
+      SET saved_releases = array_append(saved_releases, ${releaseId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE releases
+      SET number_of_saves = number_of_saves + 1
+      WHERE id = ${releaseId}
+    `;
+    console.log("Release saved successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error saving release:", error);
+    throw new Error("Failed to save release");
+  }
+}
 // save playlist
+export async function savePlaylist(userId: string, playlistId: string) {
+  if (!userId || !playlistId) {
+    throw new Error("Missing userId or playlistId");
+  }
+
+  try {
+    await sql`
+      UPDATE users
+      SET saved_public_playlists = array_append(saved_public_playlists, ${playlistId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE playlists
+      SET number_of_saves = number_of_saves + 1
+      WHERE id = ${playlistId}
+    `;
+    console.log("Playlist saved successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error saving playlist:", error);
+    throw new Error("Failed to save playlist");
+  }
+}
+
+// remove song from saved songs
+export async function removeSavedSong(userId: string, songId: string) {
+  if (!userId || !songId) {
+    throw new Error("Missing userId or songId");
+  }
+  try {
+    await sql`
+      UPDATE users
+      SET saved_songs = array_remove(saved_songs, ${songId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE songs
+      SET number_of_saves = GREATEST(number_of_saves - 1, 0)
+      WHERE id = ${songId}
+    `;
+    console.log("Song removed from saved songs successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error removing song from saved songs:", error);
+    throw new Error("Failed to remove song from saved songs");
+  }
+}
 
 
 // increment play count
-// export async function incrementSongPlayCount(songId: string) {
-//   if (!songId) {
-//     throw new Error("Missing songId");
-//   }
-//   try {
-//     await sql`
-//       UPDATE songs
-//       SET number_of_plays = number_of_plays + 1
-//       WHERE id = ${songId}
-//     `;
-//     console.log("Play count incremented successfully");
-//     return { success: true };
-//   } catch (error) {
-//     console.error("Error incrementing play count:", error);
-//     throw new Error("Failed to increment play count");
-//   }
-// }
-
 export async function incrementSongPlayCount(songId: string) {
   if (!songId) {
     throw new Error("Missing songId");
