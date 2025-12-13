@@ -87,7 +87,7 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto`}>
+      <ul className={`grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto`}>
         {filteredSongs.map((song, idx) => (
           <li key={song.id} className="my-2 px-2 relative">
             {!minimal &&
