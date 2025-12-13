@@ -210,13 +210,30 @@ export default function AudioPlayer({
       incrementSongPlayCount(songs[currentSongIndex].id).catch((err) => {
         console.error("Error incrementing play count:", err);
       });
-      if (shuffle) {
-        const randomIndex = Math.floor(Math.random() * songs.length);
-        setCurrentSongIndex(randomIndex);
-      } else {
-        setCurrentSongIndex((currentSongIndex + 1) % songs.length);
-      }
-      setIsPlaying(true); // Automatically play the next song
+      
+      // if (shuffle) {
+      //   const randomIndex = Math.floor(Math.random() * songs.length);
+      //   setCurrentSongIndex(randomIndex);
+      // } else {
+      //   setCurrentSongIndex((currentSongIndex + 1) % songs.length);
+      // }
+      // setIsPlaying(true); 
+      let nextIndex;
+    if (shuffle) {
+      nextIndex = Math.floor(Math.random() * songs.length);
+    } else {
+      nextIndex = (currentSongIndex + 1) % songs.length;
+    }
+
+    // --- Reset progress for the next song ---
+    const nextSongId = songs[nextIndex]?.id;
+    const saved = localStorage.getItem("audioPlayerState");
+    let state = saved ? JSON.parse(saved) : {};
+    state.songProgress = state.songProgress || {};
+    state.songProgress[nextSongId] = 0;
+    localStorage.setItem("audioPlayerState", JSON.stringify(state));
+    setCurrentSongIndex(nextIndex);
+    setIsPlaying(true); // Automatically play the next song
     };
     audioElement.addEventListener("ended", handleEnded);
     return () => {
@@ -447,6 +464,7 @@ export default function AudioPlayer({
               max="100"
               value={progress}
               onChange={handleSeek}
+                style={{ "--progress": progress } as React.CSSProperties }
             />
             <div className="flex justify-between text-xs text-gray-400 px-2">
               <div>{formatTime(audioRef.current?.currentTime || 0)}</div>

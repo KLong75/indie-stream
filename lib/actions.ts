@@ -175,18 +175,49 @@ export async function saveArtist(userId: string, artistId: string) {
 
 
 // increment play count
+// export async function incrementSongPlayCount(songId: string) {
+//   if (!songId) {
+//     throw new Error("Missing songId");
+//   }
+//   try {
+//     await sql`
+//       UPDATE songs
+//       SET number_of_plays = number_of_plays + 1
+//       WHERE id = ${songId}
+//     `;
+//     console.log("Play count incremented successfully");
+//     return { success: true };
+//   } catch (error) {
+//     console.error("Error incrementing play count:", error);
+//     throw new Error("Failed to increment play count");
+//   }
+// }
 
 export async function incrementSongPlayCount(songId: string) {
   if (!songId) {
     throw new Error("Missing songId");
   }
-
   try {
+    // Increment total plays
     await sql`
       UPDATE songs
       SET number_of_plays = number_of_plays + 1
       WHERE id = ${songId}
     `;
+
+    // Get current year and month
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // JS months are 0-based
+
+    // Track monthly plays
+    await sql`
+      INSERT INTO song_plays (song_id, year, month, play_count)
+      VALUES (${songId}, ${year}, ${month}, 1)
+      ON CONFLICT (song_id, year, month)
+      DO UPDATE SET play_count = song_plays.play_count + 1
+    `;
+
     console.log("Play count incremented successfully");
     return { success: true };
   } catch (error) {

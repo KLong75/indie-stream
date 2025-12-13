@@ -128,6 +128,19 @@ async function seedReleases() {
   console.log("Inserted releases:", insertedReleases);
 }
 
+async function seedSongPlays() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS song_plays (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      song_id UUID REFERENCES songs(id),
+      year INT NOT NULL,
+      month INT NOT NULL,
+      play_count INT NOT NULL DEFAULT 0,
+      UNIQUE(song_id, year, month)
+    )
+  `;
+}
+
 async function seedSongs() {
   await sql`DROP TABLE IF EXISTS songs CASCADE`;
   await sql`
@@ -241,6 +254,7 @@ async function main() {
   await seedUsers();
   await seedArtists();
   await seedReleases();
+  await seedSongPlays();
   await seedSongs();
   await seedPlaylists();
   await addForeignKeys();
