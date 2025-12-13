@@ -47,8 +47,43 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
       <div className="song-stats px-4 space-x-4 flex justify-center">
         <span>Plays: {song.number_of_plays}</span>
-        <span>Saves: {song.number_of_saves}s</span>
+        <span>Saves: {song.number_of_saves}</span>
       </div>
+      <div className="p-4">
+        <p>Music by: {song.music_by?.join(", ") ?? "Unknown"}</p>
+        <p>Lyrics by: {song.lyrics_by?.join(", ") ?? "Unknown"}</p>
+      </div>
+      <div className="p-4">
+        <div>
+          <ul className="flex flex-col">
+            {song.musicians && song.musicians.length > 0 ? (
+              song.musicians.map((musician, idx) => (
+                <li key={idx}>
+                  {musician.name}: {musician.instrument.join(", ")}
+                </li>
+              ))
+            ) : (
+              <li>Unknown</li>
+            )}
+          </ul>
+        </div>
+      </div>
+      <div className="p-4">
+      <h4>Lyrics:</h4>
+      {song.lyrics && song.lyrics.length > 0 ? (
+        song.lyrics.map((paragraph, index) => (
+          <div key={index} className="p-2">
+            {paragraph.split("\n").map((line, lineIndex) => (
+              <p key={lineIndex} className="">
+                {line}
+              </p>
+            ))}
+          </div>
+        ))
+      ) : (
+        <div>No lyrics available</div>
+      )}
+    </div>
     </div>
   );
 }
