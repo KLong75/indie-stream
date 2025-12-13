@@ -236,14 +236,46 @@ export default function SongList({
               </div>
             )}
             <div
-              className={`flex space-x-2 text-white${minimal ? " px-4" : ""}`}>
+              className={`flex text-white${minimal ? " px-4" : ""}`}>
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
-                <RxPlay />
-                Play
+                <span
+                  style={{
+                    width: 24,
+                    height: 24,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <RxPlay />
+                </span>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "3.5em",
+                    textAlign: "center",
+                  }}>
+                  Play
+                </span>
               </button>
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
-                <RxPlus />
-                Add to Playlist
+                <span
+                  style={{
+                    width: 24,
+                    height: 24,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <RxPlus />
+                </span>
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "8em",
+                    textAlign: "center",
+                  }}>
+                  Add to Playlist
+                </span>
               </button>
               {userId && (
                 <SaveAndRemoveButton
