@@ -136,18 +136,32 @@ async function seedSongs() {
       title TEXT NOT NULL,
       artist UUID,
       release UUID,
+      music_by TEXT[],
+      lyrics_by TEXT[],
       track_number INT,
       genre TEXT[],
       year INT,
       number_of_saves INT DEFAULT 0,
       number_of_plays INT DEFAULT 0,
       file_key TEXT NOT NULL,
-      musicians JSONB
+      musicians JSONB,
+      lyrics TEXT[]
     )
   `;
   const insertedSongs = await Promise.all(
     songs.map(async (song) => {
       console.log("Inserting song:", song);
+      song.music_by = Array.isArray(song.music_by)
+        ? song.music_by
+        : song.music_by
+        ? [song.music_by]
+        : [];
+      song.lyrics_by = Array.isArray(song.lyrics_by)
+        ? song.lyrics_by
+        : song.lyrics_by
+        ? [song.lyrics_by]
+        : [];
+      song.lyrics = song.lyrics || [];
       Object.entries(song).forEach(([key, value]) => {
         if (value === undefined) {
           console.warn(`Song field '${key}' is undefined!`);
@@ -155,9 +169,9 @@ async function seedSongs() {
       });
       const insertedSong = await sql`
         INSERT INTO songs
-          (id, title, artist, release, track_number, genre, year, number_of_saves, number_of_plays, file_key, musicians)
+          (id, title, artist, release, music_by, lyrics_by, track_number, genre, year, number_of_saves, number_of_plays, file_key, musicians, lyrics)
         VALUES
-          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.track_number}, ${song.genre}, ${song.year}, ${song.number_of_saves}, ${song.number_of_plays}, ${song.file_key}, ${song.musicians})
+          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.music_by}, ${song.lyrics_by}, ${song.track_number}, ${song.genre}, ${song.year}, ${song.number_of_saves}, ${song.number_of_plays}, ${song.file_key}, ${song.musicians}, ${song.lyrics})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;

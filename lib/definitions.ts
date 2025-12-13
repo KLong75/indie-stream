@@ -36,6 +36,8 @@ export type Song = {
   title: string;
   artist: string;
   release: string;
+  music_by?: string[];
+  lyrics_by?: string[];
   track_number: number;
   genre: string[];
   year: number;
