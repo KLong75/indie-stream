@@ -102,7 +102,8 @@ async function seedReleases() {
       cover_img_file_key TEXT,
       songs UUID[],
       type TEXT,
-      number_of_saves INT DEFAULT 0
+      number_of_saves INT DEFAULT 0,
+      musicians JSONB
     )
   `;
   const insertedReleases = await Promise.all(
@@ -115,9 +116,9 @@ async function seedReleases() {
       });
       const insertedRelease = await sql`
         INSERT INTO releases
-          (id, title, artist, genre, year, cover_img_file_key, songs, type, number_of_saves)
+          (id, title, artist, genre, year, cover_img_file_key, songs, type, number_of_saves, musicians)
         VALUES
-          (${release.id}, ${release.title}, ${release.artist}, ${release.genre}, ${release.year}, ${release.cover_img_file_key}, ${release.songs}, ${release.type}, ${release.number_of_saves})
+          (${release.id}, ${release.title}, ${release.artist}, ${release.genre}, ${release.year}, ${release.cover_img_file_key}, ${release.songs}, ${release.type}, ${release.number_of_saves}, ${release.musicians})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;
@@ -140,7 +141,8 @@ async function seedSongs() {
       year INT,
       number_of_saves INT DEFAULT 0,
       number_of_plays INT DEFAULT 0,
-      file_key TEXT NOT NULL
+      file_key TEXT NOT NULL,
+      musicians JSONB
     )
   `;
   const insertedSongs = await Promise.all(
@@ -153,9 +155,9 @@ async function seedSongs() {
       });
       const insertedSong = await sql`
         INSERT INTO songs
-          (id, title, artist, release, track_number, genre, year, number_of_saves, number_of_plays, file_key)
+          (id, title, artist, release, track_number, genre, year, number_of_saves, number_of_plays, file_key, musicians)
         VALUES
-          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.track_number}, ${song.genre}, ${song.year}, ${song.number_of_saves}, ${song.number_of_plays}, ${song.file_key})
+          (${song.id}, ${song.title}, ${song.artist}, ${song.release}, ${song.track_number}, ${song.genre}, ${song.year}, ${song.number_of_saves}, ${song.number_of_plays}, ${song.file_key}, ${song.musicians})
           ON CONFLICT (id) DO NOTHING
         RETURNING *
       `;
