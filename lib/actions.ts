@@ -174,6 +174,27 @@ export async function saveArtist(userId: string, artistId: string) {
 // save playlist
 
 
+// increment play count
+
+export async function incrementSongPlayCount(songId: string) {
+  if (!songId) {
+    throw new Error("Missing songId");
+  }
+
+  try {
+    await sql`
+      UPDATE songs
+      SET number_of_plays = number_of_plays + 1
+      WHERE id = ${songId}
+    `;
+    console.log("Play count incremented successfully");
+    return { success: true };
+  } catch (error) {
+    console.error("Error incrementing play count:", error);
+    throw new Error("Failed to increment play count");
+  }
+}
+
 
 
 

@@ -8,6 +8,8 @@ import { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 // import definitions
 import { Song, Release } from "../lib/definitions";
+// import actions
+import { incrementSongPlayCount } from "@/lib/actions";
 // import context
 import { useAudioPlayerExpanded } from "@/context/audio-player-expanded-context-provider";
 // import icons
@@ -205,6 +207,9 @@ export default function AudioPlayer({
     const audioElement = audioRef.current;
     if (!audioElement) return;
     const handleEnded = () => {
+      incrementSongPlayCount(songs[currentSongIndex].id).catch((err) => {
+        console.error("Error incrementing play count:", err);
+      });
       if (shuffle) {
         const randomIndex = Math.floor(Math.random() * songs.length);
         setCurrentSongIndex(randomIndex);
