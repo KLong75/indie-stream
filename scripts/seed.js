@@ -129,6 +129,7 @@ async function seedReleases() {
 }
 
 async function seedSongPlays() {
+  await sql`DROP TABLE IF EXISTS song_plays CASCADE`;
   await sql`
     CREATE TABLE IF NOT EXISTS song_plays (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
