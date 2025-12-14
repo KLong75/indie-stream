@@ -1,8 +1,10 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+// import auth
+import { auth } from "@/auth";
 // import from next
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 // get data
 import {
   getUserById,
@@ -15,8 +17,20 @@ import {
   getAllArtists,
   getAllReleases,
 } from "@/lib/data";
+// import actions
+import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
+// import components
+import ClientButtonContainer from "@/ui/client-button-container";
+import SaveAndRemoveButton from "@/ui/save-remove-button";
+// import from react icons
+import { CiSaveDown2 } from "react-icons/ci";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  const user = session?.user;
+  const userId = user?.id || undefined;
+  const userData = session && userId ? await getUserById(userId) : null;
+  const userSavedSongs = userData?.saved_songs || [];
   const { id } = await props.params;
   console.log("Song ID:", id); // Debugging line
   const song = await getSongById(id);
@@ -46,8 +60,29 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </h3>
       </div>
       <div className="song-stats px-4 space-x-4 flex justify-center">
-        <span>Plays: {song.number_of_plays}</span>
-        <span>Saves: {song.number_of_saves}</span>
+        <div>Plays: {song.number_of_plays}</div>
+        <div>Saves: {song.number_of_saves}</div>
+      </div>
+      <div className="px-4 space-x-4 flex justify-center">
+        <div>
+          {userId && (
+            // replace this with play button later
+            <ClientButtonContainer
+              userId={userId}
+              songId={song.id}
+              initiallySaved={userSavedSongs.includes(song.id)}
+            />
+          )}
+        </div>
+        <div>
+          {userId && (
+            <ClientButtonContainer
+              userId={userId}
+              songId={song.id}
+              initiallySaved={userSavedSongs.includes(song.id)}
+            />
+          )}
+        </div>
       </div>
       <div className="p-4">
         <p>Music by: {song.music_by?.join(", ") ?? "Unknown"}</p>
@@ -69,21 +104,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
       </div>
       <div className="p-4">
-      <h4>Lyrics:</h4>
-      {song.lyrics && song.lyrics.length > 0 ? (
-        song.lyrics.map((paragraph, index) => (
-          <div key={index} className="p-2">
-            {paragraph.split("\n").map((line, lineIndex) => (
-              <p key={lineIndex} className="">
-                {line}
-              </p>
-            ))}
-          </div>
-        ))
-      ) : (
-        <div>No lyrics available</div>
-      )}
-    </div>
+        <h4>Lyrics:</h4>
+        {song.lyrics && song.lyrics.length > 0 ? (
+          song.lyrics.map((paragraph, index) => (
+            <div key={index} className="p-2">
+              {paragraph.split("\n").map((line, lineIndex) => (
+                <p key={lineIndex} className="">
+                  {line}
+                </p>
+              ))}
+            </div>
+          ))
+        ) : (
+          <div>No lyrics available</div>
+        )}
+      </div>
     </div>
   );
 }

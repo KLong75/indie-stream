@@ -1,13 +1,16 @@
+// import auth
+import { auth } from "@/auth";
 //import data
 import {
+  getUserById,
   getArtistById,
   getSongById,
   getReleaseById,
-  // getPlaylistById,
+  getPlaylistById,
 } from "@/lib/data";
 
 // import actions
-// import { saveArtist } from "@/app/lib/actions";
+import { saveSong, removeSavedSong, saveRelease, saveArtist } from "@/lib/actions";
 //import from next
 import Image from "next/image";
 import Link from "next/link";
@@ -23,6 +26,11 @@ import { Song, Artist, Release, Musician } from "@/lib/definitions";
 // import { Save } from "lucide-react";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+    const user = session?.user;
+    const userId = user?.id || undefined;
+    const userData = session && userId ? await getUserById(userId) : null;
+    const userSavedSongs = userData?.saved_songs || [];
   const { id } = await props.params;
   const artist = await getArtistById(id);
   console.log("artist.members", artist?.members);
@@ -43,10 +51,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     return <div>Artist not found</div>;
   } else {
     return (
-      <div>
-        {/* <div className="p-2">
-          <BackToLink href="/artists" label="Artists" />
-        </div> */}
+      <div className="p-2">
         <h1 className="px-4">{artist.name}</h1>
         <h2 className="px-4">
           <Link
@@ -104,12 +109,17 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             placeholder={`Search ${artist.name}'s releases...`}
           />
         </div>
-        <div className="p-4">
+        <div className="p-6">
           <SongList 
             songs={artistSongs.filter(Boolean) as Song[]} 
             artists={[artist as Artist]} 
             releases={artistReleases.filter(Boolean) as Release[]} 
             placeholder={`Search ${artist.name}'s songs...`}
+            userId={userId}
+            action={saveSong}
+            removeAction={removeSavedSong}
+            minimal={false}
+            savedSongs={userSavedSongs}
           />
         </div>
       </div>
