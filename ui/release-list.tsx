@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useMemo } from "react";
-import { Release } from "@/lib/definitions";
+import { Artist, Release } from "@/lib/definitions";
 // import icons
 import { MdOutlineSearch } from "react-icons/md";
 // import components
@@ -12,11 +12,13 @@ import SaveAndRemoveButton from "./save-remove-button";
 
 interface ReleaseListProps {
   releases: Release[];
+  artists: Artist[];
   placeholder?: string;
 }
 
 export default function ReleaseList({
   releases,
+  artists,
   placeholder = "Search releases...",
 }: ReleaseListProps) {
   const [query, setQuery] = useState("");
@@ -26,6 +28,8 @@ export default function ReleaseList({
       release.title.toLowerCase().includes(lowerQuery)
     );
   }, [releases, query]);
+  const getArtistName = (id: string) =>
+  artists.find((a) => a.id === id)?.name || id;
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-4xl">
@@ -48,8 +52,7 @@ export default function ReleaseList({
       <ul className="">
         {filteredReleases.map((release) => (
           <li key={release.id}>
-            {/* <Link href={`/releases/${release.id}`}> */}
-            <div className="">
+            <div className="grid grid-cols-2 gap-4  p-2">
               {release.cover_img_file_key && (
                 <Link href={`/releases/${release.id}`}>
                   <Image
@@ -60,13 +63,20 @@ export default function ReleaseList({
                   />
                 </Link>
               )}
-              <Heading
-                headingLevel={3}
-                text={release.title}
-                className="font-semibold"
-              />
+              <div> 
+                <Heading
+                  headingLevel={3}
+                  text={release.title}
+                  className="font-semibold"
+                />
+                by{" "}
+                <Link href={`/artists/${release.artist}`}>
+                  <span className="underline">
+                    {getArtistName(release.artist)}
+                  </span>
+                </Link>
+              </div>
             </div>
-            {/* </Link> */}
           </li>
         ))}
       </ul>

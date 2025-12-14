@@ -72,6 +72,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   );
   console.log("userSavedReleases", userSavedReleases);
 
+
+
   const userPlaylistsIds = user.playlists || [];
   console.log("userPlaylistsIds", userPlaylistsIds);
   const userPlaylists = await Promise.all(
@@ -107,6 +109,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           ) : (
             <ReleaseList
               releases={userSavedReleases}
+              artists={allArtists}
               placeholder="Search your saved releases..."
             />
           )}
