@@ -3,57 +3,35 @@ import { auth } from "@/auth";
 // import from next
 import { redirect } from "next/navigation";
 // get data
-import { getAllArtists, getAllReleases } from "@/lib/data";
-// import { getArtistById } from "@/lib/data";
-// import definitions
-// import { Release } from "@/lib/definitions";
+import { getUserById, getAllArtists, getAllReleases } from "@/lib/data";
+//import actions
+import { saveRelease, removeSavedRelease } from "@/lib/actions";
 // import components
 import ReleaseList from "@/ui/release-list";
 
 export default async function Page() {
   const session = await auth();
   const userId = session?.user?.id;
-  const releases = await getAllReleases();
-  console.log("releases", releases);
-  if (!releases) {
+  if (!userId) {
     redirect("/");
   }
+  const user = await getUserById(userId);
+  const userSavedReleases = user?.saved_releases || [];
+  const releases = await getAllReleases();
   const allArtists = await getAllArtists();
-  // const releasesAlphabetical = releases.sort((a, b) =>
-  //   a.title.localeCompare(b.title)
-  // );
-
-  // const releasesWithArtists = await Promise.all(
-  //   releasesAlphabetical.map(async (release) => {
-  //     const artistId =
-  //       release && typeof release.artist === "string" ? release.artist : "";
-  //     const artist = await getArtistById(artistId);
-  //     return { ...release, artist };
-  //   })
-  // );
-  // console.log("Releases with artists: ", releasesWithArtists);
-
+ 
   return (
-    <div className="flex-grow">
-      <h1 className="p-4 text-center">All Releases</h1>
-      <ul className="px-4">
-        {/* {releasesWithArtists.map((release) => (
-          <li key={release.id} className="p-2">
-            <Link href={`/releases/${release.id}`}>{release.title}</Link>
-            <br />
-            <Link
-              href={release.artist ? `/artists/${release.artist.id}` : "#"}
-              className="text-sm ml-2">
-              {release.artist ? `${release.artist.name}` : "Unknown Artist"}
-            </Link>
-          </li>
-        ))} */}
+    <div className="flex-grow p-6">
+      <h2 className="p-4 text-center">All Releases</h2>
         <ReleaseList 
           releases={releases} 
           placeholder="Search all releases..." 
           artists={allArtists}
-          />
-      </ul>
+          userId={userId}
+          action={saveRelease}
+          removeAction={removeSavedRelease}
+          savedReleases={userSavedReleases}
+        />
     </div>
   );
 }

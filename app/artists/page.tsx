@@ -23,18 +23,9 @@ export default async function Page() {
     userSavedArtists = userData.saved_artists || [];
   }
 
-  // artists.forEach((artist) => {
-  //   getArtistById(artist.id);
-  //   // console.log("artist", artist);
-  // });
-
-  // const artistsAlphbetized = artists.sort((a, b) =>
-  //   a.name.localeCompare(b.name)
-  // );
-
   return (
     <div className="flex flex-col">
-      <h1 className="p-4">Artists</h1>
+      <h2 className="p-4">All Artists</h2>
       <div className="p-4">
         <ArtistList 
           artists={artists} 

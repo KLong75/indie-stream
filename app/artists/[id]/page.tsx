@@ -103,24 +103,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <p className="p-4">{artist.bio}</p>
         <div className="p-4">
           <p>Releases</p>
-          {/* <ul>
-            {artistReleases.map((release, index) => (
-              // console.log("release", release),
-              <li key={index}>
-                {release && (
-                  <Link href={`/releases/${release.id}`}>
-                    <p>{release.title}</p>
-                    <Image
-                      src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
-                      alt={release.title}
-                      width={100}
-                      height={100}
-                    />
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul> */}
           <ReleaseList
             releases={artistReleases.filter(Boolean) as Release[]}
             artists={artist ? [artist as Artist] : []}

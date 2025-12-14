@@ -6,6 +6,7 @@ import { useState, useMemo } from "react";
 import { Artist, Release } from "@/lib/definitions";
 // import icons
 import { MdOutlineSearch } from "react-icons/md";
+import { CiSaveDown2, CiCircleMinus } from "react-icons/ci";
 // import components
 import Heading from "./heading";
 import SaveAndRemoveButton from "./save-remove-button";
@@ -15,6 +16,10 @@ interface ReleaseListProps {
   artists: Artist[];
   placeholder?: string;
   hideArtistName?: boolean;
+  userId?: string;
+  action?: (userId: string, itemId: string) => void | Promise<void>;
+  removeAction?: (userId: string, itemId: string) => void | Promise<void>;
+  savedReleases?: string[];
 }
 
 export default function ReleaseList({
@@ -22,8 +27,14 @@ export default function ReleaseList({
   artists,
   placeholder = "Search releases...",
   hideArtistName = false,
+  userId,
+  action,
+  removeAction,
+  savedReleases = [],
 }: ReleaseListProps) {
+  const [userSavedReleases, setUserSavedReleases] = useState<string[]>(savedReleases);
   const [query, setQuery] = useState("");
+
   const filteredReleases = useMemo(() => {
     const lowerQuery = query.toLowerCase();
     return releases.filter((release) =>
@@ -32,6 +43,20 @@ export default function ReleaseList({
   }, [releases, query]);
   const getArtistName = (id: string) =>
     artists.find((a) => a.id === id)?.name || id;
+
+  const handleSaveRelease = async (userId: string, releaseId: string) => {
+    setUserSavedReleases((prev) => [...prev, releaseId]);
+      await action?.(userId, releaseId);  
+  };
+
+  const handleRemoveRelease = async (userId: string, releaseId: string) => {
+    setUserSavedReleases((prev) =>
+      prev.filter((id) => id !== releaseId)
+    );
+    if (removeAction) {
+      await removeAction(userId, releaseId);
+    }
+  }
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-4xl">
@@ -90,6 +115,26 @@ export default function ReleaseList({
                 </p>
                 )}
               </div>
+            </div>
+            <div className="flex justify-center">
+            <SaveAndRemoveButton
+              itemId={release.id}
+              itemType="release"
+              userId={userId ?? ""}
+              isSaved={userSavedReleases.includes(release.id)}
+              action={async () => {
+                if (userId) {
+                  await handleSaveRelease(userId, release.id);
+                }
+              }}
+              removeAction={async () => {
+                if (userId) {
+                  await handleRemoveRelease(userId, release.id);
+                }
+              }}
+              icon={<CiSaveDown2 size={24} />}
+              removeIcon={<CiCircleMinus size={24} />}
+            />
             </div>
           </li>
         ))}

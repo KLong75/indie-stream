@@ -22,7 +22,7 @@ import {
 // import context
 // import { usePushNotification } from "../../../context/push-notification-context-provider";
 // import actions
-import { saveArtist, removeSavedArtist } from "@/lib/actions";
+import { saveArtist, removeSavedArtist, saveRelease, removeSavedRelease } from "@/lib/actions";
 // import definitions
 import { Song, Artist, Release } from "@/lib/definitions";
 // import components
@@ -54,7 +54,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedArtists = allArtists.filter((artist) =>
     userSavedArtistsIds.includes(artist.id)
   );
-  console.log("userSavedArtists", userSavedArtists);
 
   const allSongs = await getAllSongs();
   const userSavedSongsIds = user.saved_songs || [];
@@ -62,7 +61,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedSongs = allSongs.filter((song) =>
     userSavedSongsIds.includes(song.id)
   );
-  console.log("userSavedSongs", userSavedSongs);
 
   const allReleases = await getAllReleases();
   const userSavedReleasesIds = user.saved_releases || [];
@@ -70,9 +68,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedReleases = allReleases.filter((release) =>
     userSavedReleasesIds.includes(release.id)
   );
-  console.log("userSavedReleases", userSavedReleases);
-
-
 
   const userPlaylistsIds = user.playlists || [];
   console.log("userPlaylistsIds", userPlaylistsIds);
@@ -111,6 +106,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               releases={userSavedReleases}
               artists={allArtists}
               placeholder="Search your saved releases..."
+              userId={userId}
+              action={saveRelease}
+              removeAction={removeSavedRelease}
+              savedReleases={userSavedReleases.map((release) => release.id)}
             />
           )}
         </div>
