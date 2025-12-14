@@ -66,7 +66,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <div>Plays: {song.number_of_plays}</div>
         <div>Saves: {song.number_of_saves}</div>
       </div>
-      <div className="px-4 space-x-4 flex justify-center">
+      <div className="px-4 space-x-4 flex justify-center mt-1">
         <div>
           {userId && (
             // replace this with play button later
@@ -78,7 +78,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             />
           )}
         </div>
-        <div>
+        <div className="">
           {userId && (
             <SaveAndRemoveButtonClientContainer
               userId={userId}
