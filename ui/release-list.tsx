@@ -6,6 +6,9 @@ import { useState, useMemo } from "react";
 import { Release } from "@/lib/definitions";
 // import icons
 import { MdOutlineSearch } from "react-icons/md";
+// import components
+import Heading from "./heading";
+import SaveAndRemoveButton from "./save-remove-button";
 
 interface ReleaseListProps {
   releases: Release[];
@@ -42,22 +45,28 @@ export default function ReleaseList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="flex grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+      <ul className="">
         {filteredReleases.map((release) => (
           <li key={release.id}>
-            <Link href={`/releases/${release.id}`}>
-              <div className="flex flex-col items-center text-center">
-                {release.cover_img_file_key && (
+            {/* <Link href={`/releases/${release.id}`}> */}
+            <div className="">
+              {release.cover_img_file_key && (
+                <Link href={`/releases/${release.id}`}>
                   <Image
                     src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
                     alt={release.title}
                     width={75}
                     height={75}
                   />
-                )}
-                {release.title}
-              </div>
-            </Link>
+                </Link>
+              )}
+              <Heading
+                headingLevel={3}
+                text={release.title}
+                className="font-semibold"
+              />
+            </div>
+            {/* </Link> */}
           </li>
         ))}
       </ul>

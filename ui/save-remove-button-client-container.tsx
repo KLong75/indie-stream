@@ -35,7 +35,6 @@ export default function SaveAndRemoveButtonClientContainer({
 
   const handleSave = async (userId: string, itemId: string) => {
     setIsSaved(true);
-    // await saveSong(userId, itemId);
     switch (itemType) {
       case "song":
       await saveSong(userId, itemId);
