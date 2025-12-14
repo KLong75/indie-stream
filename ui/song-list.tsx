@@ -89,7 +89,7 @@ export default function SongList({
       )}
       <ul className={`grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto`}>
         {filteredSongs.map((song, idx) => (
-          <li key={song.id} className="my-2 px-2 relative">
+          <li key={song.id} className="my-2 relative">
             {!minimal &&
             <Image
               src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
@@ -98,16 +98,18 @@ export default function SongList({
               alt="Release cover"
               width={64}
               height={64}
-              className="rounded shadow absolute top-2 right-2"
+              className="rounded shadow absolute top-1 right-0"
               style={{ objectFit: "cover" }}
             />
             }
-            <div className="flex gap-2">
+            {/* <div className=""> */}
               {minimal && <span className="text-gray-400">{idx + 1}.</span>}
               <Link href={`/songs/${song.id}`}>
-                <h2 className="font-semibold underline">{song.title}</h2>
+                <h2 className="font-semibold underline">
+                  {song.title.length > 24 ? song.title.slice(0, 24) + "…" : song.title}
+                </h2>
               </Link>
-            </div>
+            {/* </div> */}
             {!minimal && (
               <div className="text-gray-500">
                 <p>
@@ -123,7 +125,9 @@ export default function SongList({
                   <Link
                     href={`/releases/${song.release}`}
                     className="text-white underline">
-                    {getReleaseTitle(song.release)}
+                    {getReleaseTitle(song.release).length > 21
+                      ? getReleaseTitle(song.release).slice(0, 21) + "…"
+                      : getReleaseTitle(song.release)}
                   </Link>
                 </p>
                 <p>released in {getReleaseYear(song.release)}</p>
