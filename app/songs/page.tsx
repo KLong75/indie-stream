@@ -19,7 +19,6 @@ export default async function Page() {
   if (!session) {
     redirect("/");
   }
-  console.log("Session in Songs Page:", session);
   const user = session?.user;
   const userId = user?.id || undefined;
   let savedSongs: string[] = [];

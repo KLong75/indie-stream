@@ -21,6 +21,8 @@ import {
 } from "@/lib/data";
 // import context
 // import { usePushNotification } from "../../../context/push-notification-context-provider";
+// import actions
+import { saveArtist, removeSavedArtist } from "@/lib/actions";
 // import definitions
 import { Song, Artist, Release } from "@/lib/definitions";
 // import components
@@ -76,7 +78,84 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     userPlaylistsIds.map((id) => getPlaylistById(id))
   );
   console.log("userPlaylists", userPlaylists);
-  // all artists
+
+  return (
+    <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
+      <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
+      <div>
+        <h3 className="px-4 text-center text-lg">Your saved artists</h3>
+        <div className="p-4">
+          {userSavedArtists.length === 0 ? (
+            <p className="px-4">You have no saved artists.</p>
+          ) : (
+              <ArtistList
+                artists={userSavedArtists}
+                placeholder="Search your saved artists..."
+                userId={userId}
+                action={saveArtist}
+                removeAction={removeSavedArtist}
+                savedArtists={userSavedArtists.map((artist) => artist.id)}
+              />
+
+          )}
+        </div>
+      </div>
+      <div>
+        <h3 className="px-4 text-center text-lg">Your saved releases</h3>
+        <div className="p-4">
+          {userSavedReleases.length === 0 ? (
+            <p className="px-4">You have no saved releases.</p>
+          ) : (
+            <ReleaseList
+              releases={userSavedReleases}
+              placeholder="Search your saved releases..."
+            />
+          )}
+        </div>
+        <div>
+          <h3 className="px-4 text-lg text-center">Your saved songs:</h3>
+          <div className="p-4">
+            {userSavedSongs.length === 0 ? (
+              <p className="px-4">You have no saved songs.</p>
+            ) : (
+              <SongList
+                songs={userSavedSongs.filter(
+                  (song): song is Song => song !== null
+                )}
+                artists={allArtists}
+                releases={allReleases}
+                placeholder="Search your saved songs..."
+                userId={userId}
+                action={saveSong}
+                removeAction={removeSavedSong}
+                minimal={false}
+                savedSongs={userSavedSongs.map((song) => song.id)}
+              />
+            )}
+          </div>
+        </div>
+        <div>
+          <h3 className="px-4 text-center">Your playlists</h3>
+          <div className="p-4">
+            {userPlaylists.length === 0 ? (
+              <p className="px-4">You have no playlists.</p>
+            ) : (
+              <PlaylistList
+                playlists={userPlaylists.filter(
+                  (pl): pl is NonNullable<typeof pl> => pl !== null
+                )}
+                placeholder="Search your playlists..."
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// all artists
 
   // const allArtistsAlphabeticalOrder = allArtists.sort((a, b) =>
   // a.name.localeCompare(b.name)
@@ -157,89 +236,3 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   //       });
   //     })
   // );
-
-  return (
-    <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
-      <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
-      <div>
-        <h3 className="px-4 text-center text-lg">Your saved artists</h3>
-        <div className="p-4">
-          {userSavedArtists.length === 0 ? (
-            <p className="px-4">You have no saved artists.</p>
-          ) : (
-            <>
-              {/* <ul>
-              {userSavedArtists.map((artist) => (
-                <li 
-                  key={artist.id}
-                  className="p-1">
-                  <Link 
-                    href={`/artists/${artist.id}`}
-                    className="underline"
-                  >
-                    {artist.name}
-                  </Link>
-                </li>
-              ))}
-            </ul> */}
-              <ArtistList
-                artists={userSavedArtists}
-                placeholder="Search your saved artists..."
-              />
-            </>
-          )}
-        </div>
-      </div>
-      <div>
-        <h3 className="px-4 text-center text-lg">Your saved releases</h3>
-        <div className="p-4">
-          {userSavedReleases.length === 0 ? (
-            <p className="px-4">You have no saved releases.</p>
-          ) : (
-            <ReleaseList
-              releases={userSavedReleases}
-              placeholder="Search your saved releases..."
-            />
-          )}
-        </div>
-        <div>
-          <h3 className="px-4 text-lg text-center">Your saved songs:</h3>
-          <div className="p-4">
-            {userSavedSongs.length === 0 ? (
-              <p className="px-4">You have no saved songs.</p>
-            ) : (
-              <SongList
-                songs={userSavedSongs.filter(
-                  (song): song is Song => song !== null
-                )}
-                artists={allArtists}
-                releases={allReleases}
-                placeholder="Search your saved songs..."
-                userId={userId}
-                action={saveSong}
-                removeAction={removeSavedSong}
-                minimal={false}
-                savedSongs={userSavedSongs.map((song) => song.id)}
-              />
-            )}
-          </div>
-        </div>
-        <div>
-          <h3 className="px-4 text-center">Your playlists</h3>
-          <div className="p-4">
-            {userPlaylists.length === 0 ? (
-              <p className="px-4">You have no playlists.</p>
-            ) : (
-              <PlaylistList
-                playlists={userPlaylists.filter(
-                  (pl): pl is NonNullable<typeof pl> => pl !== null
-                )}
-                placeholder="Search your playlists..."
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}

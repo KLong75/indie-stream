@@ -20,7 +20,7 @@ import {
 // import actions
 // import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
 // import components
-import SaveAndRemoveButtonClientContainer from "@/ui/client-button-container";
+import SaveAndRemoveButtonClientContainer from "@/ui/save-remove-button-client-container";
 // import SaveAndRemoveButton from "@/ui/save-remove-button";
 // import from react icons
 // import { CiSaveDown2 } from "react-icons/ci";
@@ -72,7 +72,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             // replace this with play button later
             <SaveAndRemoveButtonClientContainer
               userId={userId}
-              songId={song.id}
+              itemId={song.id}
+              itemType="song"
               initiallySaved={userSavedSongs.includes(song.id)}
             />
           )}
@@ -81,7 +82,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           {userId && (
             <SaveAndRemoveButtonClientContainer
               userId={userId}
-              songId={song.id}
+              itemId={song.id}
+              itemType="song"
               initiallySaved={userSavedSongs.includes(song.id)}
             />
           )}

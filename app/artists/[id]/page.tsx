@@ -10,13 +10,20 @@ import {
 } from "@/lib/data";
 
 // import actions
-import { saveSong, removeSavedSong, saveRelease, saveArtist } from "@/lib/actions";
+import {
+  saveSong,
+  removeSavedSong,
+  saveRelease,
+  saveArtist,
+} from "@/lib/actions";
 //import from next
 import Image from "next/image";
 import Link from "next/link";
 //import components
 import ReleaseList from "@/ui/release-list";
 import SongList from "@/ui/song-list";
+import SaveAndRemoveButtonClientContainer from "@/ui/save-remove-button-client-container";
+// import definitions
 import { Song, Artist, Release, Musician } from "@/lib/definitions";
 // import BackToLink from "@/ui/back-to-link";
 
@@ -27,10 +34,10 @@ import { Song, Artist, Release, Musician } from "@/lib/definitions";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const session = await auth();
-    const user = session?.user;
-    const userId = user?.id || undefined;
-    const userData = session && userId ? await getUserById(userId) : null;
-    const userSavedSongs = userData?.saved_songs || [];
+  const user = session?.user;
+  const userId = user?.id || undefined;
+  const userData = session && userId ? await getUserById(userId) : null;
+  const userSavedSongs = userData?.saved_songs || [];
   const { id } = await props.params;
   const artist = await getArtistById(id);
   console.log("artist.members", artist?.members);
@@ -71,17 +78,27 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             height={200}
           />
         </div>
+        <div className="p-2 flex items-center justify-center ">
+          {userId && (
+            <SaveAndRemoveButtonClientContainer
+              userId={userId}
+              itemId={artist.id}
+              initiallySaved={userData?.saved_artists?.includes(artist.id) || false}
+              itemType="artist"
+            />
+          )}
+        </div>
         <h2 className="p-2">Members</h2>
-<ul className="p-4">
-  {artist.members.map((member: Musician, index: number) => (
-    <li key={index}>
-      {member.name}
-      {member.instrument && member.instrument.length > 0 && (
-        <span>: {member.instrument.join(", ")}</span>
-      )}
-    </li>
-  ))}
-</ul>
+        <ul className="p-4">
+          {artist.members.map((member: Musician, index: number) => (
+            <li key={index}>
+              {member.name}
+              {member.instrument && member.instrument.length > 0 && (
+                <span>: {member.instrument.join(", ")}</span>
+              )}
+            </li>
+          ))}
+        </ul>
         <h2 className="p-2">Bio</h2>
         <p className="p-4">{artist.bio}</p>
         <div className="p-4">
@@ -110,10 +127,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           />
         </div>
         <div className="p-6">
-          <SongList 
-            songs={artistSongs.filter(Boolean) as Song[]} 
-            artists={[artist as Artist]} 
-            releases={artistReleases.filter(Boolean) as Release[]} 
+          <SongList
+            songs={artistSongs.filter(Boolean) as Song[]}
+            artists={[artist as Artist]}
+            releases={artistReleases.filter(Boolean) as Release[]}
             placeholder={`Search ${artist.name}'s songs...`}
             userId={userId}
             action={saveSong}

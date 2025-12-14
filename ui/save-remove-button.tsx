@@ -123,8 +123,10 @@ export default function SaveAndRemoveButton({
         {isSaved ? (removeIcon ?? icon) : icon}
       </span>
       {/* Label with fixed width */}
-      <span style={{ display: "inline-block", width: "3.5em", textAlign: "center" }}>
-        {isSaved ? "Remove" : "Save"}
+      <span style={{ display: "inline-block", width: "4rem", textAlign: "center" }}>
+        {isSaved
+          ? `Remove `
+          : `Save`}
       </span>
     </button>
   );

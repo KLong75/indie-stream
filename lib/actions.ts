@@ -168,7 +168,7 @@ export async function saveArtist(userId: string, artistId: string) {
       WHERE id = ${artistId}
     `;
     console.log("Artist saved successfully");
-    return { success: true };
+    // return { success: true };
   } catch (error) {
     console.error("Error saving artist:", error);
     throw new Error("Failed to save artist");
@@ -246,6 +246,30 @@ export async function savePlaylist(userId: string, playlistId: string) {
   }
 }
 
+// remove saved artist
+export async function removeSavedArtist(userId: string, artistId: string) {
+  if (!userId || !artistId) {
+    throw new Error("Missing userId or artistId");
+  }
+  try {
+    await sql`
+      UPDATE users
+      SET saved_artists = array_remove(saved_artists, ${artistId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE artists
+      SET number_of_saves = GREATEST(number_of_saves - 1, 0)
+      WHERE id = ${artistId}
+    `;
+    console.log("Artist removed from saved artists successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error removing artist from saved artists:", error);
+    throw new Error("Failed to remove artist from saved artists");
+  }
+}
+
 // remove song from saved songs
 export async function removeSavedSong(userId: string, songId: string) {
   if (!userId || !songId) {
@@ -267,6 +291,54 @@ export async function removeSavedSong(userId: string, songId: string) {
   } catch (error) {
     console.error("Error removing song from saved songs:", error);
     throw new Error("Failed to remove song from saved songs");
+  }
+}
+
+// remove release from saved releases
+export async function removeSavedRelease(userId: string, releaseId: string) {
+  if (!userId || !releaseId) {
+    throw new Error("Missing userId or releaseId");
+  }
+  try {
+    await sql`
+      UPDATE users
+      SET saved_releases = array_remove(saved_releases, ${releaseId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE releases
+      SET number_of_saves = GREATEST(number_of_saves - 1, 0)
+      WHERE id = ${releaseId}
+    `;
+    console.log("Release removed from saved releases successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error removing release from saved releases:", error);
+    throw new Error("Failed to remove release from saved releases");
+  }
+}
+
+// remove playlist from saved playlists
+export async function removeSavedPlaylist(userId: string, playlistId: string) {
+  if (!userId || !playlistId) {
+    throw new Error("Missing userId or playlistId");
+  }
+  try {
+    await sql`
+      UPDATE users
+      SET saved_public_playlists = array_remove(saved_public_playlists, ${playlistId})
+      WHERE id = ${userId}
+    `;
+    await sql`
+      UPDATE playlists
+      SET number_of_saves = GREATEST(number_of_saves - 1, 0)
+      WHERE id = ${playlistId}
+    `;
+    console.log("Playlist removed from saved playlists successfully");
+    // return { success: true };
+  } catch (error) {
+    console.error("Error removing playlist from saved playlists:", error);
+    throw new Error("Failed to remove playlist from saved playlists");
   }
 }
 
