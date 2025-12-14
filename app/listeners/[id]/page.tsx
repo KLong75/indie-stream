@@ -1,4 +1,8 @@
 export const dynamic = "force-dynamic";
+// import auth
+import { auth } from "@/auth";
+// import actions
+import { saveSong, removeSavedSong } from "@/lib/actions";
 // import from next
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -30,6 +34,11 @@ import PlaylistList from "@/ui/playlist-list";
 // import { formatPlaylist } from "@/utils/utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!session || !userId) {
+    return redirect("/");
+  }
   const { id } = await props.params;
   const user = await getUserById(id);
   console.log("user", user);
@@ -159,7 +168,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             <p className="px-4">You have no saved artists.</p>
           ) : (
             <>
-            {/* <ul>
+              {/* <ul>
               {userSavedArtists.map((artist) => (
                 <li 
                   key={artist.id}
@@ -173,11 +182,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 </li>
               ))}
             </ul> */}
-            <ArtistList
-              artists={userSavedArtists}
-              placeholder="Search your saved artists..."
-            />
-          </>
+              <ArtistList
+                artists={userSavedArtists}
+                placeholder="Search your saved artists..."
+              />
+            </>
           )}
         </div>
       </div>
@@ -206,6 +215,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 artists={allArtists}
                 releases={allReleases}
                 placeholder="Search your saved songs..."
+                userId={userId}
+                action={saveSong}
+                removeAction={removeSavedSong}
+                minimal={false}
+                savedSongs={userSavedSongs.map((song) => song.id)}
               />
             )}
           </div>

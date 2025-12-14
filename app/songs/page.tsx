@@ -1,3 +1,5 @@
+// import from next
+import { redirect } from "next/navigation";
 // import auth
 import { auth } from "@/auth";
 // import data
@@ -14,6 +16,9 @@ import SongList from "@/ui/song-list";
 
 export default async function Page() {
   const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   console.log("Session in Songs Page:", session);
   const user = session?.user;
   const userId = user?.id || undefined;

@@ -59,12 +59,12 @@ export default function SongList({
 
   const handleSave = async (userId: string, songId: string) => {
     setUserSavedSongs((prev) => [...prev, songId]);
-    await saveSong(userId, songId);
+    await action?.(userId, songId);
   };
 
   const handleRemove = async (userId: string, songId: string) => {
     setUserSavedSongs((prev) => prev.filter((id) => id !== songId));
-    await removeSavedSong(userId, songId);
+    await removeAction?.(userId, songId);
   };
 
   return (

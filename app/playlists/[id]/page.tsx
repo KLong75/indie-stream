@@ -1,3 +1,5 @@
+// import auth
+import { auth } from "@/auth";
 // import data
 import {
   getPlaylistById,
@@ -6,13 +8,20 @@ import {
   getArtistById,
   getUserById,
 } from "@/lib/data";
-
+// import actions
+import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
 // import components
 // import BackToLink from "@/ui/back-to-link";
 import SongList from "@/ui/song-list";
 import { Song, Artist, Release } from "@/lib/definitions";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  console.log("Session in Songs Page:", session);
+  const user = session?.user;
+  const userId = user?.id || undefined;
+  const userData = session && userId ? await getUserById(userId) : null;
+  const userSavedSongs = userData?.saved_songs || [];
   const { id } = await props.params;
   const playlist = await getPlaylistById(id);
   const playlistAuthor = await getUserById(playlist?.created_by || "");
@@ -54,6 +63,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               (release): release is Release => release !== null
             )}
             placeholder={`Search ${playlist.title}...`}
+            userId={userId}
+            action={saveSong}
+            removeAction={removeSavedSong}
+            minimal={false}
+            savedSongs={userSavedSongs}
           />
         </div>
       </div>
