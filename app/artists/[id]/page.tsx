@@ -123,7 +123,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </ul> */}
           <ReleaseList
             releases={artistReleases.filter(Boolean) as Release[]}
+            artists={artist ? [artist as Artist] : []}
             placeholder={`Search ${artist.name}'s releases...`}
+            hideArtistName={true}
           />
         </div>
         <div className="p-6">

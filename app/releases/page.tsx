@@ -1,7 +1,9 @@
+// import auth
+import { auth } from "@/auth";
 // import from next
-import Link from "next/link";
+import { redirect } from "next/navigation";
 // get data
-import { getAllReleases } from "@/lib/data";
+import { getAllArtists, getAllReleases } from "@/lib/data";
 // import { getArtistById } from "@/lib/data";
 // import definitions
 // import { Release } from "@/lib/definitions";
@@ -9,11 +11,14 @@ import { getAllReleases } from "@/lib/data";
 import ReleaseList from "@/ui/release-list";
 
 export default async function Page() {
+  const session = await auth();
+  const userId = session?.user?.id;
   const releases = await getAllReleases();
   console.log("releases", releases);
   if (!releases) {
-    return <div>No releases found</div>;
+    redirect("/");
   }
+  const allArtists = await getAllArtists();
   // const releasesAlphabetical = releases.sort((a, b) =>
   //   a.title.localeCompare(b.title)
   // );
@@ -30,7 +35,7 @@ export default async function Page() {
 
   return (
     <div className="flex-grow">
-      <h1 className="p-4 text-center">Releases</h1>
+      <h1 className="p-4 text-center">All Releases</h1>
       <ul className="px-4">
         {/* {releasesWithArtists.map((release) => (
           <li key={release.id} className="p-2">
@@ -43,7 +48,11 @@ export default async function Page() {
             </Link>
           </li>
         ))} */}
-        <ReleaseList releases={releases} placeholder="Search all releases..." />
+        <ReleaseList 
+          releases={releases} 
+          placeholder="Search all releases..." 
+          artists={allArtists}
+          />
       </ul>
     </div>
   );
