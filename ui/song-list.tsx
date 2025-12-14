@@ -68,7 +68,7 @@ export default function SongList({
   };
 
   return (
-    <div className="w-full mx-auto">
+    <div className={`w-full mx-auto${minimal ? " flex flex-col" : ""}`}>
       {!minimal && (
         <div className="relative mb-2 w-full max-w-md mx-auto">
           <input
@@ -87,7 +87,7 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto`}>
+      <ul className={`grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto`}>
         {filteredSongs.map((song, idx) => (
           <li key={song.id} className="m-2 relative">
             {!minimal && (
@@ -143,9 +143,7 @@ export default function SongList({
             )}
 
             <div
-              className={`flex justify-center text-white${
-                minimal ? " px-4" : ""
-              }`}>
+              className={`flex text-white${!minimal ? " justify-center" : ""}`}>
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
                 <span
                   style={{
