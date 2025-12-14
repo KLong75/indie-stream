@@ -61,28 +61,39 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         {/* <div className="p-2">
           <BackToLink href="/releases" label="All Releases" />
         </div> */}
-        <h1 className="p-4 text-center text-xl font-bold">{release.title}</h1>
+        <h2 className="p-4 text-center text-xl font-bold">{release.title}</h2>
 
-        <h2 className="px-4">
+        <h3 className="px-4">
           Artist:{" "}
           <Link href={`/artists/${artistId}`} className="text-white underline">
             {artist ? artist.name : "Unknown Artist"}
           </Link>
-        </h2>
-        <h2 className="px-4">
+        </h3>
+        <h3 className="px-4">
           Release Type:{" "}
           {release.type.charAt(0).toUpperCase() + release.type.slice(1)}
-        </h2>
+        </h3>
         {Array.isArray(release.genre) && release.genre.length > 0 && (
-          <h2 className="px-4">
+          <h3 className="px-4">
             {release.genre.length > 1 ? "Genres" : "Genre"}:{" "}
             {release.genre.join(", ")}
-          </h2>
+          </h3>
         )}
         {!Array.isArray(release.genre) && release.genre && (
-          <h2 className="px-4">Genre: {release.genre}</h2>
+          <h3 className="px-4">Genre: {release.genre}</h3>
         )}
-        <h2 className="px-4">Year: {release.year}</h2>
+        <h3 className="px-4">Year: {release.year}</h3>
+        {/* <h3 className="px-4">Performed by:</h3> */}
+        <div>
+          <ul className="px-4">
+            {Array.isArray(release.musicians) &&
+              release.musicians.map((musician, index) => (
+                <li key={index}>
+                  {musician.name}: {Array.isArray(musician.instrument) ? musician.instrument.join(", ") : musician.instrument}
+                </li>
+              ))}
+          </ul>
+        </div>
         <div className="p-4 pb-0 flex flex-col items-center">
           <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
