@@ -18,15 +18,18 @@ import {
   getAllReleases,
 } from "@/lib/data";
 // import actions
-import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
+// import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
 // import components
-import ClientButtonContainer from "@/ui/client-button-container";
-import SaveAndRemoveButton from "@/ui/save-remove-button";
+import SaveAndRemoveButtonClientContainer from "@/ui/client-button-container";
+// import SaveAndRemoveButton from "@/ui/save-remove-button";
 // import from react icons
-import { CiSaveDown2 } from "react-icons/ci";
+// import { CiSaveDown2 } from "react-icons/ci";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   const user = session?.user;
   const userId = user?.id || undefined;
   const userData = session && userId ? await getUserById(userId) : null;
@@ -43,7 +46,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const releaseType = songRelease?.type;
 
   return (
-    <div>
+    <div className="p-4">
       <div className="p-4 space-y-2">
         <h2 className=" text-center">{song.title}</h2>
         <h3 className="text-center">
@@ -67,7 +70,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         <div>
           {userId && (
             // replace this with play button later
-            <ClientButtonContainer
+            <SaveAndRemoveButtonClientContainer
               userId={userId}
               songId={song.id}
               initiallySaved={userSavedSongs.includes(song.id)}
@@ -76,7 +79,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
         <div>
           {userId && (
-            <ClientButtonContainer
+            <SaveAndRemoveButtonClientContainer
               userId={userId}
               songId={song.id}
               initiallySaved={userSavedSongs.includes(song.id)}

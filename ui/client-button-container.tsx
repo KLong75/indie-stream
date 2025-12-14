@@ -9,9 +9,7 @@ import { CiCircleMinus } from "react-icons/ci";
 // import components
 import SaveAndRemoveButton from "@/ui/save-remove-button";
 
-
-
-export default function ClientButtonContainer({
+export default function SaveAndRemoveButtonClientContainer({
   userId,
   songId,
   initiallySaved,
