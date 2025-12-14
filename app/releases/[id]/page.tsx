@@ -83,7 +83,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <h2 className="px-4">Genre: {release.genre}</h2>
         )}
         <h2 className="px-4">Year: {release.year}</h2>
-        <div className="p-4 flex flex-col items-center">
+        <div className="p-4 pb-0 flex flex-col items-center">
           <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
             alt={release.title}
@@ -92,6 +92,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           />
 
           {userId && (
+            <div className="pt-2">
             <SaveAndRemoveButtonClientContainer
               userId={userId}
               itemId={release.id}
@@ -100,6 +101,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               }
               itemType="release"
             />
+            </div>
           )}
         </div>
         <div className="p-4">

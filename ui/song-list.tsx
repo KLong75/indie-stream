@@ -87,28 +87,32 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto`}>
+      <ul className={`grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto`}>
         {filteredSongs.map((song, idx) => (
-          <li key={song.id} className="my-2 relative">
-            {!minimal &&
-            <Image
-              src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
-                song.release
-              )}`}
-              alt="Release cover"
-              width={64}
-              height={64}
-              className="rounded shadow absolute top-1 right-0"
-              style={{ objectFit: "cover" }}
-            />
-            }
+          <li key={song.id} className="m-2 relative">
+            {!minimal && (
+              <Image
+                src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
+                  song.release
+                )}`}
+                alt="Release cover"
+                width={64}
+                height={64}
+                className="rounded shadow absolute top-1 right-0"
+                style={{ objectFit: "cover" }}
+              />
+            )}
             {/* <div className=""> */}
-              {minimal && <span className="text-gray-400">{idx + 1}.</span>}
-              <Link href={`/songs/${song.id}`}>
-                <h2 className="font-semibold underline">
-                  {song.title.length > 24 ? song.title.slice(0, 24) + "…" : song.title}
-                </h2>
+
+            <h2 className="font-semibold">
+              {minimal && <span className="text-gray-400">{idx + 1}. </span>}
+              <Link href={`/songs/${song.id}`} className="underline">
+                {song.title.length > 24
+                  ? song.title.slice(0, 24) + "…"
+                  : song.title}
               </Link>
+            </h2>
+
             {/* </div> */}
             {!minimal && (
               <div className="text-gray-500">
@@ -138,7 +142,10 @@ export default function SongList({
               </div>
             )}
 
-            <div className={`flex justify-center text-white${minimal ? " px-4" : ""}`}>
+            <div
+              className={`flex justify-center text-white${
+                minimal ? " px-4" : ""
+              }`}>
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
                 <span
                   style={{
@@ -186,8 +193,6 @@ export default function SongList({
                   userId={userId}
                   icon={<CiSaveDown2 />}
                   removeIcon={<CiCircleMinus />}
-                  // action={action ?? (() => {})}
-                  // removeAction={removeAction ?? (() => {})}
                   action={handleSave}
                   removeAction={handleRemove}
                   isSaved={userSavedSongs.includes(song.id)}
