@@ -116,7 +116,7 @@ export default function ReleaseList({
                 )}
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-1">
             <SaveAndRemoveButton
               itemId={release.id}
               itemType="release"

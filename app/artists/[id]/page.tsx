@@ -8,15 +8,17 @@ import {
   getReleaseById,
   getPlaylistById,
 } from "@/lib/data";
-
 // import actions
 import {
   saveSong,
   removeSavedSong,
   saveRelease,
+  removeSavedRelease,
   saveArtist,
+  removeSavedArtist,
 } from "@/lib/actions";
 //import from next
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 //import components
@@ -34,6 +36,9 @@ import { Song, Artist, Release, Musician } from "@/lib/definitions";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   const user = session?.user;
   const userId = user?.id || undefined;
   const userData = session && userId ? await getUserById(userId) : null;
@@ -108,6 +113,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             artists={artist ? [artist as Artist] : []}
             placeholder={`Search ${artist.name}'s releases...`}
             hideArtistName={true}
+            userId={userId}
+            action={saveRelease}
+            removeAction={removeSavedRelease}
+            savedReleases={userData?.saved_releases || []}
           />
         </div>
         <div className="p-6">

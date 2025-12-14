@@ -1,17 +1,29 @@
 // import auth
 import { auth } from "@/auth";
 // import data
-import { getUserById, getReleaseById, getSongById, getArtistById } from "@/lib/data";
+import {
+  getUserById,
+  getReleaseById,
+  getSongById,
+  getArtistById,
+} from "@/lib/data";
 // import actions
-import { saveSong, removeSavedSong, saveRelease } from "@/lib/actions";
+import {
+  saveSong,
+  removeSavedSong,
+  saveRelease,
+  removeSavedRelease,
+} from "@/lib/actions";
 // import definitions
 import { Song, Release, Artist } from "@/lib/definitions";
 // import from next
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 // import components
-// import SaveAndRemoveButton from "@/ui/save-remove-button";
+import SaveAndRemoveButtonClientContainer from "@/ui/save-remove-button-client-container";
 import SongList from "@/ui/song-list";
+
 // import BackToLink from "@/ui/back-to-link";
 // import icons
 // import { RxPlus } from "react-icons/rx";
@@ -20,12 +32,15 @@ import SongList from "@/ui/song-list";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const session = await auth();
-  console.log("Session in Songs Page:", session);
+  if (!session) {
+    redirect("/");
+  }
   const user = session?.user;
   const userId = user?.id || undefined;
   const { id } = await props.params;
   const userData = session && userId ? await getUserById(userId) : null;
   const userSavedSongs = userData?.saved_songs || [];
+  const userSavedReleases = userData?.saved_releases || [];
   const release = await getReleaseById(id);
   if (!release) {
     return <div>Release not found</div>;
@@ -68,13 +83,24 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <h2 className="px-4">Genre: {release.genre}</h2>
         )}
         <h2 className="px-4">Year: {release.year}</h2>
-        <div className="p-4">
+        <div className="p-4 flex flex-col items-center">
           <Image
             src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
             alt={release.title}
             width={200}
             height={200}
           />
+
+          {userId && (
+            <SaveAndRemoveButtonClientContainer
+              userId={userId}
+              itemId={release.id}
+              initiallySaved={
+                userData?.saved_releases?.includes(release.id) || false
+              }
+              itemType="release"
+            />
+          )}
         </div>
         <div className="p-4">
           <ul>
