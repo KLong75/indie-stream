@@ -135,7 +135,7 @@ export default function SongList({
                   </Link>
                 </p>
                 <p>released in {getReleaseYear(song.release)}</p>
-                <div className="flex gap-6">
+                <div className="flex justify-center gap-6">
                   <span className="w-auto">Plays: {song.number_of_plays}</span>
                   <span className="w-auto">Saves: {song.number_of_saves}</span>
                 </div>
