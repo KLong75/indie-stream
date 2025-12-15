@@ -21,6 +21,7 @@ interface SongListProps {
   action?: (userId: string, itemId: string) => void | Promise<void>;
   removeAction?: (userId: string, itemId: string) => void | Promise<void>;
   minimal?: boolean;
+  isScrollable?: boolean;
   savedSongs?: string[];
 }
 
@@ -33,6 +34,7 @@ export default function SongList({
   action,
   removeAction,
   minimal = false,
+  isScrollable = false,
   savedSongs = [],
 }: SongListProps) {
   const [userSavedSongs, setUserSavedSongs] = useState<string[]>(savedSongs);
@@ -87,7 +89,7 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto`}>
+      <ul className={`grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4 ${isScrollable ? " mt-6 max-h-96 overflow-y-auto no-scrollbar" : ""}`}>
         {filteredSongs.map((song, idx) => (
           <li key={song.id} className="m-2 relative">
             {!minimal && (

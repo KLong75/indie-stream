@@ -18,6 +18,7 @@ export default async function Page() {
   const user = await getUserById(userId);
   const userSavedReleases = user?.saved_releases || [];
   const releases = await getAllReleases();
+  const numberOfReleases = releases.length;
   const allArtists = await getAllArtists();
  
   return (
@@ -25,7 +26,7 @@ export default async function Page() {
       <h2 className="p-4 text-center">All Releases</h2>
         <ReleaseList 
           releases={releases} 
-          placeholder="Search all releases..." 
+          placeholder={`Search all ${numberOfReleases} releases on indieStream...`} 
           artists={allArtists}
           userId={userId}
           action={saveRelease}

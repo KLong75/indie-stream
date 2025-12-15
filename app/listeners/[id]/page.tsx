@@ -130,6 +130,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 action={saveSong}
                 removeAction={removeSavedSong}
                 minimal={false}
+                isScrollable={true}
                 savedSongs={userSavedSongs.map((song) => song.id)}
               />
             )}
