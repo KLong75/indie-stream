@@ -81,7 +81,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
       <div>
         <h3 className="px-4 text-center text-lg">Your saved artists</h3>
-        <div className="p-4">
+        <div className="p-6 pt-2">
           {userSavedArtists.length === 0 ? (
             <p className="px-4">You have no saved artists.</p>
           ) : (
@@ -98,7 +98,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
       <div>
         <h3 className="px-4 text-center text-lg">Your saved releases</h3>
-        <div className="p-4">
+        <div className="p-6 pt-2">
           {userSavedReleases.length === 0 ? (
             <p className="px-4">You have no saved releases.</p>
           ) : (
@@ -115,7 +115,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
         <div>
           <h3 className="px-4 text-lg text-center">Your saved songs:</h3>
-          <div className="p-4">
+          <div className="p-6 pt-2">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
             ) : (
@@ -136,8 +136,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </div>
         <div>
-          <h3 className="px-4 text-center">Your playlists</h3>
-          <div className="p-4">
+          <h3 className="px-4 text-lg text-center">Your playlists</h3>
+          <div className="p-6 pt-2">
             {userPlaylists.length === 0 ? (
               <p className="px-4">You have no playlists.</p>
             ) : (
