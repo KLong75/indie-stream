@@ -92,7 +92,7 @@ export default function SongList({
         </div>
       )}
       <ul
-        className={`p-1 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap max-w-md mx-auto ${
+        className={`p-1 rounded-2xl bg-neutral-800 grid grid-cols-1 md:grid-cols-1 gap max-w-md mx-auto ${
           isScrollable ? "mt-6 overflow-y-auto no-scrollbar" : ""
         }`}
         style={maxHeight ? { maxHeight } : undefined}>
