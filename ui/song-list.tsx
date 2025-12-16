@@ -92,14 +92,14 @@ export default function SongList({
         </div>
       )}
       <ul
-        className={`p-1 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto ${
-          isScrollable ? " mt-6 overflow-y-auto no-scrollbar" : ""
+        className={`p-1 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap max-w-md mx-auto ${
+          isScrollable ? "mt-6 overflow-y-auto no-scrollbar" : ""
         }`}
         style={maxHeight ? { maxHeight } : undefined}>
         {filteredSongs.map((song, idx) => (
           <li
             key={song.id}
-            className="p-2 m-2 relative bg-black rounded-2xl shadow-neutral-200 shadow-md">
+            className="relative bg-black rounded-2xl shadow-neutral-200 shadow-md text-sm p-2 m-2 ">
             {!minimal && (
               <Image
                 src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
@@ -114,8 +114,8 @@ export default function SongList({
             )}
             {/* <div className=""> */}
 
-            <h2 className="font-semibold">
-              {minimal && <span className="text--400">{idx + 1}. </span>}
+            <h2 className="font-semibold text-base ml-1">
+              {minimal && <span className="text-400">{idx + 1}. </span>}
               <Link href={`/songs/${song.id}`} className="underline">
                 {song.title.length > 24
                   ? song.title.slice(0, 24) + "…"
@@ -125,7 +125,7 @@ export default function SongList({
 
             {/* </div> */}
             {!minimal && (
-              <div className="text-gray-500">
+              <div className="text-gray-500 ml-1">
                 <p>
                   by{" "}
                   <Link
