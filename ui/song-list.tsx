@@ -106,8 +106,8 @@ export default function SongList({
                   song.release
                 )}`}
                 alt="Release cover"
-                width={60}
-                height={60}
+                width={50}
+                height={50}
                 className="rounded shadow absolute top-2 right-2 shadow shadow-neutral-200"
                 style={{ objectFit: "cover" }}
               />
