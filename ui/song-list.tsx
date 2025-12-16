@@ -92,14 +92,14 @@ export default function SongList({
         </div>
       )}
       <ul
-        className={`p-2 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto ${
+        className={`p-1 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto ${
           isScrollable ? " mt-6 overflow-y-auto no-scrollbar" : ""
         }`}
         style={maxHeight ? { maxHeight } : undefined}>
         {filteredSongs.map((song, idx) => (
           <li
             key={song.id}
-            className="m-2 relative bg-black px-4 py-2 rounded-2xl shadow-neutral-200 shadow-md">
+            className="p-2 m-2 relative bg-black rounded-2xl shadow-neutral-200 shadow-md">
             {!minimal && (
               <Image
                 src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
@@ -115,7 +115,7 @@ export default function SongList({
             {/* <div className=""> */}
 
             <h2 className="font-semibold">
-              {minimal && <span className="text-gray-400">{idx + 1}. </span>}
+              {minimal && <span className="text--400">{idx + 1}. </span>}
               <Link href={`/songs/${song.id}`} className="underline">
                 {song.title.length > 24
                   ? song.title.slice(0, 24) + "…"
