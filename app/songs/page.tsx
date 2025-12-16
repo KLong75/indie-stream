@@ -32,21 +32,23 @@ export default async function Page() {
   const releases = await getAllReleases();
 
   return (
-    <div className="px-8">
-      <h2 className="text-lg font-bold mb-2 text-center">All Songs</h2>
-      <SongList
-        songs={songs}
-        artists={artists}
-        releases={releases}
-        placeholder={`Search all ${totalSongs} songs on indieStream...`}
-        userId={userId}
-        action={saveSong}
-        removeAction={removeSavedSong}
-        minimal={false}
-        savedSongs={savedSongs}
-        isScrollable={true}
-        maxHeight="48vh"
-      />
+    <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
+      <h2 className="text-lg font-bold pt-4 text-center">All Songs</h2>
+      <div className="px-6 mt-4">
+        <SongList
+          songs={songs}
+          artists={artists}
+          releases={releases}
+          placeholder={`Search all ${totalSongs} songs on indieStream...`}
+          userId={userId}
+          action={saveSong}
+          removeAction={removeSavedSong}
+          minimal={false}
+          savedSongs={savedSongs}
+          isScrollable={true}
+          maxHeight="54vh"
+        />
+      </div>
     </div>
   );
 }
