@@ -21,6 +21,7 @@ interface ArtistListProps {
   removeAction?: (userId: string, itemId: string) => void | Promise<void>;
   savedArtists?: string[];
   isScrollable?: boolean;
+  maxHeight?: string;
 }
 
 export default function ArtistList({
@@ -31,6 +32,7 @@ export default function ArtistList({
   removeAction,
   savedArtists = [],
   isScrollable = false,
+  maxHeight,
 }: ArtistListProps) {
   const [userSavedArtists, setUserSavedArtists] = useState<string[]>(savedArtists);
   const [query, setQuery] = useState("");
@@ -76,7 +78,7 @@ export default function ArtistList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className={`flex flex-col ${isScrollable ? "overflow-y-auto max-h-52" : ""}`}>
+      <ul className={`flex flex-col ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredArtists.map((artist) => (
             <li key={artist.id} className="font-semibold p-1 flex items-center justify-between">
             <Link href={`/artists/${artist.id}`} className="underline">

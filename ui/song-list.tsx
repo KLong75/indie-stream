@@ -91,10 +91,15 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`p-4 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4${isScrollable ? " mt-4 overflow-y-auto no-scrollbar" : ""}`}
-  style={maxHeight ? { maxHeight } : undefined}>
+      <ul
+        className={`p-4 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4${
+          isScrollable ? " mt-4 overflow-y-auto no-scrollbar" : ""
+        }`}
+        style={maxHeight ? { maxHeight } : undefined}>
         {filteredSongs.map((song, idx) => (
-          <li key={song.id} className="m-2 relative bg-black px-4 py-2 rounded-2xl shadow-neutral-200 shadow-md">
+          <li
+            key={song.id}
+            className="m-2 relative bg-black px-4 py-2 rounded-2xl shadow-neutral-200 shadow-md">
             {!minimal && (
               <Image
                 src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(

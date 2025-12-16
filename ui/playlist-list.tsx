@@ -9,11 +9,14 @@ interface PlaylistListProps {
   playlists: Playlist[];
   placeholder?: string;
   isScrollable?: boolean;
+  maxHeight?: string;
 }
 
 export default function PlaylistList({
   playlists,
   placeholder = "Search playlists...",
+  isScrollable = false,
+  maxHeight,
 }: PlaylistListProps) {
   const [query, setQuery] = useState("");
   const filteredPlaylists = useMemo(() => {
@@ -41,7 +44,7 @@ export default function PlaylistList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="flex flex-col gap-2 overflow-y-auto max-h-96">
+      <ul className={`flex flex-col gap-2 ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredPlaylists.map((playlist) => (
           <li key={playlist.id} className="p-2">
             <Link href={`/playlists/${playlist.id}`}>

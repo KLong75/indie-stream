@@ -20,6 +20,8 @@ interface ReleaseListProps {
   action?: (userId: string, itemId: string) => void | Promise<void>;
   removeAction?: (userId: string, itemId: string) => void | Promise<void>;
   savedReleases?: string[];
+  isScrollable?: boolean;
+  maxHeight?: string;
 }
 
 export default function ReleaseList({
@@ -31,6 +33,8 @@ export default function ReleaseList({
   action,
   removeAction,
   savedReleases = [],
+  isScrollable = false,
+  maxHeight,
 }: ReleaseListProps) {
   const [userSavedReleases, setUserSavedReleases] = useState<string[]>(savedReleases);
   const [query, setQuery] = useState("");
@@ -76,7 +80,7 @@ export default function ReleaseList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto w-full max-w-md md:max-w-2xl lg:max-w-4xl 2xl:max-w-6xl">
+      <ul className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto w-full max-w-md md:max-w-2xl lg:max-w-4xl 2xl:max-w-6xl ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredReleases.map((release) => (
           <li key={release.id}>
             <div className="flex flex-col items-center space-y-2 text-sm">
