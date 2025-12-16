@@ -8,6 +8,7 @@ import { MdOutlineSearch } from "react-icons/md";
 interface PlaylistListProps {
   playlists: Playlist[];
   placeholder?: string;
+  isScrollable?: boolean;
 }
 
 export default function PlaylistList({

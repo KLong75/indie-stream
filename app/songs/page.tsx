@@ -32,8 +32,8 @@ export default async function Page() {
   const releases = await getAllReleases();
 
   return (
-    <div className="p-8">
-      <h2 className="text-lg font-bold mb-4 text-center">All Songs</h2>
+    <div className="px-8">
+      <h2 className="text-lg font-bold mb-2 text-center">All Songs</h2>
       <SongList
         songs={songs}
         artists={artists}
@@ -44,6 +44,8 @@ export default async function Page() {
         removeAction={removeSavedSong}
         minimal={false}
         savedSongs={savedSongs}
+        isScrollable={true}
+        maxHeight="58vh"
       />
     </div>
   );

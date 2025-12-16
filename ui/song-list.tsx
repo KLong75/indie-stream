@@ -22,6 +22,7 @@ interface SongListProps {
   removeAction?: (userId: string, itemId: string) => void | Promise<void>;
   minimal?: boolean;
   isScrollable?: boolean;
+  maxHeight?: string;
   savedSongs?: string[];
 }
 
@@ -35,6 +36,7 @@ export default function SongList({
   removeAction,
   minimal = false,
   isScrollable = false,
+  maxHeight,
   savedSongs = [],
 }: SongListProps) {
   const [userSavedSongs, setUserSavedSongs] = useState<string[]>(savedSongs);
@@ -89,9 +91,10 @@ export default function SongList({
           </span>
         </div>
       )}
-      <ul className={`grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4 ${isScrollable ? " mt-6 max-h-96 overflow-y-auto no-scrollbar" : ""}`}>
+      <ul className={`p-4 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4${isScrollable ? " mt-4 overflow-y-auto no-scrollbar" : ""}`}
+  style={maxHeight ? { maxHeight } : undefined}>
         {filteredSongs.map((song, idx) => (
-          <li key={song.id} className="m-2 relative">
+          <li key={song.id} className="m-2 relative bg-black px-4 py-2 rounded-2xl shadow-neutral-200 shadow-md">
             {!minimal && (
               <Image
                 src={`https://4ykxjgur5y.ufs.sh/f/${getReleaseCover(
@@ -100,7 +103,7 @@ export default function SongList({
                 alt="Release cover"
                 width={64}
                 height={64}
-                className="rounded shadow absolute top-1 right-0"
+                className="rounded shadow absolute top-3 right-3 shadow shadow-neutral-200"
                 style={{ objectFit: "cover" }}
               />
             )}
