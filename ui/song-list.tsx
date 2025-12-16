@@ -106,9 +106,9 @@ export default function SongList({
                   song.release
                 )}`}
                 alt="Release cover"
-                width={64}
-                height={64}
-                className="rounded shadow absolute top-3 right-3 shadow shadow-neutral-200"
+                width={60}
+                height={60}
+                className="rounded shadow absolute top-2 right-2 shadow shadow-neutral-200"
                 style={{ objectFit: "cover" }}
               />
             )}
@@ -139,8 +139,8 @@ export default function SongList({
                   <Link
                     href={`/releases/${song.release}`}
                     className="text-white underline">
-                    {getReleaseTitle(song.release).length > 21
-                      ? getReleaseTitle(song.release).slice(0, 21) + "…"
+                    {getReleaseTitle(song.release).length > 20
+                      ? getReleaseTitle(song.release).slice(0, 20) + "…"
                       : getReleaseTitle(song.release)}
                   </Link>
                 </p>
