@@ -92,8 +92,8 @@ export default function SongList({
         </div>
       )}
       <ul
-        className={`p-4 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto mt-4${
-          isScrollable ? " mt-4 overflow-y-auto no-scrollbar" : ""
+        className={`p-2 rounded-2xl bg-neutral-900 grid grid-cols-1 md:grid-cols-1 gap-4 max-w-md mx-auto ${
+          isScrollable ? " mt-6 overflow-y-auto no-scrollbar" : ""
         }`}
         style={maxHeight ? { maxHeight } : undefined}>
         {filteredSongs.map((song, idx) => (
