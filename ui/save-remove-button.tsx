@@ -116,14 +116,19 @@ export default function SaveAndRemoveButton({
   return (
     <button
       onClick={handleClick}
-      className={`p-1 ${isSaved ? "text-gray-500" : "text-white"} hover:text-gray-700 flex flex-col items-center`}
+      className={`p-1 ${isSaved ? "text-neutral-500" : "text-white"} hover:text-neutral-700 flex flex-col items-center`}
       aria-label={isSaved ? `Remove ${itemType}` : `Save ${itemType}`}>
       {/* Icon wrapper with fixed size */}
-      <span style={{ width: 24, height: 24, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+      <span 
+        // style={{ width: 24, height: 24, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+      >
         {isSaved ? (removeIcon ?? icon) : icon}
       </span>
       {/* Label with fixed width */}
-      <span style={{ display: "inline-block", width: "4rem", textAlign: "center" }}>
+      <span 
+        className="w-[4rem] text-sm" 
+        // style={{ display: "inline-block", width: "4rem", textAlign: "center" }}
+      >
         {isSaved
           ? `Remove `
           : `Save`}

@@ -144,7 +144,7 @@ export default function SongList({
                       : getReleaseTitle(song.release)}
                   </Link>
                 </p>
-                <p>released in {getReleaseYear(song.release)}</p>
+                <p>{getReleaseYear(song.release)}</p>
                 <div className="flex justify-center gap-6">
                   <span className="w-auto">Plays: {song.number_of_plays}</span>
                   <span className="w-auto">Saves: {song.number_of_saves}</span>
@@ -157,13 +157,13 @@ export default function SongList({
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
                 <span
                   style={{
-                    width: 24,
-                    height: 24,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    // width: 24,
+                    // height: 24,
+                    // display: "inline-flex",
+                    // alignItems: "center",
+                    // justifyContent: "center",
                   }}>
-                  <RxPlay />
+                  <RxPlay size={18} />
                 </span>
                 <span
                   style={{
@@ -177,19 +177,19 @@ export default function SongList({
               <button className="p-1 hover:text-gray-700 flex flex-col items-center">
                 <span
                   style={{
-                    width: 24,
-                    height: 24,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    // width: 24,
+                    // height: 24,
+                    // display: "inline-flex",
+                    // alignItems: "center",
+                    // justifyContent: "center",
                   }}>
-                  <RxPlus />
+                  <RxPlus size={18} />
                 </span>
                 <span
                   style={{
-                    display: "inline-block",
-                    width: "8em",
-                    textAlign: "center",
+                    // display: "inline-block",
+                    width: "6.5em",
+                    // textAlign: "center",
                   }}>
                   Add to Playlist
                 </span>
@@ -199,8 +199,8 @@ export default function SongList({
                   itemId={song.id}
                   itemType="song"
                   userId={userId}
-                  icon={<CiSaveDown2 />}
-                  removeIcon={<CiCircleMinus />}
+                  icon={<CiSaveDown2 size={18} />}
+                  removeIcon={<CiCircleMinus size={18}/>}
                   action={handleSave}
                   removeAction={handleRemove}
                   isSaved={userSavedSongs.includes(song.id)}

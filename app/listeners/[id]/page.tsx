@@ -22,7 +22,12 @@ import {
 // import context
 // import { usePushNotification } from "../../../context/push-notification-context-provider";
 // import actions
-import { saveArtist, removeSavedArtist, saveRelease, removeSavedRelease } from "@/lib/actions";
+import {
+  saveArtist,
+  removeSavedArtist,
+  saveRelease,
+  removeSavedRelease,
+} from "@/lib/actions";
 // import definitions
 import { Song, Artist, Release } from "@/lib/definitions";
 // import components
@@ -30,6 +35,7 @@ import ArtistList from "@/ui/artist-list";
 import SongList from "@/ui/song-list";
 import ReleaseList from "@/ui/release-list";
 import PlaylistList from "@/ui/playlist-list";
+import Link from "next/link";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
@@ -91,7 +97,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
       <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
       <div>
-        <h3 className="px-4 text-center text-lg">You have {numberOfUserSavedArtists} saved artists</h3>
+        <h3 className="px-4 text-center text-lg">
+          You have {numberOfUserSavedArtists} saved artists
+        </h3>
         <div className="p-6 pt-2">
           {userSavedArtists.length === 0 ? (
             <p className="px-4">You have no saved artists.</p>
@@ -109,7 +117,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
       </div>
       <div>
-        <h3 className="px-4 text-center text-lg">You have {numberOfUserSavedReleases} saved releases</h3>
+        <h3 className="px-4 text-center text-lg">
+          You have {numberOfUserSavedReleases} saved releases
+        </h3>
         <div className="p-6 pt-2">
           {userSavedReleases.length === 0 ? (
             <p className="px-4">You have no saved releases.</p>
@@ -122,11 +132,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               action={saveRelease}
               removeAction={removeSavedRelease}
               savedReleases={userSavedReleases.map((release) => release.id)}
+              isScrollable={true}
+              maxHeight="36rem"
             />
           )}
         </div>
         <div>
-          <h3 className="px-4 text-lg text-center">You have {numberOfUserSavedSongs} saved songs</h3>
+          <h3 className="px-4 text-lg text-center">
+            You have {numberOfUserSavedSongs} saved songs
+          </h3>
           <div className="p-6 pt-2">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
@@ -150,7 +164,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </div>
         <div>
-          <h3 className="px-4 text-lg text-center">You have {numberOfUserPlaylists} playlists</h3>
+          <h3 className="px-4 text-lg text-center">
+            You have {numberOfUserPlaylists} playlists
+          </h3>
           <div className="p-6 pt-2">
             {userPlaylists.length === 0 ? (
               <p className="px-4">You have no playlists.</p>
@@ -165,10 +181,19 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </div>
         <div>
-          <h3 className="px-4 text-lg text-center">You have saved {numberOfUserSavedPublicPlaylists} public playlists</h3>
+          <h3 className="px-4 text-lg text-center">
+            You have saved {numberOfUserSavedPublicPlaylists} public playlists
+          </h3>
           <div className="p-6 pt-2">
             {userSavedPublicPlaylists.length === 0 ? (
-              <p className="px-4">You haven't saved any public playlists yet.</p>
+              <div className="p-2 bg-neutral-800 rounded-2xl">
+                {" "}
+                <p className="p-2 m-2 bg-black rounded-2xl shadow-neutral-200 shadow-md text-center">
+                  <Link href="/playlists" className="underline">
+                    Search Public Playlists
+                  </Link>
+                </p>
+              </div>
             ) : (
               <PlaylistList
                 playlists={userSavedPublicPlaylists.filter(

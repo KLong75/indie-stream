@@ -370,7 +370,7 @@ export default function AudioPlayer({
       ) : null}
       <button
         className={clsx(
-          "absolute bg-gray-700 px-2 py-1 rounded-full",
+          "absolute bg-neutral-700 px-2 py-1 rounded-full border border-neutral-900",
           isAudioPlayerExpanded ? "top-4 left-4" : "top-2 left-2"
         )}
         onClick={() => setIsAudioPlayerExpanded(!isAudioPlayerExpanded)}

@@ -80,9 +80,9 @@ export default function ReleaseList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className={`p-2 bg-neutral-800 rounded-2xl grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto w-full max-w-md md:max-w-2xl lg:max-w-4xl 2xl:max-w-6xl ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
+      <ul className={`p-2 bg-neutral-800 rounded-2xl grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mx-auto w-full max-w-md md:max-w-2xl lg:max-w-4xl 2xl:max-w-6xl ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredReleases.map((release) => (
-          <li key={release.id} className="p-2 py-4 bg-black rounded-2xl shadow-neutral-200 shadow-md">
+          <li key={release.id} className="p-2 py-4 my-1 bg-black rounded-2xl shadow-neutral-200 shadow-md">
             <div className="flex flex-col items-center space-y-2 text-sm">
               <Link
                 href={`/releases/${release.id}`}
@@ -91,8 +91,8 @@ export default function ReleaseList({
                   <Image
                     src={`https://4ykxjgur5y.ufs.sh/f/${release.cover_img_file_key}`}
                     alt={release.title}
-                    width={75}
-                    height={75}
+                    width={100}
+                    height={100}
                     title={release.title}
                   />
                 )}
@@ -119,6 +119,9 @@ export default function ReleaseList({
                 </p>
                 )}
               </div>
+              <p className="text-xs text-gray-400">
+                {release.year}
+              </p>
             </div>
             <div className="flex justify-center mt-1">
             <SaveAndRemoveButton
@@ -136,8 +139,8 @@ export default function ReleaseList({
                   await handleRemoveRelease(userId, release.id);
                 }
               }}
-              icon={<CiSaveDown2 size={24} />}
-              removeIcon={<CiCircleMinus size={24} />}
+              icon={<CiSaveDown2 size={18} />}
+              removeIcon={<CiCircleMinus size={18} />}
             />
             </div>
           </li>
