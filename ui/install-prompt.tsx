@@ -60,7 +60,7 @@ export default function InstallPrompt() {
       {deferredPrompt && (
         <button
           onClick={handleInstallClick}
-          className="bg-blue-600 text-white px-2 py-2 rounded-md border border-gray-300 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer whitespace-nowrap">
+          className="bg-neutral-800 text-white px-2 py-2 rounded-md border border-gray-300 text-sm font-medium shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174054] cursor-pointer whitespace-nowrap">
           Install indieStream on your device for the best experience
         </button>
       )}
