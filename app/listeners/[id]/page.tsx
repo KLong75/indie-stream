@@ -54,6 +54,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedArtists = allArtists.filter((artist) =>
     userSavedArtistsIds.includes(artist.id)
   );
+  const numberOfUserSavedArtists = userSavedArtists.length;
 
   const allSongs = await getAllSongs();
   const userSavedSongsIds = user.saved_songs || [];
@@ -61,6 +62,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedSongs = allSongs.filter((song) =>
     userSavedSongsIds.includes(song.id)
   );
+  const numberOfUserSavedSongs = userSavedSongs.length;
 
   const allReleases = await getAllReleases();
   const userSavedReleasesIds = user.saved_releases || [];
@@ -68,26 +70,29 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const userSavedReleases = allReleases.filter((release) =>
     userSavedReleasesIds.includes(release.id)
   );
+  const numberOfUserSavedReleases = userSavedReleases.length;
 
   const userPlaylistsIds = user.playlists || [];
   console.log("userPlaylistsIds", userPlaylistsIds);
   const userPlaylists = await Promise.all(
     userPlaylistsIds.map((id) => getPlaylistById(id))
   );
-  console.log("userPlaylists", userPlaylists);
+  const numberOfUserPlaylists = userPlaylists.length;
+
+  const publicPlaylists = await getAllPublicPlaylists();
 
   return (
     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
       <h2 className="text-xl p-4">Welcome back {user.user_name}</h2>
       <div>
-        <h3 className="px-4 text-center text-lg">Your saved artists</h3>
+        <h3 className="px-4 text-center text-lg">You have {numberOfUserSavedArtists} saved artists</h3>
         <div className="p-6 pt-2">
           {userSavedArtists.length === 0 ? (
             <p className="px-4">You have no saved artists.</p>
           ) : (
             <ArtistList
               artists={userSavedArtists}
-              placeholder="Search your saved artists..."
+              placeholder={`Search your ${numberOfUserSavedArtists} saved artists...`}
               userId={userId}
               action={saveArtist}
               removeAction={removeSavedArtist}
@@ -98,7 +103,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </div>
       </div>
       <div>
-        <h3 className="px-4 text-center text-lg">Your saved releases</h3>
+        <h3 className="px-4 text-center text-lg">You have {numberOfUserSavedReleases} saved releases</h3>
         <div className="p-6 pt-2">
           {userSavedReleases.length === 0 ? (
             <p className="px-4">You have no saved releases.</p>
@@ -106,7 +111,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             <ReleaseList
               releases={userSavedReleases}
               artists={allArtists}
-              placeholder="Search your saved releases..."
+              placeholder={`Search your ${numberOfUserSavedReleases} saved releases...`}
               userId={userId}
               action={saveRelease}
               removeAction={removeSavedRelease}
@@ -115,7 +120,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           )}
         </div>
         <div>
-          <h3 className="px-4 text-lg text-center">Your saved songs:</h3>
+          <h3 className="px-4 text-lg text-center">You have {numberOfUserSavedSongs} saved songs</h3>
           <div className="p-6 pt-2">
             {userSavedSongs.length === 0 ? (
               <p className="px-4">You have no saved songs.</p>
@@ -126,7 +131,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                 )}
                 artists={allArtists}
                 releases={allReleases}
-                placeholder="Search your saved songs..."
+                placeholder={`Search your ${numberOfUserSavedSongs} saved songs...`}
                 userId={userId}
                 action={saveSong}
                 removeAction={removeSavedSong}
@@ -139,7 +144,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </div>
         <div>
-          <h3 className="px-4 text-lg text-center">Your playlists</h3>
+          <h3 className="px-4 text-lg text-center">You have {numberOfUserPlaylists} playlists</h3>
           <div className="p-6 pt-2">
             {userPlaylists.length === 0 ? (
               <p className="px-4">You have no playlists.</p>
