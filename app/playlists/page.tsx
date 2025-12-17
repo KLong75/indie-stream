@@ -1,11 +1,9 @@
-// import from next
-import Link from "next/link";
 // import auth
 import { auth } from "@/auth";
 // get data
 import {
   getUserById,
-  getAllUserPlaylists,
+  // getAllUserPlaylists,
   getAllPublicPlaylists,
 } from "@/lib/data";
 // import components
@@ -18,24 +16,30 @@ export default async function Page() {
   if (!user) {
     return null;
   }
-  const userPlaylists = await getAllUserPlaylists(userId);
+  // const userPlaylists = await getAllUserPlaylists(userId);
   const publicPlaylists = await getAllPublicPlaylists();
+  const numberOfPublicPlaylists = publicPlaylists.length;
   // console.log("playlists", playlists);
+  // const userSavedPublicPlaylistIds = user.saved_public_playlists || [];
+  // const userSavedPublicPlaylists = publicPlaylists.filter((playlist) =>
+  //   userSavedPublicPlaylistIds.includes(playlist?.id || "")
+  // );
 
   return (
-    <div className="p-8 space-y-8 mx-auto max-w-4xl">
-      <div>
-        <h2 className="text-lg font-bold mb-4 text-center">
-          All User Playlists
-        </h2>
-        <PlaylistList playlists={userPlaylists} />
+    <>
+      <h2 className="text-lg font-bold mt-6 text-center">
+        {numberOfPublicPlaylists === 1
+          ? "There is 1 Public Playlist"
+          : `There are ${numberOfPublicPlaylists} Public Playlists`}
+      </h2>
+      <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto p-6 justify-center">
+        <PlaylistList
+          playlists={publicPlaylists}
+          placeholder={`Search all ${numberOfPublicPlaylists} public playlists...`}
+          isScrollable={true}
+          maxHeight="64vh"
+        />
       </div>
-      <div>
-        <h2 className="text-lg font-bold mb-4 text-center">
-          All Public Playlists
-        </h2>
-        <PlaylistList playlists={publicPlaylists} />
-      </div>
-    </div>
+    </>
   );
 }

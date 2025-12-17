@@ -28,7 +28,7 @@ export default function PlaylistList({
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-md">
-      <div className="relative mb-2 mx-auto w-full max-w-md">
+      <div className="relative mb-6 mx-auto w-full max-w-md">
         <input
           type="text"
           placeholder={placeholder}
@@ -44,7 +44,7 @@ export default function PlaylistList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className={`flex flex-col gap-2 ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
+      <ul className={`p-1 rounded-2xl bg-neutral-800 flex flex-col gap-2 ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredPlaylists.map((playlist) => (
           <li key={playlist.id} className="p-2">
             <Link href={`/playlists/${playlist.id}`}>

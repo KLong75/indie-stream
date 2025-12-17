@@ -5,12 +5,12 @@ import { auth } from "@/auth";
 import { saveSong, removeSavedSong } from "@/lib/actions";
 // import from next
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
+// import Link from "next/link";
+// import Image from "next/image";
 // get data
 import {
   getUserById,
-  getArtistById,
+  // getArtistById,
   // getSongById,
   // getReleaseById,
   getPlaylistById,
@@ -80,6 +80,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const numberOfUserPlaylists = userPlaylists.length;
 
   const publicPlaylists = await getAllPublicPlaylists();
+
+  const userSavedPublicPlaylistIds = user.saved_public_playlists || [];
+  const userSavedPublicPlaylists = publicPlaylists.filter((playlist) =>
+    userSavedPublicPlaylistIds.includes(playlist?.id || "")
+  );
+  const numberOfUserSavedPublicPlaylists = userSavedPublicPlaylists.length;
 
   return (
     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
@@ -151,6 +157,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             ) : (
               <PlaylistList
                 playlists={userPlaylists.filter(
+                  (pl): pl is NonNullable<typeof pl> => pl !== null
+                )}
+                placeholder="Search your playlists..."
+              />
+            )}
+          </div>
+        </div>
+        <div>
+          <h3 className="px-4 text-lg text-center">You have saved {numberOfUserSavedPublicPlaylists} public playlists</h3>
+          <div className="p-6 pt-2">
+            {userSavedPublicPlaylists.length === 0 ? (
+              <p className="px-4">You haven't saved any public playlists yet.</p>
+            ) : (
+              <PlaylistList
+                playlists={userSavedPublicPlaylists.filter(
                   (pl): pl is NonNullable<typeof pl> => pl !== null
                 )}
                 placeholder="Search your playlists..."
