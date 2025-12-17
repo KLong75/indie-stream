@@ -13,7 +13,7 @@ export default function Footer({ session }: { session: Session | null }) {
   return (
     // Don't render footer on the home page
     pathname === "/" ? null : (
-      <footer className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900 text-white p-4 text-center h-[4.5rem]">
+      <footer className="fixed bottom-0 left-0 right-0 z-40 bg-neutral-900 text-white p-4 text-center h-[4.5rem]">
         {/* <p className="text-gray-400">©2025</p>
         <a
           href="https://rhythmcodestudio.tech"

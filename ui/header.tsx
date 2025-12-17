@@ -30,7 +30,7 @@ export default function Header({ session }: { session: Session | null }) {
     return null;
   }
   return (
-    <header className="bg-gray-900 p-4 flex justify-between items-center h-[4rem]">
+    <header className="bg-neutral-900 p-4 flex justify-between items-center h-[4rem]">
       <Link href="/">
         <h1 className="text-white text-2xl font-bold">indieStream</h1>
       </Link>

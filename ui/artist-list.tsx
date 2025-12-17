@@ -62,7 +62,7 @@ export default function ArtistList({
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto">
-      <div className="relative mb-2 mx-auto w-full max-w-md">
+      <div className="relative mb-4 mx-auto w-full max-w-md">
         <input
           type="text"
           placeholder={placeholder}
@@ -78,9 +78,9 @@ export default function ArtistList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className={`flex flex-col ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
+      <ul className={`p-2 flex flex-col bg-neutral-800 rounded-2xl ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
         {filteredArtists.map((artist) => (
-            <li key={artist.id} className="font-semibold p-1 flex items-center justify-between">
+            <li key={artist.id} className="m-2 font-semibold p-4 flex items-center justify-between bg-black rounded-2xl shadow-neutral-200 shadow-md">
             <Link href={`/artists/${artist.id}`} className="underline">
               {artist.name}
             </Link>
