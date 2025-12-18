@@ -98,8 +98,8 @@ export default function ArtistList({
                   isSaved={userSavedArtists.includes(artist.id)}
                   action={handleSaveArtist}
                   removeAction={handleRemoveArtist}
-                  icon={<CiSaveDown2 size={20} />}
-                  removeIcon={<CiCircleMinus size={20} />}
+                  icon={<CiSaveDown2 size={18} />}
+                  removeIcon={<CiCircleMinus size={18} />}
                 />
               </span>
             )}
