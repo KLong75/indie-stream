@@ -6,7 +6,7 @@ import { useState, useMemo } from "react";
 // import definitions
 import { Artist } from "@/lib/definitions";
 // import icons
-import { MdOutlineSearch,  } from "react-icons/md";
+import { MdOutlineSearch } from "react-icons/md";
 import { CiSaveDown2, CiCircleMinus } from "react-icons/ci";
 // import components
 // import SaveAndRemoveButtonClientContainer from "@/ui/save-remove-button-client-container";
@@ -34,7 +34,8 @@ export default function ArtistList({
   isScrollable = false,
   maxHeight,
 }: ArtistListProps) {
-  const [userSavedArtists, setUserSavedArtists] = useState<string[]>(savedArtists);
+  const [userSavedArtists, setUserSavedArtists] =
+    useState<string[]>(savedArtists);
   const [query, setQuery] = useState("");
 
   const filteredArtists = useMemo(() => {
@@ -52,9 +53,7 @@ export default function ArtistList({
   };
 
   const handleRemoveArtist = async (userId: string, artistId: string) => {
-    setUserSavedArtists((prev) =>
-      prev.filter((id) => id !== artistId)
-    );
+    setUserSavedArtists((prev) => prev.filter((id) => id !== artistId));
     if (removeAction) {
       await removeAction(userId, artistId);
     }
@@ -62,13 +61,13 @@ export default function ArtistList({
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto">
-      <div className="relative mb-4 mx-auto w-full max-w-md">
+      <div className="relative mb-4 mx-auto w-full max-w-[calc(100%-1rem)]">
         <input
           type="text"
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="p-2 border border-gray-500 rounded w-full pl-10"
+          className="p-2 border border-gray-500 rounded-2xl w-full pl-10"
           aria-label="Search artists"
           aria-describedby="search-icon"
         />
@@ -78,27 +77,33 @@ export default function ArtistList({
           <MdOutlineSearch size={20} />
         </span>
       </div>
-      <ul className={`p-2 flex flex-col bg-neutral-800 rounded-2xl ${isScrollable ? "overflow-y-auto no-scrollbar" : ""}`} style={maxHeight ? { maxHeight } : undefined}>
+      <ul
+        className={`p-2 flex flex-col bg-neutral-800 rounded-2xl ${
+          isScrollable ? "overflow-y-auto no-scrollbar" : ""
+        }`}
+        style={maxHeight ? { maxHeight } : undefined}>
         {filteredArtists.map((artist) => (
-            <li key={artist.id} className="m-2 font-semibold p-4 flex items-center justify-between bg-black rounded-2xl shadow-neutral-200 shadow-md">
+          <li
+            key={artist.id}
+            className="m-2 font-semibold px-4 py-1 flex items-center justify-between bg-black rounded-2xl shadow-neutral-200 shadow-md">
             <Link href={`/artists/${artist.id}`} className="underline">
               {artist.name}
             </Link>
             {userId && (
               <span className="text-xs">
-              <SaveAndRemoveButton
-                userId={userId}
-                itemId={artist.id}
-                itemType="artist"
-                isSaved={userSavedArtists.includes(artist.id)}
-                action={handleSaveArtist}
-                removeAction={handleRemoveArtist}
-                icon={<CiSaveDown2 size={24} />}
-                removeIcon={<CiCircleMinus size={24} />}
-              />
+                <SaveAndRemoveButton
+                  userId={userId}
+                  itemId={artist.id}
+                  itemType="artist"
+                  isSaved={userSavedArtists.includes(artist.id)}
+                  action={handleSaveArtist}
+                  removeAction={handleRemoveArtist}
+                  icon={<CiSaveDown2 size={20} />}
+                  removeIcon={<CiCircleMinus size={20} />}
+                />
               </span>
             )}
-            </li>
+          </li>
         ))}
       </ul>
     </div>

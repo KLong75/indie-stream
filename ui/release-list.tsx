@@ -64,13 +64,13 @@ export default function ReleaseList({
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-4xl">
-      <div className="relative mb-4 mx-auto w-full max-w-md">
+      <div className="relative mb-4 mx-auto w-full max-w-[calc(100%-1rem)]">
         <input
           type="text"
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="p-2 border border-gray-500 rounded w-full pl-10"
+          className="p-2 border border-gray-500 rounded-2xl w-full pl-10"
           aria-label="Search releases"
           aria-describedby="search-icon"
         />

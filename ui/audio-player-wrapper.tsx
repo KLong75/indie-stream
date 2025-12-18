@@ -1248,7 +1248,7 @@ import clsx from "clsx";
 import SongListDialog from "./song-list-dialog";
 import { SongListComboBoxOption } from "./song-list-combobox";
 
-// --- Refactored: Helper to get initial state from localStorage ---
+// helper to get initial state from localStorage ---
 function getInitialPlayerState(
   allSongs: Song[],
   savedSongs: Song[],

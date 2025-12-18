@@ -74,13 +74,13 @@ export default function SongList({
   return (
     <div className={`w-full mx-auto${minimal ? " flex flex-col" : ""}`}>
       {!minimal && (
-        <div className="relative mb-2 w-full max-w-md mx-auto">
+        <div className="relative mb-2 w-full max-w-[calc(100%-1rem)] mx-auto">
           <input
             type="text"
             placeholder={placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="p-2 border border-gray-500 rounded w-full pl-10"
+            className="p-2 border border-gray-500 rounded-2xl w-full pl-10"
             aria-label="Search songs"
             aria-describedby="search-icon"
           />

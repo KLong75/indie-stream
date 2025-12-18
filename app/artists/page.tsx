@@ -17,6 +17,7 @@ export default async function Page() {
     redirect("/");
   }
   const artists = await getAllArtists();
+  const numberOfArtists = artists.length;
   let userSavedArtists: string[] = [];
   const userData = await getUserById(userId);
   if (userData) {
@@ -24,18 +25,24 @@ export default async function Page() {
   }
 
   return (
-    <div className="flex flex-col">
-      <h2 className="p-4">All Artists</h2>
-      <div className="p-4">
-        <ArtistList 
-          artists={artists} 
-          placeholder="Search all artists..." 
-          userId={userId}
+    <>
+      <h2 className="text-lg font-bold mt-6 text-center">
+        {numberOfArtists === 1
+          ? "There is 1 Artist on indieStream"
+          : `There are ${numberOfArtists} Artists on indieStream`}
+      </h2>
+      <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto p-6 justify-center">
+        <ArtistList
+          artists={artists}
+          placeholder={`Search all ${numberOfArtists} artists on indieStream...`}
           action={saveArtist}
           removeAction={removeSavedArtist}
           savedArtists={userSavedArtists}
+          userId={userId}
+          isScrollable={true}
+          maxHeight="64vh"
         />
       </div>
-    </div>
+    </>
   );
 }
