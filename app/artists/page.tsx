@@ -26,7 +26,7 @@ export default async function Page() {
 
   return (
     <>
-      <h2 className="text-lg font-bold mt-6 text-center">
+      <h2 className="text-lg font-bold mt-4 text-center">
         {numberOfArtists === 1
           ? "There is 1 Artist on indieStream"
           : `There are ${numberOfArtists} Artists on indieStream`}
