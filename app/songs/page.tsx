@@ -32,9 +32,13 @@ export default async function Page() {
   const releases = await getAllReleases();
 
   return (
-    <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto">
-      <h2 className="text-lg font-bold pt-4 text-center">All Songs</h2>
-      <div className="px-6 mt-4">
+    <>
+      <h2 className="text-lg font-bold pt-4 text-center">
+        {totalSongs === 1
+          ? "There is 1 Song on indieStream"
+          : `There are ${totalSongs} Songs on indieStream`}
+      </h2>
+      <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto px-6 justify-center">
         <SongList
           songs={songs}
           artists={artists}
@@ -46,9 +50,9 @@ export default async function Page() {
           minimal={false}
           savedSongs={savedSongs}
           isScrollable={true}
-          maxHeight="54vh"
+          maxHeight="50vh"
         />
       </div>
-    </div>
+    </>
   );
 }
