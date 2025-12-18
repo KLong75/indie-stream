@@ -1,20 +1,27 @@
 // import auth
 import { auth } from "@/auth";
+// import from next
+import { redirect } from "next/navigation";
 // get data
 import {
   getUserById,
   // getAllUserPlaylists,
   getAllPublicPlaylists,
 } from "@/lib/data";
+// import actions
+import { savePlaylist, removeSavedPlaylist } from "@/lib/actions";
 // import components
 import PlaylistList from "@/ui/playlist-list";
 
 export default async function Page() {
   const session = await auth();
+  if (!session) {
+    redirect("/");
+  }
   const userId = session?.user?.id || "";
   const user = await getUserById(userId);
   if (!user) {
-    return null;
+    redirect("/");
   }
   // const userPlaylists = await getAllUserPlaylists(userId);
   const publicPlaylists = await getAllPublicPlaylists();
@@ -38,6 +45,10 @@ export default async function Page() {
           placeholder={`Search all ${numberOfPublicPlaylists} public playlists...`}
           isScrollable={true}
           maxHeight="64vh"
+          userId={userId}
+          action={savePlaylist}
+          removeAction={removeSavedPlaylist}
+          savedPlaylists={user.saved_public_playlists || []}
         />
       </div>
     </>

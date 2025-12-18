@@ -27,6 +27,8 @@ import {
   removeSavedArtist,
   saveRelease,
   removeSavedRelease,
+  savePlaylist,
+  removeSavedPlaylist,
 } from "@/lib/actions";
 // import definitions
 import { Song, Artist, Release } from "@/lib/definitions";
@@ -176,6 +178,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                   (pl): pl is NonNullable<typeof pl> => pl !== null
                 )}
                 placeholder="Search your playlists..."
+                userId={userId}
+                action={savePlaylist}
+                removeAction={removeSavedPlaylist}
+                savedPlaylists={user.saved_public_playlists || []}
+                isScrollable={true}
+                maxHeight="36rem"
               />
             )}
           </div>
@@ -186,9 +194,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </h3>
           <div className="p-6 pt-2">
             {userSavedPublicPlaylists.length === 0 ? (
-              <div className="p-2 bg-neutral-800 rounded-2xl">
+              <div className="p-2 bg-neutral-900 rounded-2xl max-w-md mx-auto">
                 {" "}
-                <p className="p-2 m-2 bg-black rounded-2xl shadow-neutral-200 shadow-md text-center">
+                <p className="p-2 m-2 text-center">
                   <Link href="/playlists" className="underline">
                     Search Public Playlists
                   </Link>
@@ -200,6 +208,12 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
                   (pl): pl is NonNullable<typeof pl> => pl !== null
                 )}
                 placeholder="Search your playlists..."
+                userId={userId}
+                action={savePlaylist}
+                removeAction={removeSavedPlaylist}
+                savedPlaylists={user.saved_public_playlists || []}
+                isScrollable={true}
+                maxHeight="36rem"
               />
             )}
           </div>
