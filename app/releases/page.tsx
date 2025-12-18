@@ -22,8 +22,13 @@ export default async function Page() {
   const allArtists = await getAllArtists();
  
   return (
-    <div className="flex-grow p-6">
-      <h2 className="p-4 text-center">All Releases</h2>
+    <>
+    <h2 className="text-lg font-bold mt-6 text-center">
+      {numberOfReleases === 1
+        ? "There is 1 Release on indieStream"
+        : `There are ${numberOfReleases} Releases on indieStream`}
+    </h2>
+     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto p-6 justify-center">
         <ReleaseList 
           releases={releases} 
           placeholder={`Search all ${numberOfReleases} releases on indieStream...`} 
@@ -32,7 +37,10 @@ export default async function Page() {
           action={saveRelease}
           removeAction={removeSavedRelease}
           savedReleases={userSavedReleases}
+          isScrollable={true}
+          maxHeight="50vh"
         />
     </div>
+    </>
   );
 }

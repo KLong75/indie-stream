@@ -44,7 +44,7 @@ export default async function Page() {
           playlists={publicPlaylists}
           placeholder={`Search all ${numberOfPublicPlaylists} public playlists...`}
           isScrollable={true}
-          maxHeight="64vh"
+          maxHeight="50vh"
           userId={userId}
           action={savePlaylist}
           removeAction={removeSavedPlaylist}
