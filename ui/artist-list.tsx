@@ -61,7 +61,7 @@ export default function ArtistList({
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto">
-      <div className="relative mb-4 mx-auto w-full max-w-[calc(100%-1rem)]">
+      <div className="relative mb-4 mx-auto w-full">
         <input
           type="text"
           placeholder={placeholder}

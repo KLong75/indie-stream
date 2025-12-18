@@ -72,9 +72,9 @@ export default function SongList({
   };
 
   return (
-    <div className={`w-full mx-auto${minimal ? " flex flex-col" : ""}`}>
+    <div className={`w-full mx-auto${minimal ? "flex flex-col" : ""}`}>
       {!minimal && (
-        <div className="relative mb-2 w-full max-w-[calc(100%-1rem)] mx-auto">
+        <div className="relative mb-2 w-full max-w-md mx-auto">
           <input
             type="text"
             placeholder={placeholder}

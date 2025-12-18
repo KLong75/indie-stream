@@ -64,7 +64,7 @@ export default function ReleaseList({
 
   return (
     <div className="flex flex-col mx-auto w-full max-w-4xl">
-      <div className="relative mb-4 mx-auto w-full max-w-[calc(100%-1rem)]">
+      <div className="relative mb-4 mx-auto w-full max-w-md">
         <input
           type="text"
           placeholder={placeholder}
