@@ -50,7 +50,7 @@ export default async function Page() {
           minimal={false}
           savedSongs={savedSongs}
           isScrollable={true}
-          maxHeight="50vh"
+          maxHeight="40vh"
         />
       </div>
     </>

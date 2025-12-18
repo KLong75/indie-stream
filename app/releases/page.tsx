@@ -38,7 +38,7 @@ export default async function Page() {
           removeAction={removeSavedRelease}
           savedReleases={userSavedReleases}
           isScrollable={true}
-          maxHeight="50vh"
+          maxHeight="40vh"
         />
     </div>
     </>

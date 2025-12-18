@@ -40,7 +40,7 @@ export default async function Page() {
           savedArtists={userSavedArtists}
           userId={userId}
           isScrollable={true}
-          maxHeight="50vh"
+          maxHeight="40vh"
         />
       </div>
     </>
