@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { saveSong, removeSavedSong } from "@/lib/actions";
 // import from next
 import { redirect } from "next/navigation";
-// import Link from "next/link";
+import Link from "next/link";
 // import Image from "next/image";
 // get data
 import {
@@ -37,7 +37,6 @@ import ArtistList from "@/ui/artist-list";
 import SongList from "@/ui/song-list";
 import ReleaseList from "@/ui/release-list";
 import PlaylistList from "@/ui/playlist-list";
-import Link from "next/link";
 // import SubscriptionContextClientContainer from "@/ui/subscription-context-client-container";
 // import { Combobox } from "@/components/ui/combo-box";
 // import from utils
@@ -57,6 +56,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   }
 
   const allArtists = await getAllArtists();
+  const numberOfAllArtists = allArtists.length;
   const userSavedArtistsIds = user.saved_artists || [];
   console.log("userSavedArtistsIds", userSavedArtistsIds);
   const userSavedArtists = allArtists.filter((artist) =>
@@ -65,6 +65,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const numberOfUserSavedArtists = userSavedArtists.length;
 
   const allSongs = await getAllSongs();
+  const numberOfAllSongs = allSongs.length;
   const userSavedSongsIds = user.saved_songs || [];
   console.log("userSavedSongsIds", userSavedSongsIds);
   const userSavedSongs = allSongs.filter((song) =>
@@ -73,6 +74,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const numberOfUserSavedSongs = userSavedSongs.length;
 
   const allReleases = await getAllReleases();
+  const numberOfAllReleases = allReleases.length;
   const userSavedReleasesIds = user.saved_releases || [];
   console.log("userSavedReleasesIds", userSavedReleasesIds);
   const userSavedReleases = allReleases.filter((release) =>
@@ -88,6 +90,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const numberOfUserPlaylists = userPlaylists.length;
 
   const publicPlaylists = await getAllPublicPlaylists();
+  const numberOfPublicPlaylists = publicPlaylists.length;
 
   const userSavedPublicPlaylistIds = user.saved_public_playlists || [];
   const userSavedPublicPlaylists = publicPlaylists.filter((playlist) =>
@@ -104,7 +107,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </h3>
         <div className="p-6 pt-2">
           {userSavedArtists.length === 0 ? (
-            <p className="px-4">You have no saved artists.</p>
+            <Link
+              href="/artists"
+              className="p-2 bg-neutral-900 rounded-2xl max-w-md mx-auto block text-center underline">
+              Search all {numberOfAllArtists} artists on indieStream
+            </Link>
           ) : (
             <ArtistList
               artists={userSavedArtists}
@@ -124,7 +131,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </h3>
         <div className="p-6 pt-2">
           {userSavedReleases.length === 0 ? (
-            <p className="px-4">You have no saved releases.</p>
+            <Link
+              href="/releases"
+              className="p-2 bg-neutral-900 rounded-2xl max-w-md mx-auto block text-center underline">
+              Search all {numberOfAllReleases} releases on indieStream
+            </Link>
           ) : (
             <ReleaseList
               releases={userSavedReleases}
@@ -145,7 +156,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </h3>
           <div className="p-6 pt-2">
             {userSavedSongs.length === 0 ? (
-              <p className="px-4">You have no saved songs.</p>
+              <Link
+                href="/songs"
+                className="p-2 bg-neutral-900 rounded-2xl max-w-md mx-auto block text-center underline">
+                Search all {numberOfAllSongs} songs on indieStream
+              </Link>
             ) : (
               <SongList
                 songs={userSavedSongs.filter(
@@ -171,6 +186,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </h3>
           <div className="p-6 pt-2">
             {userPlaylists.length === 0 ? (
+              // need link/button to create playlist page or open modal
               <p className="px-4">You have no playlists.</p>
             ) : (
               <PlaylistList
@@ -197,9 +213,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               <div className="p-2 bg-neutral-900 rounded-2xl max-w-md mx-auto">
                 {" "}
                 <p className="p-2 m-2 text-center">
-                  <Link href="/playlists" className="underline">
-                    Search Public Playlists
-                  </Link>
+                    <Link href="/playlists" className="underline">
+                    Search {numberOfPublicPlaylists} public playlist{numberOfPublicPlaylists === 1 ? "" : "s"}
+                    </Link>
                 </p>
               </div>
             ) : (
