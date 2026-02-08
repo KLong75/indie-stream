@@ -28,7 +28,7 @@ export default async function Page() {
         ? "There is 1 Release on indieStream"
         : `There are ${numberOfReleases} Releases on indieStream`}
     </h2>
-     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto p-6 justify-center">
+     <div className="flex flex-col flex-grow w-full max-w-4xl mx-auto px-6 justify-center">
         <ReleaseList 
           releases={releases} 
           placeholder={`Search all ${numberOfReleases} releases on indieStream...`} 
@@ -38,7 +38,7 @@ export default async function Page() {
           removeAction={removeSavedRelease}
           savedReleases={userSavedReleases}
           isScrollable={true}
-          maxHeight="40vh"
+          // maxHeight="48vh"
         />
     </div>
     </>
